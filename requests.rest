@@ -1,0 +1,192 @@
+GET http://localhost:3000
+
+###
+
+POST http://localhost:3000/api/reader/register
+Content-Type: application/json
+
+{
+  "username":"michael",
+  "password":"54321",
+  "confirmPassword":"54321",
+  "email":"michael@yahoo.com",
+  "firstName":"Michael",
+  "lastName":"Hua",
+  "gender":"Male",
+  "birthday":"1970-01-01",
+  "phoneNumber":"4169965753",
+  "homeAddress": "10 Busch Ave",
+  "province": "ON",
+  "postcode": "L6C0W4",
+  "securityQuestion":"What is Your old Phone Number",
+  "securityAnswer":"4169965753"
+}
+
+###
+
+POST http://localhost:3000/api/lib/register
+Content-Type: application/json
+
+{
+  "username":"adam",
+  "password":"54321",
+  "confirmPassword":"54321",
+  "email":"adam@yahoo.com",
+  "role":"librarian",
+  "firstName":"Lily",
+  "lastName":"Lee",
+  "phoneNumber":"4169965753"
+}
+
+###
+POST http://localhost:3000/api/reader/login
+Content-Type: application/json
+
+{
+  "username":"michael",
+  "password":"54321"
+}
+
+###
+
+POST http://localhost:3000/api/reader/refresh
+
+###
+
+POST http://localhost:3000/api/lib/refresh
+
+###
+
+DELETE http://localhost:3000/api/reader/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWFkZXJJRCI6IjYwZmQ3ZjEyZmMzMjllNTA3YWU2MGNkMyIsImlhdCI6MTYyNzIyNjA4MCwiZXhwIjoxNjI3MjI2OTgwfQ.nbD2dFFvX3XJp69of8_tGNl0tTsIKH7zlcmyPTR7obk
+
+###
+
+DELETE http://localhost:3000/api/lib/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWJJRCI6IjYwZjcyOGQyZWFkOTM3NjQzYWUzY2ZhZiIsImlhdCI6MTYyNjgxMDgxOCwiZXhwIjoxNjI2ODExNzE4fQ.f8MqjjLeiYEjoRx6VpDd6IuBeWhqqxrwldoJho0ibYY
+
+###
+
+get http://localhost:3000/api/lib/60f728d2ead937643ae3cfaf
+
+###
+
+patch http://localhost:3000/api/reader/update/
+Content-Type: application/json
+
+{
+  "username":"michael",
+  "email":"michael.huayl@yahoo.com",
+  "firstName":"",
+  "lastName":"",
+  "gender":"",
+  "birthday":"1971-01-01",
+  "phoneNumber":"",
+  "homeAddress": "12 Busch Ave",
+  "province": "",
+  "postcode": "",
+  "securityQuestion":"",
+  "securityAnswer":""
+}
+
+###
+
+patch http://localhost:3000/api/reader/changepwd
+Content-Type: application/json
+
+{
+  "username":"michael",
+  "currentPassword":"54321",
+  "newPassword":"654321",
+  "confirmPassword":"654321"
+}
+
+###
+
+POST http://localhost:3000/api/reader/60e914e8b5dafaf6b7b0d8b7/addfavourbook
+Content-Type: application/json
+
+{
+  "bookID":"60e8c2b1c4222fed7ffd8a42"
+}
+
+###
+
+GET http://localhost:3000/api/reader/60e914e8b5dafaf6b7b0d8b7/getfavourlist
+
+###
+
+PATCH http://localhost:3000/api/reader/60e914e8b5dafaf6b7b0d8b7/addreadhistory
+Content-Type: application/json
+
+{
+  "bookID":"60e8c2b1c4222fed7ffd8a42",
+  "currentPage": 60,
+  "readTime": 600
+}
+
+###
+
+GET http://localhost:3000/api/lib/checkadmin/60e746b7403c6dc7b0f60649
+
+###
+
+POST http://localhost:3000/api/lib/login
+Content-Type: application/json
+
+{
+  "username":"adam",
+  "password":"54321"
+}
+
+###
+
+patch http://localhost:3000/api/lib/update/
+Content-Type: application/json
+
+{
+  "username":"adam",
+  "email":"adam.hua@yahoo.com",
+  "role":"",
+  "firstName":"",
+  "lastName":"",
+  "phoneNumber":"6479905753",
+  "isActive":""
+}
+
+###
+
+patch http://localhost:3000/api/lib/changepwd/
+Content-Type: application/json
+
+{
+  "username":"adam",
+  "currentPassword":"654321",
+  "newPassword":"54321",
+  "confirmPassword":"54321"
+}
+
+###
+
+POST http://localhost:3000/api/lib/addoptlog
+Content-Type: application/json
+
+{
+  "operator": "60f728d2ead937643ae3cfaf",
+  "time": "2021-07-10",
+  "operation": "Add book",
+  "details": "Book title is html 5..."
+}
+
+###
+
+GET http://localhost:3000/api/lib/60f728d2ead937643ae3cfaf/optlog
+
+###
+
+GET http://localhost:3000/api/reader/60e914e8b5dafaf6b7b0d8b7/getreadhistory
+
+###
+
+PATCH http://localhost:3000/api/reader/60e91512b5dafaf6b7b0d8bc/delreadhistory
+

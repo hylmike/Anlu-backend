@@ -1,0 +1,57 @@
+POST http://localhost:3000/api/workshop/register
+Content-Type: application/json
+
+{
+  "topic": "New Book Launch",
+  "place": "Our Anlu Library",
+  "organizer": "Michael",
+  "startTime": "2020-07-20",
+  "duration": "2",
+  "flyerContent": "New book launch of <His Life Story>",
+  "creator": "Lily",
+  "remark": ""
+}
+
+###
+
+GET http://localhost:3000/api/workshop/60ec4c554d1fbb29cd893e9e
+
+###
+
+PATCH http://localhost:3000/api/workshop/60ec4c554d1fbb29cd893e9e/update
+Content-Type: application/json
+
+{
+  "place": "Our Anlu Library",
+  "organizer": "",
+  "startTime": "",
+  "duration": "1",
+  "flyerContent": "",
+  "remark": ""
+}
+
+###
+
+POST http://localhost:3000/api/workshop/subscribe
+Content-Type: application/json
+
+{
+  "workshop": "60ec4c554d1fbb29cd893e9e",
+  "firstName": "Mike",
+  "lastName": "White",
+  "age": "32",
+  "neighborhood": "Glen"
+}
+
+###
+
+GET http://localhost:3000/api/workshop/60ec4c554d1fbb29cd893e9e/getsublist
+
+###
+
+PATCH http://localhost:3000/api/workshop/60ec4c554d1fbb29cd893e9e/unsubscribe
+Content-Type: application/json
+
+{
+  "subID": "60ec5713bb91d82c72fe91c2"
+}

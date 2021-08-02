@@ -1,0 +1,67 @@
+POST http://localhost:3000/api/book/register
+Content-Type: application/json
+
+{
+  "bookTitle": "Pro HTML5 Programming",
+  "isbnCode": "978-1-4302-2791-5",
+  "category": "IT",
+  "bookType": "e-Book",
+  "author": "PETER LUBBERS, BRIAN ALBERS, FRANK SALIM",
+  "language": "English",
+  "publisher": "Apress",
+  "publishDate": "2010-10-01",
+  "purchaseDate": "2019-07-01",
+  "coverPic": "/fileUpload/ProHTML5Programming-cover.png",
+  "bookFile": "/fileUpload/Pro HTML5 Programming.pdf",
+  "price": "19.99",
+  "desc": "Introduce the HTML5 and javascript features, and programming techniques",
+  "keyword": "HTML5, Web, Programming, Javascript, JS",
+  "creator": "60e746b7403c6dc7b0f60649",
+  "initialScore": "1000",
+  "isActive": "true"
+}
+
+###
+
+GET http://localhost:3000/api/book/60e90c226c00f7f43273e3ce
+
+###
+
+PATCH http://localhost:3000/api/book/update
+Content-Type: application/json
+
+{
+  "bookTitle": "Pro Ubuntu Server Administration",
+  "isbnCode": "",
+  "category": "",
+  "bookType": "",
+  "author": "Sander Vugt",
+  "language": "",
+  "publisher": "",
+  "publishDate": "2019-06-01",
+  "purchaseDate": "2021-06-01",
+  "coverPic": "",
+  "bookFile": "",
+  "price": "",
+  "desc": "",
+  "keywords": "Linux, Ubuntu, Server, IT, Administration",
+  "creator": "",
+  "initialScore": "",
+  "isActive": ""
+}
+
+###
+POST http://localhost:3000/api/book/addreadrecord
+Content-Type: application/json
+
+{
+  "bookID": "60e90c226c00f7f43273e3ce",
+  "readerID": "60e91512b5dafaf6b7b0d8bc",
+  "startTime": "2021-07-12",
+  "currentPage": 45,
+  "duration": 50
+}
+
+###
+
+PATCH http://localhost:3000/api/book/60e90c226c00f7f43273e3ce/clearreadhistory

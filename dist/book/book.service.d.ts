@@ -1,0 +1,30 @@
+import { Model } from 'mongoose';
+import { Logger } from 'winston';
+import 'dotenv/config';
+import { BookDto, ReadRecordDto, BookCommentDto, CreateBookWishDto, UpdateWishStatusDto } from './book.dto';
+import { Book, BookDocument, BookReadRecordDocument, BookComment, BookCommentDocument, BookWishList, BookWishDocument } from './book.interface';
+import { ReaderDocument, ReaderReadHisDocument, ReaderReadHistory } from 'src/reader/reader.interface';
+export declare class BookService {
+    private readonly logger;
+    private readonly bookModel;
+    private readonly readRecordModel;
+    private readonly bookCommentModel;
+    private readonly bookWishListModel;
+    private readonly readerModel;
+    private readonly readerReadHistoryModel;
+    constructor(logger: Logger, bookModel: Model<BookDocument>, readRecordModel: Model<BookReadRecordDocument>, bookCommentModel: Model<BookCommentDocument>, bookWishListModel: Model<BookWishDocument>, readerModel: Model<ReaderDocument>, readerReadHistoryModel: Model<ReaderReadHisDocument>);
+    register(createBookDto: BookDto): Promise<Book>;
+    findBook(bookID: string): Promise<Book>;
+    updateBookInfo(bookDto: BookDto): Promise<any>;
+    delBook(bookID: string): Promise<string>;
+    addReadRecord(readRecordDto: ReadRecordDto): Promise<BookReadRecordDocument>;
+    addReaderReadHistory(readerID: string, bookID: string, startTime: Date, currentPage: number, duration: number): Promise<ReaderReadHistory>;
+    getReadHistory(bookID: string): Promise<[string]>;
+    addBookComment(bookCommentDto: BookCommentDto): Promise<BookComment>;
+    getBookComments(bookID: any): Promise<[string]>;
+    addBookWish(bookWishDto: CreateBookWishDto): Promise<BookWishList>;
+    getBookWishList(): Promise<BookWishList[]>;
+    getBookWish(bookWishID: any): Promise<BookWishList>;
+    updateWishStatus(updateWishStatusDto: UpdateWishStatusDto): Promise<any>;
+    clearReadHistory(bookID: any): Promise<1>;
+}

@@ -1,0 +1,31 @@
+POST http://localhost:3000/api/blog/create
+Content-Type: application/json
+
+{
+  "topic": "New patch launch",
+  "category": "internal notice",
+  "author": "Lily",
+  "content": "New app patch  will be launch July 30th",
+  "keyword": "App, patch"
+}
+
+###
+
+GET http://localhost:3000/api/blog/60ff63df21e4762f27ea8598
+
+###
+
+GET http://localhost:3000/api/blog/getlatest/2
+
+###
+
+PATCH http://localhost:3000/api/blog/60ff63df21e4762f27ea8598/update
+Content-Type: application/json
+
+{
+  "topic": "",
+  "category": "",
+  "author": "",
+  "content": "New app version will be launch Aug 5th",
+  "keyword": "App, version, notice"
+}
