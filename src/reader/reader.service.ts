@@ -155,6 +155,7 @@ export class ReaderService {
 
   //Change password of reader account
   async changePwd(changeReaderPwdDto: ChangeReaderPwdDto) {
+    console.log(changeReaderPwdDto);
     const reader = await this.readerModel
       .findOne({ username: changeReaderPwdDto.username })
       .select('+password')

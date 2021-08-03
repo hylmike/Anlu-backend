@@ -130,12 +130,30 @@ describe('libController', () => {
     });
   });
 
-  describe('login', () => {
+  describe('adminlogin', () => {
     describe('when login is called', () => {
       let accessToken: TAccessToken;
 
       beforeEach(async () => {
-        accessToken = await libController.login(mockRequest);
+        accessToken = await libController.adminLogin(mockRequest);
+      });
+
+      test('then it should call libService', () => {
+        expect(libService.login).toHaveBeenCalledWith(mockRequest);
+      });
+
+      test('then it should return a access token', () => {
+        expect(accessToken).toEqual(accessTokenStub());
+      });
+    });
+  });
+
+  describe('liblogin', () => {
+    describe('when login is called', () => {
+      let accessToken: TAccessToken;
+
+      beforeEach(async () => {
+        accessToken = await libController.libLogin(mockRequest);
       });
 
       test('then it should call libService', () => {

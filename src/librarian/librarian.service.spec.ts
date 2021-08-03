@@ -219,7 +219,7 @@ describe('LibrarianService', () => {
         jest
           .spyOn(libService, 'setRefreshToken')
           .mockImplementationOnce(async () => Promise.resolve('OK'));
-        token = await libService.login(mockRequest);
+        token = await libService.login(mockRequest, 'admin');
       });
 
       test('then it should call getJwtAccessToken', () => {

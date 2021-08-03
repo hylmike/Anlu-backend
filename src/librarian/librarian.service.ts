@@ -160,9 +160,13 @@ export class LibrarianService {
   }
 
   //Librarian/Admin sign in account and get tokens, return accessToken in body and refreshToken in header
-  async login(request) {
+  async login(request, requiredRole: string) {
     const libID = request.user._id;
     const role = request.user.role;
+    if (role.toLowerCase() !== requiredRole) {
+      this.logger.warn(`User does not have ${requiredRole} role, login failed`);
+      return null;
+    }
     const accessToken = this.getJwtAccessToken(libID);
     const refreshToken = this.getCookieJwtRefreshToken(libID);
     await this.setRefreshToken(refreshToken[1], libID);

@@ -39,9 +39,15 @@ export class LibrarianController {
   }
 
   @UseGuards(AuthGuard('lib-local'))
-  @Post('/login')
-  login(@Request() req) {
-    return this.libService.login(req);
+  @Post('/adminlogin')
+  adminLogin(@Request() req) {
+    return this.libService.login(req, 'admin');
+  }
+
+  @UseGuards(AuthGuard('lib-local'))
+  @Post('/liblogin')
+  libLogin(@Request() req) {
+    return this.libService.login(req, 'librarian');
   }
 
   @Patch('/changepwd')
