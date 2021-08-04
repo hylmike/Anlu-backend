@@ -139,7 +139,7 @@ describe('libController', () => {
       });
 
       test('then it should call libService', () => {
-        expect(libService.login).toHaveBeenCalledWith(mockRequest);
+        expect(libService.login).toHaveBeenCalledWith(mockRequest, 'admin');
       });
 
       test('then it should return a access token', () => {
@@ -157,7 +157,7 @@ describe('libController', () => {
       });
 
       test('then it should call libService', () => {
-        expect(libService.login).toHaveBeenCalledWith(mockRequest);
+        expect(libService.login).toHaveBeenCalledWith(mockRequest, 'librarian');
       });
 
       test('then it should return a access token', () => {

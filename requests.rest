@@ -63,7 +63,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWFkZXJJRCI6IjYwZ
 ###
 
 DELETE http://localhost:3000/api/lib/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWJJRCI6IjYwZjcyOGQyZWFkOTM3NjQzYWUzY2ZhZiIsImlhdCI6MTYyNjgxMDgxOCwiZXhwIjoxNjI2ODExNzE4fQ.f8MqjjLeiYEjoRx6VpDd6IuBeWhqqxrwldoJho0ibYY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWJJRCI6IjYwZWEwOWUxZWJlYjFhMGRmOWE3MTg1MSIsImlhdCI6MTYyODAyNjMyNSwiZXhwIjoxNjI4MDI3MjI1fQ.rCuLSsyfO011cKOyN3iNCU8Bo2zr40Tg-TFziVp_ahw
 
 ###
 
@@ -131,11 +131,11 @@ GET http://localhost:3000/api/lib/checkadmin/60e746b7403c6dc7b0f60649
 
 ###
 
-POST http://localhost:3000/api/lib/login
+POST http://localhost:3000/api/lib/liblogin
 Content-Type: application/json
 
 {
-  "username":"adam",
+  "username":"lily",
   "password":"54321"
 }
 

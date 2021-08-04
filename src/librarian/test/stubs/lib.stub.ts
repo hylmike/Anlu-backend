@@ -23,7 +23,6 @@ export const accessTokenStub = () => {
   return {
     token_info: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWFkZXJJRCI6IjYwZTkxNGU4YjVkYWZhZjZiN2IwZDhiNyIsImlhdCI6MTYyNjI3MzQyOSwiZXhwIjoxNjI2Mjc0MzI5fQ.2guk9EedI86_--Q0N6ixZCJayipV1rk7etceA6InyA8',
     expireIn: process.env.ACCESS_TOKEN_TIMER,
-    role: 'admin',
   };
 };
 

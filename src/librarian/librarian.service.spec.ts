@@ -9,7 +9,6 @@ import {
   RegisterLibDto,
   UpdateLibProfileDto,
   ChangeLibPwdDto,
-  OperationLogDto,
 } from './lib.dto';
 import {
   accessTokenStub,

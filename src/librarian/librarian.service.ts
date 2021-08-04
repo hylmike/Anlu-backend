@@ -176,7 +176,6 @@ export class LibrarianService {
     return {
       token_info: accessToken,
       expireIn: process.env.ACCESS_TOKEN_TIMER,
-      role: role,
     };
   }
 
@@ -280,7 +279,6 @@ export class LibrarianService {
     return {
       token_info: accessToken,
       expireIn: process.env.ACCESS_TOKEN_TIMER,
-      role: role,
     };
   }
 
