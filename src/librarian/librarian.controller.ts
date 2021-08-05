@@ -8,6 +8,7 @@ import {
   Request,
   UseGuards,
   Delete,
+  Header,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -26,6 +27,16 @@ export class LibrarianController {
   @Post('/register')
   register(@Body() registerUserDto: RegisterLibDto) {
     return this.libService.register(registerUserDto);
+  }
+
+  @Get('/getalladmin')
+  getAllAdmin() {
+    return this.libService.getAllAdmin();
+  }
+
+  @Get('/getalllib')
+  getAllLib() {
+    return this.libService.getAllLibrarian();
   }
 
   @Get('/:id')
@@ -65,6 +76,12 @@ export class LibrarianController {
   @Delete('/logout')
   logout(@Request() req) {
     return this.libService.logout(req);
+  }
+
+  @Delete('/delete/:id')
+  @Header('content-type', 'application/json')
+  deleteLib(@Param('id') libID: string) {
+    return this.libService.deleteLib(libID);
   }
 
   @Post('/addoptlog')

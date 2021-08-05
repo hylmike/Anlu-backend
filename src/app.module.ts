@@ -27,6 +27,7 @@ import { BlogModule } from './blog/blog.module';
             ? process.env.MONGO_DEV_URI
             : process.env.MONGO_TEST_URI,
         useNewUrlParser: true,
+        useFindAndModify: false,
       }),
     }),
     WinstonModule.forRoot({

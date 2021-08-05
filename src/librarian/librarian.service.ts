@@ -19,6 +19,7 @@ import {
 } from './lib.dto';
 import { JwtService } from '@nestjs/jwt';
 import 'dotenv/config';
+import e from 'express';
 
 @Injectable()
 export class LibrarianService {
@@ -71,6 +72,27 @@ export class LibrarianService {
       );
       return null;
     }
+  }
+
+  //Get all admin from database
+  async getAllAdmin() {
+    const adminList = await this.libModel.find({ role: 'Admin' });
+    if (adminList) {
+      this.logger.info('Success get admin list from database');
+      return adminList;
+    }
+    this.logger.warn("Can't get admin list from database");
+    return null;
+  }
+
+  async getAllLibrarian() {
+    const libList = await this.libModel.find({ role: 'Librarian' });
+    if (libList) {
+      this.logger.info('Success get librarian list from database');
+      return libList;
+    }
+    this.logger.warn("Can't get librarian list from database");
+    return null;
   }
 
   //Get librarian/admin profile from database
@@ -294,6 +316,17 @@ export class LibrarianService {
     //create log for this activity
     this.logger.info(`Success logout for ${role} ${libID}`);
     return libID;
+  }
+
+  async deleteLib(libID: string) {
+    const result = await this.libModel.findByIdAndRemove(libID);
+    if (result) {
+      this.logger.info(`Success delete lib ${libID}`);
+      return JSON.stringify(libID);
+    } else {
+      this.logger.warn(`Falied to delete lib ${libID}`);
+      return null;
+    }
   }
 
   async addOperationLog(optLogDto: OperationLogDto) {

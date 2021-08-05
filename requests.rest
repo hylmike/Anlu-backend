@@ -190,3 +190,6 @@ GET http://localhost:3000/api/reader/60e914e8b5dafaf6b7b0d8b7/getreadhistory
 
 PATCH http://localhost:3000/api/reader/60e91512b5dafaf6b7b0d8bc/delreadhistory
 
+###
+
+DELETE http://localhost:3000/api/lib/delete/610c5e01b72c394d2234302a
