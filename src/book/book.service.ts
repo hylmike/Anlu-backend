@@ -74,7 +74,7 @@ export class BookService {
       bookTitle: createBookDto.bookTitle,
       isbnCode: createBookDto.isbnCode,
       category: createBookDto.category,
-      bookType: createBookDto.bookType,
+      format: createBookDto.format,
       author: createBookDto.author,
       language: createBookDto.language,
       publisher: createBookDto.publisher,
@@ -146,6 +146,10 @@ export class BookService {
           if (bookDto[item] !== '') book[item] = Number(bookDto[item]);
           book.popularScore =
             book.initialScore + book.readTimes * w1 + book.readDuration * w2;
+          break;
+        case 'isActive':
+          if (bookDto[item] !== '')
+            book[item] = bookDto[item].toLowerCase() === 'true' ? true : false;
           break;
         default:
           if (bookDto[item] !== '') book[item] = bookDto[item];
@@ -301,7 +305,7 @@ export class BookService {
       reader.readerProfile.score =
         reader.readerProfile.readTimes * w1 +
         reader.readerProfile.readDuration * w2;
-        try {
+      try {
         await reader.save();
         this.logger.info(
           `Success create new book ${bookID} read record for reader ${reader.username}`,

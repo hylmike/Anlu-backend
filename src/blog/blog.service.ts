@@ -54,6 +54,7 @@ export class BlogService {
       .sort({ createTime: -1 })
       .limit(Number(num))
       .exec();
+    this.logger.info(`Success get latest ${num} blog from database`);
     return blogList;
   }
 
@@ -77,6 +78,7 @@ export class BlogService {
 
   async delBlog(blogID: string) {
     await this.blogModel.findByIdAndDelete(blogID);
+    this.logger.info(`Success deleted blog ${blogID}`);
     return blogID;
   }
 }

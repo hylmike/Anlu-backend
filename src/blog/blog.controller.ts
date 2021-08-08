@@ -26,7 +26,7 @@ export class BlogController {
   }
 
   @Get('/getlatest/:id')
-  async getList(@Param('id') num: number) {
+  async getBlogList(@Param('id') num: number) {
     return this.blogService.getBlogList(num);
   }
 

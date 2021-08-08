@@ -77,6 +77,42 @@ describe('libController', () => {
     });
   });
 
+  describe('getalladmin', () => {
+    describe('when getalladmin is called', () => {
+      let adminList: Librarian[];
+
+      beforeEach(async () => {
+        adminList = await libController.getAllAdmin();
+      });
+
+      test('then it should call libService', () => {
+        expect(libService.getAllAdmin).toHaveBeenCalled;
+      });
+
+      test('then it should return a admin array', () => {
+        expect(adminList).toEqual([libStub()]);
+      });
+    });
+  });
+
+  describe('getalllib', () => {
+    describe('when getalllib is called', () => {
+      let libList: Librarian[];
+
+      beforeEach(async () => {
+        libList = await libController.getAllLib();
+      });
+
+      test('then it should call libService', () => {
+        expect(libService.getAllLibrarian).toHaveBeenCalled;
+      });
+
+      test('then it should return a admin array', () => {
+        expect(libList).toEqual([libStub()]);
+      });
+    });
+  });
+
   describe('updatelibProfile', () => {
     describe('when updatelibProfile is called', () => {
       let libID: string;
@@ -197,6 +233,24 @@ describe('libController', () => {
       });
 
       test('then it should return logout lib id', () => {
+        expect(libID).toEqual(libStub()._id);
+      });
+    });
+  });
+
+  describe('deleteLib', () => {
+    describe('when deleteLib is called', () => {
+      let libID: string;
+
+      beforeEach(async () => {
+        libID = await libController.deleteLib(libStub()._id);
+      });
+
+      test('then it should call libService', () => {
+        expect(libService.deleteLib).toHaveBeenCalledWith(libStub()._id);
+      });
+
+      test('then it should return deleted lib id', () => {
         expect(libID).toEqual(libStub()._id);
       });
     });

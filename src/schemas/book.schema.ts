@@ -13,7 +13,7 @@ export const BookSchema = new mongoose.Schema({
     trim: true,
   },
   category: { type: String, required: true }, //refer to bottom
-  bookType: { type: String, required: true }, //eBook, AudioBook
+  format: { type: String, required: true }, //eBook, AudioBook
   author: { type: String, required: true },
   language: { type: String, required: true },
   publisher: String,

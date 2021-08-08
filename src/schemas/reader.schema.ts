@@ -20,7 +20,7 @@ export const ReaderProfileSchema = new mongoose.Schema({
 
 export const ReaderReadHistorySchema = new mongoose.Schema({
   bookID: String,
-  currentPage: Number,
+  currentPage: Number, //eBook:page_number, audioBook: time(s)
   startTime: Date,
   lastReadTime: Date,
   readTimes: Number,

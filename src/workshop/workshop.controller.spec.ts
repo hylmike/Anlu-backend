@@ -31,6 +31,10 @@ describe('WorkshopController', () => {
     workshopService = module.get<WorkshopService>(WorkshopService);
   });
 
+  it('should be defined', () => {
+    expect(workshopController).toBeDefined();
+  });
+
   describe('register', () => {
     describe('when register is called', () => {
       let workshop: Workshop;

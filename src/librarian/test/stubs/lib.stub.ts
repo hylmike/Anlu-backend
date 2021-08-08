@@ -6,7 +6,7 @@ export const libData: Librarian = {
   username: 'michael',
   password: 'leahcim54321',
   email: 'michael@yahoo.com',
-  role: 'admin',
+  role: 'Admin',
   firstName: 'Michael',
   lastName: 'Wilson',
   phoneNumber: '4161111111',
