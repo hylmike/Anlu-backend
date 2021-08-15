@@ -2,7 +2,7 @@ export interface BookDto {
     bookTitle: string;
     isbnCode: string;
     category: string;
-    bookType: string;
+    format: string;
     author: string;
     language: string;
     publisher: string;
@@ -16,6 +16,13 @@ export interface BookDto {
     initialScore: string;
     creator: string;
     isActive: string;
+}
+export interface SearchBookDto {
+    format: string;
+    category: string;
+    bookTitle: string;
+    author: string;
+    publishYear: string;
 }
 export interface ReadRecordDto {
     bookID: string;

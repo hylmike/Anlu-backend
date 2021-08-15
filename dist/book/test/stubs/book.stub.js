@@ -21,7 +21,7 @@ exports.bookData = {
     bookTitle: 'Book Sample',
     isbnCode: '111-1-1111-1111-1',
     category: 'IT',
-    bookType: 'e-Book',
+    format: 'e-Book',
     author: 'Jordan XXX',
     language: 'English',
     publisher: 'Publisher',

@@ -22,7 +22,7 @@ BookModule = __decorate([
         imports: [
             platform_express_1.MulterModule.register({
                 storage: multer_1.diskStorage({
-                    destination: './fileUpload',
+                    destination: '../bookfiles',
                     filename: (req, file, cb) => {
                         return cb(null, file.originalname);
                     },

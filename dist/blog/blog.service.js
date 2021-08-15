@@ -61,6 +61,7 @@ let BlogService = class BlogService {
             .sort({ createTime: -1 })
             .limit(Number(num))
             .exec();
+        this.logger.info(`Success get latest ${num} blog from database`);
         return blogList;
     }
     async updateBlog(blogID, blogDto) {
@@ -84,6 +85,7 @@ let BlogService = class BlogService {
     }
     async delBlog(blogID) {
         await this.blogModel.findByIdAndDelete(blogID);
+        this.logger.info(`Success deleted blog ${blogID}`);
         return blogID;
     }
 };

@@ -24,14 +24,23 @@ let LibrarianController = class LibrarianController {
     register(registerUserDto) {
         return this.libService.register(registerUserDto);
     }
+    getAllAdmin() {
+        return this.libService.getAllAdmin();
+    }
+    getAllLib() {
+        return this.libService.getAllLibrarian();
+    }
     getProfile(libID) {
         return this.libService.getProfile(libID);
     }
     updateProfile(updateLibDto) {
         return this.libService.updateProfile(updateLibDto);
     }
-    login(req) {
-        return this.libService.login(req);
+    adminLogin(req) {
+        return this.libService.login(req, 'admin');
+    }
+    libLogin(req) {
+        return this.libService.login(req, 'librarian');
     }
     changePwd(changePwdDto) {
         return this.libService.changePwd(changePwdDto);
@@ -41,6 +50,9 @@ let LibrarianController = class LibrarianController {
     }
     logout(req) {
         return this.libService.logout(req);
+    }
+    deleteLib(libID) {
+        return this.libService.deleteLib(libID);
     }
     addOptLog(optLogDto) {
         return this.libService.addOperationLog(optLogDto);
@@ -60,6 +72,18 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "register", null);
 __decorate([
+    common_1.Get('/getalladmin'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], LibrarianController.prototype, "getAllAdmin", null);
+__decorate([
+    common_1.Get('/getalllib'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], LibrarianController.prototype, "getAllLib", null);
+__decorate([
     common_1.Get('/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -75,12 +99,20 @@ __decorate([
 ], LibrarianController.prototype, "updateProfile", null);
 __decorate([
     common_1.UseGuards(passport_1.AuthGuard('lib-local')),
-    common_1.Post('/login'),
+    common_1.Post('/adminlogin'),
     __param(0, common_1.Request()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], LibrarianController.prototype, "login", null);
+], LibrarianController.prototype, "adminLogin", null);
+__decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-local')),
+    common_1.Post('/liblogin'),
+    __param(0, common_1.Request()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], LibrarianController.prototype, "libLogin", null);
 __decorate([
     common_1.Patch('/changepwd'),
     __param(0, common_1.Body()),
@@ -104,6 +136,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "logout", null);
+__decorate([
+    common_1.Delete('/delete/:id'),
+    common_1.Header('content-type', 'application/json'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], LibrarianController.prototype, "deleteLib", null);
 __decorate([
     common_1.Post('/addoptlog'),
     __param(0, common_1.Body()),

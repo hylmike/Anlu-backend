@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { Logger } from 'winston';
 import 'dotenv/config';
-import { BookDto, ReadRecordDto, BookCommentDto, CreateBookWishDto, UpdateWishStatusDto } from './book.dto';
+import { BookDto, ReadRecordDto, BookCommentDto, CreateBookWishDto, UpdateWishStatusDto, SearchBookDto } from './book.dto';
 import { Book, BookDocument, BookReadRecordDocument, BookComment, BookCommentDocument, BookWishList, BookWishDocument } from './book.interface';
 import { ReaderDocument, ReaderReadHisDocument, ReaderReadHistory } from 'src/reader/reader.interface';
 export declare class BookService {
@@ -15,6 +15,8 @@ export declare class BookService {
     constructor(logger: Logger, bookModel: Model<BookDocument>, readRecordModel: Model<BookReadRecordDocument>, bookCommentModel: Model<BookCommentDocument>, bookWishListModel: Model<BookWishDocument>, readerModel: Model<ReaderDocument>, readerReadHistoryModel: Model<ReaderReadHisDocument>);
     register(createBookDto: BookDto): Promise<Book>;
     findBook(bookID: string): Promise<Book>;
+    findAllBook(bookFormat: string): Promise<Book[]>;
+    findBookList(searchBookDto: SearchBookDto): Promise<Book[]>;
     updateBookInfo(bookDto: BookDto): Promise<any>;
     delBook(bookID: string): Promise<string>;
     addReadRecord(readRecordDto: ReadRecordDto): Promise<BookReadRecordDocument>;

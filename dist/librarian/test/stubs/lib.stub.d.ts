@@ -5,7 +5,6 @@ export declare const libStub: () => Librarian;
 export declare const accessTokenStub: () => {
     token_info: string;
     expireIn: string;
-    role: string;
 };
 export declare const refreshTokenStub: () => {
     refreshToken_Cookie: string;

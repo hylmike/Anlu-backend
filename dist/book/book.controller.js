@@ -23,7 +23,7 @@ let BookController = class BookController {
         this.bookService = bookService;
     }
     async fileUpload(file) {
-        const fileUrl = `${file['path']}/${file['filename']}`;
+        const fileUrl = `${file['path']}`;
         this.logger.info(`Start uploading ${file['filename']} into folder ${file['path']}`);
         return { fileUrl: fileUrl };
     }
@@ -32,6 +32,12 @@ let BookController = class BookController {
     }
     async findBook(bookID) {
         return this.bookService.findBook(bookID);
+    }
+    async findAllBook(bookFormat) {
+        return this.bookService.findAllBook(bookFormat);
+    }
+    async findBookList(searchDto) {
+        return this.bookService.findBookList(searchDto);
     }
     async delBook(bookID) {
         return this.bookService.delBook(bookID);
@@ -89,6 +95,20 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "findBook", null);
+__decorate([
+    common_1.Get('/findall/:format'),
+    __param(0, common_1.Param('format')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BookController.prototype, "findAllBook", null);
+__decorate([
+    common_1.Post('/findlist'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], BookController.prototype, "findBookList", null);
 __decorate([
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),

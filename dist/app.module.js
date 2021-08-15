@@ -36,6 +36,8 @@ AppModule = __decorate([
                             ? process.env.MONGO_DEV_URI
                             : process.env.MONGO_TEST_URI,
                     useNewUrlParser: true,
+                    useFindAndModify: false,
+                    useCreateIndex: true,
                 }),
             }),
             nest_winston_1.WinstonModule.forRoot({

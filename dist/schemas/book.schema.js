@@ -15,7 +15,7 @@ exports.BookSchema = new mongoose.Schema({
         trim: true,
     },
     category: { type: String, required: true },
-    bookType: { type: String, required: true },
+    format: { type: String, required: true },
     author: { type: String, required: true },
     language: { type: String, required: true },
     publisher: String,

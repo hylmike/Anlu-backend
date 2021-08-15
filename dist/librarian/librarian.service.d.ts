@@ -11,13 +11,14 @@ export declare class LibrarianService {
     private readonly jwtService;
     constructor(logger: Logger, libModel: Model<LibDocument>, optLogModel: Model<OptLogDocument>, jwtService: JwtService);
     register(registerLibDto: RegisterLibDto): Promise<LibDocument>;
+    getAllAdmin(): Promise<LibDocument[]>;
+    getAllLibrarian(): Promise<LibDocument[]>;
     getProfile(libID: any): Promise<Librarian | undefined>;
     updateProfile(updateLibDto: UpdateLibProfileDto): Promise<any>;
     changePwd(changeLibPwdDto: ChangeLibPwdDto): Promise<string>;
-    login(request: any): Promise<{
+    login(request: any, requiredRole: string): Promise<{
         token_info: string;
         expireIn: string;
-        role: any;
     }>;
     findOne(username: string): Promise<Librarian | undefined>;
     getRefreshById(libID: string): Promise<Librarian | undefined>;
@@ -28,9 +29,9 @@ export declare class LibrarianService {
     tokenRefresh(request: any): {
         token_info: string;
         expireIn: string;
-        role: any;
     };
     logout(request: any): Promise<any>;
+    deleteLib(libID: string): Promise<string>;
     addOperationLog(optLogDto: OperationLogDto): Promise<OptLogDocument>;
     getOperationLog(libID: string): Promise<OperationLog[] | undefined>;
     checkAdmin(libID: any): Promise<boolean>;

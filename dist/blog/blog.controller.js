@@ -25,7 +25,7 @@ let BlogController = class BlogController {
     async get(blogID) {
         return this.blogService.getBlog(blogID);
     }
-    async getList(num) {
+    async getBlogList(num) {
         return this.blogService.getBlogList(num);
     }
     async update(blogID, blogDto) {
@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], BlogController.prototype, "getList", null);
+], BlogController.prototype, "getBlogList", null);
 __decorate([
     common_1.Patch('/:id/update'),
     __param(0, common_1.Param('id')),

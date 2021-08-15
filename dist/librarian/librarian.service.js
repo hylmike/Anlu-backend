@@ -63,6 +63,24 @@ let LibrarianService = class LibrarianService {
             return null;
         }
     }
+    async getAllAdmin() {
+        const adminList = await this.libModel.find({ role: 'Admin' });
+        if (adminList) {
+            this.logger.info('Success get admin list from database');
+            return adminList;
+        }
+        this.logger.warn("Can't get admin list from database");
+        return null;
+    }
+    async getAllLibrarian() {
+        const libList = await this.libModel.find({ role: 'Librarian' });
+        if (libList) {
+            this.logger.info('Success get librarian list from database');
+            return libList;
+        }
+        this.logger.warn("Can't get librarian list from database");
+        return null;
+    }
     async getProfile(libID) {
         const lib = await this.libModel.findById(libID);
         if (!lib) {
@@ -125,9 +143,13 @@ let LibrarianService = class LibrarianService {
             return null;
         }
     }
-    async login(request) {
+    async login(request, requiredRole) {
         const libID = request.user._id;
         const role = request.user.role;
+        if (role.toLowerCase() !== requiredRole) {
+            this.logger.warn(`User does not have ${requiredRole} role, login failed`);
+            return null;
+        }
         const accessToken = this.getJwtAccessToken(libID);
         const refreshToken = this.getCookieJwtRefreshToken(libID);
         await this.setRefreshToken(refreshToken[1], libID);
@@ -136,7 +158,6 @@ let LibrarianService = class LibrarianService {
         return {
             token_info: accessToken,
             expireIn: process.env.ACCESS_TOKEN_TIMER,
-            role: role,
         };
     }
     async findOne(username) {
@@ -216,7 +237,6 @@ let LibrarianService = class LibrarianService {
         return {
             token_info: accessToken,
             expireIn: process.env.ACCESS_TOKEN_TIMER,
-            role: role,
         };
     }
     async logout(request) {
@@ -227,6 +247,17 @@ let LibrarianService = class LibrarianService {
         request.res.setHeader('Set-Cookie', deleteCookie);
         this.logger.info(`Success logout for ${role} ${libID}`);
         return libID;
+    }
+    async deleteLib(libID) {
+        const result = await this.libModel.findByIdAndRemove(libID);
+        if (result) {
+            this.logger.info(`Success delete lib ${libID}`);
+            return JSON.stringify(libID);
+        }
+        else {
+            this.logger.warn(`Falied to delete lib ${libID}`);
+            return null;
+        }
     }
     async addOperationLog(optLogDto) {
         if (optLogDto.operation.trim() === '') {

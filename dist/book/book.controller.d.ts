@@ -1,7 +1,7 @@
 /// <reference types="multer" />
 import { Logger } from 'winston';
 import { BookService } from './book.service';
-import { BookDto, ReadRecordDto, BookCommentDto, CreateBookWishDto, UpdateWishStatusDto } from './book.dto';
+import { BookDto, ReadRecordDto, BookCommentDto, CreateBookWishDto, UpdateWishStatusDto, SearchBookDto } from './book.dto';
 export declare class BookController {
     private readonly logger;
     private readonly bookService;
@@ -11,6 +11,8 @@ export declare class BookController {
     }>;
     registerBook(createBookDto: BookDto): Promise<import("./book.interface").Book>;
     findBook(bookID: string): Promise<import("./book.interface").Book>;
+    findAllBook(bookFormat: string): Promise<import("./book.interface").Book[]>;
+    findBookList(searchDto: SearchBookDto): Promise<import("./book.interface").Book[]>;
     delBook(bookID: string): Promise<string>;
     updateBookInfo(bookDto: BookDto): Promise<any>;
     addReadRecord(readRecordDto: ReadRecordDto): Promise<import("./book.interface").BookReadRecordDocument>;

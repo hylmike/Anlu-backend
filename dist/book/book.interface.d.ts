@@ -4,7 +4,7 @@ export interface Book {
     bookTitle: string;
     isbnCode: string;
     category: string;
-    bookType: string;
+    format: string;
     author: string;
     language: string;
     publisher: string;
