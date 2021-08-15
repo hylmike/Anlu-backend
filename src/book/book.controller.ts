@@ -21,6 +21,7 @@ import {
   BookCommentDto,
   CreateBookWishDto,
   UpdateWishStatusDto,
+  SearchBookDto,
 } from './book.dto';
 
 @Controller('api/book')
@@ -33,7 +34,7 @@ export class BookController {
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   async fileUpload(@UploadedFile() file: Express.Multer.File) {
-    const fileUrl = `${file['path']}/${file['filename']}`;
+    const fileUrl = `${file['path']}`;
     this.logger.info(
       `Start uploading ${file['filename']} into folder ${file['path']}`,
     );
@@ -48,6 +49,16 @@ export class BookController {
   @Get('/:id')
   async findBook(@Param('id') bookID: string) {
     return this.bookService.findBook(bookID);
+  }
+
+  @Get('/findall/:format')
+  async findAllBook(@Param('format') bookFormat: string) {
+    return this.bookService.findAllBook(bookFormat);
+  }
+
+  @Post('/findlist')
+  async findBookList(@Body() searchDto: SearchBookDto) {
+    return this.bookService.findBookList(searchDto);
   }
 
   @Delete('/del/:id')

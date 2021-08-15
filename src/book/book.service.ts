@@ -11,6 +11,7 @@ import {
   BookCommentDto,
   CreateBookWishDto,
   UpdateWishStatusDto,
+  SearchBookDto,
 } from './book.dto';
 import {
   Book,
@@ -115,6 +116,75 @@ export class BookService {
     }
     this.logger.info(`Success get book ${book.bookTitle} from database`);
     return book;
+  }
+
+  async findAllBook(bookFormat: string): Promise<Book[]> {
+    const bookList = await this.bookModel.find({ format: bookFormat });
+    if (bookList) {
+      this.logger.info(`Success find all ${bookFormat}`);
+      return bookList;
+    } else {
+      this.logger.warn(`Failed to find ${bookFormat} from database`);
+      return null;
+    }
+  }
+
+  async findBookList(searchBookDto: SearchBookDto): Promise<Book[]> {
+    //Create the seach condition object
+    const conditions = {};
+    const andClause = [];
+    for (const item in searchBookDto) {
+      switch (item) {
+        case 'format':
+          andClause.push({ format: searchBookDto[item] });
+          break;
+        case 'category':
+          if (searchBookDto[item] !== '') {
+            andClause.push({ category: searchBookDto[item] });
+          }
+          break;
+        case 'bookTitle':
+          if (searchBookDto[item] !== '') {
+            andClause.push({
+              bookTitle: { $regex: searchBookDto[item], $options: 'i' },
+            });
+          }
+          break;
+        case 'author':
+          if (searchBookDto[item] !== '') {
+            andClause.push({
+              author: { $regex: searchBookDto[item], $options: 'i' },
+            });
+          }
+          break;
+        case 'publishYear':
+          const startTime = `${searchBookDto[item]}-01-01`;
+          const endTime = `${searchBookDto[item]}-12-31`;
+          if (searchBookDto[item] !== '') {
+            andClause.push({
+              publishDate: {
+                $gte: new Date(startTime),
+                $lte: new Date(endTime),
+              },
+            });
+          }
+          break;
+      }
+    }
+    if (andClause.length > 0) {
+      conditions['$and'] = andClause;
+    }
+
+    //Search book in dababase based on search array
+    const bookList = await this.bookModel.find(conditions).exec();
+
+    if (bookList) {
+      this.logger.info('Success get book list based on search conditions');
+      return bookList;
+    } else {
+      this.logger.warn('Failed to find book from database');
+      return null;
+    }
   }
 
   async updateBookInfo(bookDto: BookDto) {

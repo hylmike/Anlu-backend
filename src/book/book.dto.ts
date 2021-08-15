@@ -18,6 +18,14 @@ export interface BookDto {
   isActive: string;
 }
 
+export interface SearchBookDto {
+  format: string;
+  category: string;
+  bookTitle: string;
+  author: string;
+  publishYear: string;
+}
+
 export interface ReadRecordDto {
   bookID: string;
   readerID: string;
