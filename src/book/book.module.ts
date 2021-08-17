@@ -4,6 +4,7 @@ import { BookService } from './book.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import 'dotenv/config';
 
 import {
   BookSchema,

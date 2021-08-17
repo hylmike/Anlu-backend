@@ -13,6 +13,7 @@ const book_service_1 = require("./book.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
+require("dotenv/config");
 const book_schema_1 = require("../schemas/book.schema");
 const reader_schema_1 = require("../schemas/reader.schema");
 let BookModule = class BookModule {
