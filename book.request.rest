@@ -2,11 +2,11 @@ POST http://localhost:3000/api/book/register
 Content-Type: application/json
 
 {
-  "bookTitle": "Book Title 5",
+  "bookTitle": "Book Title 15",
   "isbnCode": "978-1-4302-2791-5",
   "category": "Romance",
   "format": "eBook",
-  "author": "PETER LUBBERS, Rose, FRANK SALIM",
+  "author": "PETER LUBBERS",
   "language": "English",
   "publisher": "Apress",
   "publishDate": "2019-12-31",

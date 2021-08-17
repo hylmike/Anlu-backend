@@ -21,7 +21,7 @@ import {
   imports: [
     MulterModule.register({
       storage: diskStorage({
-        destination: '../bookfiles',
+        destination: process.env.UPLOAD_FOLDER,
         filename: (req, file, cb) => {
           return cb(null, file.originalname);
         },
