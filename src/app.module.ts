@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { APP_FILTER } from '@nestjs/core';
 import * as winston from 'winston';
 import { WinstonModule } from 'nest-winston';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import 'dotenv/config';
 
 import { AppController } from './app.controller';
@@ -15,6 +16,7 @@ import { BookModule } from './book/book.module';
 import { WorkshopModule } from './workshop/workshop.module';
 import { DatabaseModule } from './database/database.module';
 import { BlogModule } from './blog/blog.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -42,6 +44,10 @@ import { BlogModule } from './blog/blog.module';
         new winston.transports.File({ filename: 'combined.log', level: 'info' }),
         new winston.transports.File({ filename: 'error.log', level: 'error' }),
       ],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'bookfiles'),
+      exclude: ['/api*'],
     }),
     ReaderModule,
     AuthModule,
