@@ -32,10 +32,10 @@ Content-Type: application/json
   "password":"54321",
   "confirmPassword":"54321",
   "email":"adam@yahoo.com",
-  "role":"librarian",
-  "firstName":"Lily",
-  "lastName":"Lee",
-  "phoneNumber":"4169965753"
+  "role":"Librarian",
+  "firstName":"Adam",
+  "lastName":"Wilson",
+  "phoneNumber":""
 }
 
 ###
