@@ -12,7 +12,7 @@ export const WorkshopSchema = new mongoose.Schema({
   ],
   startTime: Date,
   duration: Number, //unit: hour
-  flyerContent: String,
+  poster: String, //poster img file url, 640*480 or bigger
   creator: String, //creator id
   createTime: Date,
   remark: String,
@@ -23,9 +23,7 @@ export const SubscriberSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Workshop',
   },
-  firstName: String,
-  lastName: String,
-  age: Number,
-  neighborhood: String,
+  readerID: String,
+  //neighborhood: String,
   SubscribeTime: Date,
 });

@@ -9,7 +9,7 @@ exports.workshopData = {
     subscriber: ['60ec5713bb91d82c72fe91c2', '60ec587c16899e2d1607f3cc'],
     startTime: new Date('2020-07-20T00:00:00Z'),
     duration: 2,
-    flyerContent: 'New book launch event of <My Story>',
+    poster: 'New book launch event of <My Story>',
     creator: 'michael',
     createTime: new Date('2020-07-18T00:11:00Z'),
     remark: '',
@@ -21,19 +21,13 @@ exports.workshopStub = workshopStub;
 exports.subscriberData1 = {
     _id: '60ec5713bb91d82c72fe91c2',
     workshop: '60ec4c554d1fbb29cd893e9e',
-    firstName: 'Tom',
-    lastName: 'Jackson',
-    age: 30,
-    neighborhood: 'CloudValley',
+    readerID: '60e914e8b5dafaf6b7b0d8b7',
     SubscribeTime: new Date('2020-07-19T00:00:00Z'),
 };
 exports.subscriberData2 = {
     _id: '60ec587c16899e2d1607f3cc',
     workshop: '60ec4c554d1fbb29cd893e9e',
-    firstName: 'Mike',
-    lastName: 'Anderson',
-    age: 35,
-    neighborhood: 'CloudValley',
+    readerID: '60e91512b5dafaf6b7b0d8bc',
     SubscribeTime: new Date('2020-07-19T10:00:00Z'),
 };
 const subscriberStub = () => {

@@ -12,6 +12,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const core_1 = require("@nestjs/core");
 const winston = require("winston");
 const nest_winston_1 = require("nest-winston");
+const serve_static_1 = require("@nestjs/serve-static");
 require("dotenv/config");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
@@ -23,6 +24,7 @@ const book_module_1 = require("./book/book.module");
 const workshop_module_1 = require("./workshop/workshop.module");
 const database_module_1 = require("./database/database.module");
 const blog_module_1 = require("./blog/blog.module");
+const path_1 = require("path");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -47,6 +49,15 @@ AppModule = __decorate([
                     new winston.transports.File({ filename: 'combined.log', level: 'info' }),
                     new winston.transports.File({ filename: 'error.log', level: 'error' }),
                 ],
+            }),
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: path_1.join(__dirname, '../..', 'bookfiles'),
+                exclude: ['/api*'],
+            }),
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: path_1.join(__dirname, '../..', 'otherfiles'),
+                serveRoot: '/otherfiles',
+                exclude: ['/api*'],
             }),
             reader_module_1.ReaderModule,
             auth_module_1.AuthModule,

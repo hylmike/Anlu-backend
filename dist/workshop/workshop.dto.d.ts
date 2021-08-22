@@ -3,8 +3,8 @@ export interface RegisterWorkshopDto {
     place: string;
     organizer: string;
     startTime: string;
-    duration: number;
-    flyerContent: string;
+    duration: string;
+    poster: string;
     creator: string;
     remark: string;
 }
@@ -13,15 +13,12 @@ export interface UpdateWorkshopDto {
     organizer: string;
     startTime: string;
     duration: string;
-    flyerContent: string;
+    poster: string;
     remark: string;
 }
 export interface SubWorkshopDto {
     workshop: string;
-    firstName: string;
-    lastName: string;
-    age: number;
-    neighborhood: string;
+    readerID: string;
 }
 export interface UnsubWorkshopDto {
     subID: string;

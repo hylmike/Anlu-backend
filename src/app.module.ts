@@ -49,6 +49,11 @@ import { join } from 'path';
       rootPath: join(__dirname, '../..', 'bookfiles'),
       exclude: ['/api*'],
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'otherfiles'),
+      serveRoot: '/otherfiles',
+      exclude: ['/api*'],
+    }),
     ReaderModule,
     AuthModule,
     LibrarianModule,

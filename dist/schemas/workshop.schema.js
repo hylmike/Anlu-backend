@@ -14,7 +14,7 @@ exports.WorkshopSchema = new mongoose.Schema({
     ],
     startTime: Date,
     duration: Number,
-    flyerContent: String,
+    poster: String,
     creator: String,
     createTime: Date,
     remark: String,
@@ -24,10 +24,7 @@ exports.SubscriberSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Workshop',
     },
-    firstName: String,
-    lastName: String,
-    age: Number,
-    neighborhood: String,
+    readerID: String,
     SubscribeTime: Date,
 });
 //# sourceMappingURL=workshop.schema.js.map

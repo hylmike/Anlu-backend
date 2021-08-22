@@ -7,7 +7,7 @@ export interface Workshop {
     subscriber: string[];
     startTime: Date;
     duration: number;
-    flyerContent: string;
+    poster: string;
     creator: string;
     createTime: Date;
     remark: string;
@@ -16,10 +16,7 @@ export declare type WorkshopDocument = Workshop & Document;
 export interface Subscriber {
     _id: string;
     workshop: string;
-    firstName: string;
-    lastName: string;
-    age: number;
-    neighborhood: string;
+    readerID: string;
     SubscribeTime: Date;
 }
 export declare type SubscriberDocument = Subscriber & Document;

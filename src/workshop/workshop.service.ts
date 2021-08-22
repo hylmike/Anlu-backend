@@ -16,8 +16,6 @@ import {
   UnsubWorkshopDto,
   UpdateWorkshopDto,
 } from './workshop.dto';
-import { workshopStub } from './test/stubs/workshop.stub';
-import { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue';
 
 @Injectable()
 export class WorkshopService {
@@ -43,8 +41,8 @@ export class WorkshopService {
       place: regWorkshopDto.place,
       organizer: regWorkshopDto.organizer,
       startTime: new Date(regWorkshopDto.startTime),
-      duration: regWorkshopDto.duration,
-      flyerContent: regWorkshopDto.flyerContent,
+      duration: regWorkshopDto.duration == '' ? 0 : Number(regWorkshopDto.duration),
+      poster: regWorkshopDto.poster,
       creator: regWorkshopDto.creator,
       createTime: now,
       remark: regWorkshopDto.remark,
@@ -73,6 +71,16 @@ export class WorkshopService {
     //Create log for this actitity
     this.logger.info(`Success get workshop ${workshop.topic}`);
     return workshop;
+  }
+
+  async getAllWorkshop(): Promise<Workshop[]> {
+    const allWorkshop = await this.workshopModel.find({});
+    if (allWorkshop) {
+      this.logger.info('Success get all workshop');
+      return allWorkshop;
+    }
+    this.logger.warn('Failed to get all workshop');
+    return null;
   }
 
   async updateWorkshop(
@@ -117,13 +125,11 @@ export class WorkshopService {
   async subWorkshop(subWorkshopDto: SubWorkshopDto): Promise<Subscriber> {
     let sub = await this.subModel.findOne({
       workshop: subWorkshopDto.workshop,
-      firstName: subWorkshopDto.firstName,
-      lastName: subWorkshopDto.lastName,
-      age: subWorkshopDto.age,
+      readerID: subWorkshopDto.readerID,
     });
     if (sub) {
       this.logger.warn(
-        `${subWorkshopDto.firstName} already subscribed for ${subWorkshopDto.workshop}`,
+        `${subWorkshopDto.readerID} already subscribed for ${subWorkshopDto.workshop}`,
       );
       return null;
     }
@@ -131,10 +137,7 @@ export class WorkshopService {
     const now = new Date();
     sub = new this.subModel({
       workshop: subWorkshopDto.workshop,
-      firstName: subWorkshopDto.firstName,
-      lastName: subWorkshopDto.lastName,
-      age: subWorkshopDto.age,
-      neighborhood: subWorkshopDto.neighborhood,
+      readerID: subWorkshopDto.readerID,
       SubscribeTime: now,
     });
     const workshop = await this.workshopModel.findById(subWorkshopDto.workshop);
@@ -166,7 +169,7 @@ export class WorkshopService {
       return null;
     }
     for (const sub of workshop.subscriber) {
-      if (sub === unsubDto.subID) {
+      if (sub.toString() === unsubDto.subID) {
         const index = workshop.subscriber.indexOf(sub);
         workshop.subscriber.splice(index, 1);
         break;
@@ -176,7 +179,7 @@ export class WorkshopService {
       await workshop.save();
       //create the log for this activity
       this.logger.info(
-        `Success unsubscribe ${delSub.firstName} from workshop ${workshop.topic}`,
+        `Success unsubscribe ${delSub.readerID} from workshop ${workshop.topic}`,
       );
       return delSub._id;
     } catch (err) {
@@ -185,8 +188,14 @@ export class WorkshopService {
     }
   }
 
-  async getSub(subID): Promise<Subscriber> {
-    return this.subModel.findById(subID);
+  async getSub(readerID): Promise<Subscriber> {
+    const sub = await this.subModel.findOne({ readerID: readerID });
+    if (sub) {
+      this.logger.info(`Success get subscriber from readerID ${readerID}`);
+      return sub;
+    }
+    this.logger.warn(`Failed to get subscriber from readerID ${readerID}`);
+    return null;
   }
 
   async getSubList(workshopID) {

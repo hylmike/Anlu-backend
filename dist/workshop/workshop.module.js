@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkshopModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
 const workshop_controller_1 = require("./workshop.controller");
 const workshop_service_1 = require("./workshop.service");
 const workshop_schema_1 = require("../schemas/workshop.schema");
@@ -17,6 +19,14 @@ let WorkshopModule = class WorkshopModule {
 WorkshopModule = __decorate([
     common_1.Module({
         imports: [
+            platform_express_1.MulterModule.register({
+                storage: multer_1.diskStorage({
+                    destination: process.env.OTHER_UPLOAD_FOLDER,
+                    filename: (req, file, cb) => {
+                        return cb(null, file.originalname);
+                    },
+                }),
+            }),
             mongoose_1.MongooseModule.forFeature([
                 { name: 'Workshop', schema: workshop_schema_1.WorkshopSchema },
                 { name: 'Subscriber', schema: workshop_schema_1.SubscriberSchema },

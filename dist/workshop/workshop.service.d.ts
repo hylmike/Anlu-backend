@@ -9,9 +9,10 @@ export declare class WorkshopService {
     constructor(logger: Logger, workshopModel: Model<WorkshopDocument>, subModel: Model<SubscriberDocument>);
     register(regWorkshopDto: RegisterWorkshopDto): Promise<Workshop>;
     getWorkshop(workshopID: any): Promise<Workshop>;
+    getAllWorkshop(): Promise<Workshop[]>;
     updateWorkshop(workshopID: string, updateWorkshopDto: UpdateWorkshopDto): Promise<Workshop>;
     subWorkshop(subWorkshopDto: SubWorkshopDto): Promise<Subscriber>;
     unsubWorkshop(workshopID: string, unsubDto: UnsubWorkshopDto): Promise<any>;
-    getSub(subID: any): Promise<Subscriber>;
+    getSub(readerID: any): Promise<Subscriber>;
     getSubList(workshopID: any): Promise<string[]>;
 }

@@ -14,10 +14,18 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkshopController = void 0;
 const common_1 = require("@nestjs/common");
+const nest_winston_1 = require("nest-winston");
+const platform_express_1 = require("@nestjs/platform-express");
 const workshop_service_1 = require("./workshop.service");
 let WorkshopController = class WorkshopController {
-    constructor(workshopService) {
+    constructor(workshopService, logger) {
         this.workshopService = workshopService;
+        this.logger = logger;
+    }
+    async fileUpload(file) {
+        const fileUrl = `${file['path']}`;
+        this.logger.info(`Start uploading ${file['filename']} into folder ${file['path']}`);
+        return { fileUrl: fileUrl };
     }
     register(regWorkshopDto) {
         return this.workshopService.register(regWorkshopDto);
@@ -25,8 +33,14 @@ let WorkshopController = class WorkshopController {
     getWorkshop(workshopID) {
         return this.workshopService.getWorkshop(workshopID);
     }
+    getAllWorkshop() {
+        return this.workshopService.getAllWorkshop();
+    }
     updateWorkshop(workshopID, updateWorkshopDto) {
         return this.workshopService.updateWorkshop(workshopID, updateWorkshopDto);
+    }
+    getSub(readerID) {
+        return this.workshopService.getSub(readerID);
     }
     getSubList(workshopID) {
         return this.workshopService.getSubList(workshopID);
@@ -39,6 +53,14 @@ let WorkshopController = class WorkshopController {
     }
 };
 __decorate([
+    common_1.Post('/upload'),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('file')),
+    __param(0, common_1.UploadedFile()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], WorkshopController.prototype, "fileUpload", null);
+__decorate([
     common_1.Post('/register'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -46,14 +68,20 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "register", null);
 __decorate([
-    common_1.Get('/:id'),
+    common_1.Get('/profile/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "getWorkshop", null);
 __decorate([
-    common_1.Patch('/:id/update'),
+    common_1.Get('/getall'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], WorkshopController.prototype, "getAllWorkshop", null);
+__decorate([
+    common_1.Patch('/update/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
     __metadata("design:type", Function),
@@ -61,7 +89,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "updateWorkshop", null);
 __decorate([
-    common_1.Get('/:id/getsublist'),
+    common_1.Get('/getsub/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], WorkshopController.prototype, "getSub", null);
+__decorate([
+    common_1.Get('/getsublist/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -75,7 +110,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "subWorkshop", null);
 __decorate([
-    common_1.Patch('/:id/unsubscribe'),
+    common_1.Patch('/unsubscribe/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
     __metadata("design:type", Function),
@@ -84,7 +119,8 @@ __decorate([
 ], WorkshopController.prototype, "unsubWorkshop", null);
 WorkshopController = __decorate([
     common_1.Controller('api/workshop'),
-    __metadata("design:paramtypes", [workshop_service_1.WorkshopService])
+    __param(1, common_1.Inject(nest_winston_1.WINSTON_MODULE_PROVIDER)),
+    __metadata("design:paramtypes", [workshop_service_1.WorkshopService, Object])
 ], WorkshopController);
 exports.WorkshopController = WorkshopController;
 //# sourceMappingURL=workshop.controller.js.map
