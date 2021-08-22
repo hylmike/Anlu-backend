@@ -25,6 +25,7 @@ const workshop_module_1 = require("./workshop/workshop.module");
 const database_module_1 = require("./database/database.module");
 const blog_module_1 = require("./blog/blog.module");
 const path_1 = require("path");
+const front_log_module_1 = require("./front-log/front-log.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -66,6 +67,7 @@ AppModule = __decorate([
             workshop_module_1.WorkshopModule,
             database_module_1.DatabaseModule,
             blog_module_1.BlogModule,
+            front_log_module_1.FrontLogModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [
