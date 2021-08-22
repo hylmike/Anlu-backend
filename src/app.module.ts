@@ -17,6 +17,7 @@ import { WorkshopModule } from './workshop/workshop.module';
 import { DatabaseModule } from './database/database.module';
 import { BlogModule } from './blog/blog.module';
 import { join } from 'path';
+import { FrontLogModule } from './front-log/front-log.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { join } from 'path';
     WorkshopModule,
     DatabaseModule,
     BlogModule,
+    FrontLogModule,
   ],
   controllers: [AppController],
   providers: [
