@@ -12,7 +12,7 @@ export interface BookDto {
   bookFile: string;
   price: string;
   desc: string;
-  keyword: string;
+  keywords: string;
   initialScore: string;
   creator: string;
   isActive: string;

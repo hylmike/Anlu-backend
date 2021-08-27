@@ -31,7 +31,7 @@ exports.bookData = {
     coverPic: '/fileUpload/Book_sample_cover.png',
     bookFile: '/fileUpload/Book_sample.pdf',
     desc: 'book sample content',
-    keyword: 'book, IT, Coding, Sample',
+    keywords: 'book, IT, Coding, Sample',
     isActive: true,
     createDate: new Date('2021-07-01T00:00:00Z'),
     creator: 'Michael Jordan',

@@ -46,13 +46,13 @@ let BookService = class BookService {
             author: createBookDto.author,
             language: createBookDto.language,
             publisher: createBookDto.publisher,
-            publishDate: createBookDto.publishDate == '' ? new Date() : new Date(createBookDto.publishDate),
-            purchaseDate: createBookDto.purchaseDate == '' ? new Date() : new Date(createBookDto.purchaseDate),
+            publishDate: createBookDto.publishDate == '' ? new Date(0) : new Date(createBookDto.publishDate),
+            purchaseDate: createBookDto.purchaseDate == '' ? new Date(0) : new Date(createBookDto.purchaseDate),
             price: createBookDto.price == '' ? 0 : Number(createBookDto.price),
             coverPic: createBookDto.coverPic,
             bookFile: createBookDto.bookFile,
             desc: createBookDto.desc,
-            keyword: createBookDto.keyword,
+            keywords: createBookDto.keywords,
             creator: createBookDto.creator,
             isActive: createBookDto.isActive.toLowerCase() === 'true' ? true : false,
             createDate: new Date(),
@@ -179,7 +179,7 @@ let BookService = class BookService {
                     break;
                 case 'isActive':
                     if (bookDto[item] !== '')
-                        book[item] = bookDto[item].toLowerCase() === 'true' ? true : false;
+                        book[item] = bookDto[item].toLowerCase() === 'active' ? true : false;
                     break;
                 default:
                     if (bookDto[item] !== '')
@@ -189,7 +189,7 @@ let BookService = class BookService {
         try {
             const updatedBook = await book.save();
             this.logger.info(`Success update info of book ${book._id}`);
-            return updatedBook._id;
+            return updatedBook;
         }
         catch (err) {
             this.logger.error(`Failed to save update book ${book.bookTitle} info: ${err}`);

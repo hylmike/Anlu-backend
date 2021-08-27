@@ -15,13 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FrontLogController = void 0;
 const common_1 = require("@nestjs/common");
 const nest_winston_1 = require("nest-winston");
+const fs = require("fs");
 const frontLogInterface_1 = require("./frontLogInterface");
 let FrontLogController = class FrontLogController {
     constructor(logger) {
         this.logger = logger;
     }
     postLog(logInterface) {
-        return null;
+        fs.writeFile('frontendError.log', `level: ${logInterface.level}, timestamp: ${logInterface.timestamp}, message: ${logInterface.message}`, { flag: 'a' }, function (err) {
+            if (err)
+                this.logger.error(`Write frontend error file failed: ${err}`);
+        });
     }
 };
 __decorate([

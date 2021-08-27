@@ -14,7 +14,7 @@ export interface Book {
     coverPic: string;
     bookFile: string;
     desc: string;
-    keyword: string;
+    keywords: string;
     isActive: boolean;
     createDate: Date;
     creator: string;

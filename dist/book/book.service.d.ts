@@ -17,7 +17,7 @@ export declare class BookService {
     findBook(bookID: string): Promise<Book>;
     findAllBook(bookFormat: string): Promise<Book[]>;
     findBookList(searchBookDto: SearchBookDto): Promise<Book[]>;
-    updateBookInfo(bookDto: BookDto): Promise<any>;
+    updateBookInfo(bookDto: BookDto): Promise<BookDocument>;
     delBook(bookID: string): Promise<string>;
     addReadRecord(readRecordDto: ReadRecordDto): Promise<BookReadRecordDocument>;
     addReaderReadHistory(readerID: string, bookID: string, startTime: Date, currentPage: number, duration: number): Promise<ReaderReadHistory>;

@@ -15,7 +15,7 @@ Content-Type: application/json
   "bookFile": "../bookfiles/Pro HTML5 Programming.pdf",
   "price": "19.99",
   "desc": "Introduce the HTML5 and javascript features, and programming techniques",
-  "keyword": "HTML5, Web, Programming, Javascript, JS",
+  "keywords": "HTML5, Web, Programming, Javascript, JS",
   "creator": "60e746b7403c6dc7b0f60649",
   "initialScore": "1000",
   "isActive": "true"

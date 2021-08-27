@@ -131,7 +131,7 @@ describe('BookService', () => {
           bookFile: bookStub().bookFile,
           price: bookStub().price.toString(),
           desc: bookStub().desc,
-          keyword: bookStub().keyword,
+          keywords: bookStub().keywords,
           initialScore: bookStub().initialScore.toString(),
           creator: bookStub().creator,
           isActive: 'true',
@@ -175,7 +175,7 @@ describe('BookService', () => {
 
   describe('updateBookInfo', () => {
     describe('when updateBookInfo is called', () => {
-      let bookID: string;
+      let book: Book;
       const w1 = Number(process.env.SCORE_W1);
       const w2 = Number(process.env.SCORE_W2);
       const newAuthor = 'Johnson';
@@ -197,16 +197,16 @@ describe('BookService', () => {
           bookFile: '',
           price: newPrice,
           desc: '',
-          keyword: '',
+          keywords: '',
           initialScore: newInitialScore,
           creator: '',
           isActive: '',
         };
-        bookID = await bookService.updateBookInfo(updateBookDto);
+        book = await bookService.updateBookInfo(updateBookDto);
       });
 
-      test('it should update book objet based on inputs', async () => {
-        const book = await bookService.findBook(bookStub()._id);
+      test('it should return update book objet based on inputs', async () => {
+        expect(book.bookTitle).toEqual(bookStub().bookTitle);
         expect(book.author).toEqual(newAuthor);
         expect(book.price).toEqual(Number(newPrice));
         const newPopularScore =
@@ -214,10 +214,6 @@ describe('BookService', () => {
           book.readTimes * w1 +
           book.readDuration * w2;
         expect(book.popularScore).toEqual(newPopularScore);
-      });
-
-      test('it should return updted book id', async () => {
-        expect(bookID).toEqual(bookStub()._id);
       });
     });
   });

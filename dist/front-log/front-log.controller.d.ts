@@ -3,5 +3,5 @@ import { NGXLogInterface } from './frontLogInterface';
 export declare class FrontLogController {
     private logger;
     constructor(logger: Logger);
-    postLog(logInterface: NGXLogInterface): any;
+    postLog(logInterface: NGXLogInterface): void;
 }
