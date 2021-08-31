@@ -6,6 +6,7 @@ import { diskStorage } from 'multer';
 import { WorkshopController } from './workshop.controller';
 import { WorkshopService } from './workshop.service';
 import { WorkshopSchema, SubscriberSchema } from '../schemas/workshop.schema';
+import { ReaderSchema } from '../schemas/reader.schema';
 
 @Module({
   imports: [
@@ -20,9 +21,10 @@ import { WorkshopSchema, SubscriberSchema } from '../schemas/workshop.schema';
     MongooseModule.forFeature([
       { name: 'Workshop', schema: WorkshopSchema },
       { name: 'Subscriber', schema: SubscriberSchema },
+      { name: 'Reader', schema: ReaderSchema },
     ]),
   ],
   controllers: [WorkshopController],
   providers: [WorkshopService],
 })
-export class WorkshopModule {}
+export class WorkshopModule { }

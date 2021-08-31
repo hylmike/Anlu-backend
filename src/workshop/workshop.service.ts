@@ -16,6 +16,7 @@ import {
   UnsubWorkshopDto,
   UpdateWorkshopDto,
 } from './workshop.dto';
+import { ReaderDocument } from '../reader/reader.interface';
 
 @Injectable()
 export class WorkshopService {
@@ -23,6 +24,7 @@ export class WorkshopService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     @InjectModel('Workshop') private workshopModel: Model<WorkshopDocument>,
     @InjectModel('Subscriber') private subModel: Model<SubscriberDocument>,
+    @InjectModel('Reader') private readerModel: Model<ReaderDocument>,
   ) { }
 
   async register(regWorkshopDto: RegisterWorkshopDto): Promise<Workshop> {
@@ -122,6 +124,17 @@ export class WorkshopService {
     }
   }
 
+  async delWorkshop(workshopID) {
+    const workshop = await this.workshopModel.findByIdAndDelete(workshopID);
+    if (workshop) {
+      this.logger.info(`Success delete workshop ${workshopID}`);
+      return JSON.stringify(workshop._id);
+    } else {
+      this.logger.warn(`Failed to find and delete workshop ${workshopID}`);
+      return null;
+    }
+  }
+
   async subWorkshop(subWorkshopDto: SubWorkshopDto): Promise<Subscriber> {
     let sub = await this.subModel.findOne({
       workshop: subWorkshopDto.workshop,
@@ -196,6 +209,20 @@ export class WorkshopService {
     }
     this.logger.warn(`Failed to get subscriber from readerID ${readerID}`);
     return null;
+  }
+
+  async getSubName(subID) {
+    const sub = await this.subModel.findById(subID);
+    let readerName = '';
+    if (sub) {
+      const reader = await this.readerModel.findById(sub.readerID);
+      if (reader) readerName = reader.username;
+    } else {
+      this.logger.warn(`Failed to get reader username from subscriber ${subID}`);
+      return null;
+    }
+    this.logger.info(`Success get reader username from subscriber ${subID}`);
+    return JSON.stringify(readerName);
   }
 
   async getSubList(workshopID) {

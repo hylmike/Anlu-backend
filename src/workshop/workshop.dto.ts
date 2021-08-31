@@ -10,6 +10,7 @@ export interface RegisterWorkshopDto {
 }
 
 export interface UpdateWorkshopDto {
+  topic: string;
   place: string;
   organizer: string;
   startTime: string;

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -61,6 +62,11 @@ export class WorkshopController {
     return this.workshopService.updateWorkshop(workshopID, updateWorkshopDto);
   }
 
+  @Delete('/del/:id')
+  delWorkshop(@Param('id') workshopID: string) {
+    return this.workshopService.delWorkshop(workshopID);
+  }
+
   @Get('/getsub/:id')
   getSub(@Param('id') readerID: string) {
     return this.workshopService.getSub(readerID);
@@ -69,6 +75,11 @@ export class WorkshopController {
   @Get('/getsublist/:id')
   getSubList(@Param('id') workshopID: string) {
     return this.workshopService.getSubList(workshopID);
+  }
+
+  @Get('/getsubname/:id')
+  getSubName(@Param('id') subID: string) {
+    return this.workshopService.getSubName(subID);
   }
 
   @Post('/subscribe')

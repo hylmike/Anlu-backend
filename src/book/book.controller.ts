@@ -1,5 +1,6 @@
 import {
   Body,
+  Query,
   Controller,
   Delete,
   Get,
@@ -46,7 +47,7 @@ export class BookController {
     return this.bookService.register(createBookDto);
   }
 
-  @Get('/:id')
+  @Get('/info/:id')
   async findBook(@Param('id') bookID: string) {
     return this.bookService.findBook(bookID);
   }
@@ -59,6 +60,11 @@ export class BookController {
   @Post('/findlist')
   async findBookList(@Body() searchDto: SearchBookDto) {
     return this.bookService.findBookList(searchDto);
+  }
+
+  @Get('/searchbook')
+  async searchBook(@Query('sval') searchValue: string) {
+    return this.bookService.searchBook(searchValue);
   }
 
   @Delete('/del/:id')
