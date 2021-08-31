@@ -99,13 +99,17 @@ let LibrarianService = class LibrarianService {
             return null;
         }
         for (const item in updateLibDto) {
-            if (item !== 'username' && updateLibDto[item] !== '') {
-                if (item === 'isActive') {
-                    lib[item] = updateLibDto[item].toLowerCase() === 'true' ? true : false;
-                }
-                else {
-                    lib[item] = updateLibDto[item];
-                }
+            switch (item) {
+                case 'username':
+                    break;
+                case 'isActive':
+                    const value = updateLibDto[item].toLowerCase() === 'active' ? true : false;
+                    if (value !== lib[item])
+                        lib[item] = value;
+                    break;
+                default:
+                    if (updateLibDto[item] !== lib[item])
+                        lib[item] = updateLibDto[item];
             }
         }
         try {

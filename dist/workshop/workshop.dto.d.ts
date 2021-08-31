@@ -9,6 +9,7 @@ export interface RegisterWorkshopDto {
     remark: string;
 }
 export interface UpdateWorkshopDto {
+    topic: string;
     place: string;
     organizer: string;
     startTime: string;

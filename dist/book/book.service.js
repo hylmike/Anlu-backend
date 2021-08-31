@@ -46,8 +46,14 @@ let BookService = class BookService {
             author: createBookDto.author,
             language: createBookDto.language,
             publisher: createBookDto.publisher,
-            publishDate: createBookDto.publishDate == '' ? new Date(0) : new Date(createBookDto.publishDate),
-            purchaseDate: createBookDto.purchaseDate == '' ? new Date(0) : new Date(createBookDto.purchaseDate),
+            publishDate: createBookDto.publishDate == ''
+                ? new Date(0)
+                : new Date(new Date(createBookDto.publishDate).getTime() +
+                    new Date().getTimezoneOffset() * 60 * 1000),
+            purchaseDate: createBookDto.purchaseDate == ''
+                ? new Date(0)
+                : new Date(new Date(createBookDto.purchaseDate).getTime() +
+                    new Date().getTimezoneOffset() * 60 * 1000),
             price: createBookDto.price == '' ? 0 : Number(createBookDto.price),
             coverPic: createBookDto.coverPic,
             bookFile: createBookDto.bookFile,
@@ -145,6 +151,27 @@ let BookService = class BookService {
             return null;
         }
     }
+    async searchBook(sval) {
+        const bookList = await this.bookModel
+            .find({
+            $or: [
+                { bookTitle: { $regex: sval, $options: 'i' } },
+                { category: { $regex: sval, $options: 'i' } },
+                { author: { $regex: sval, $options: 'i' } },
+                { keywords: { $regex: sval, $options: 'i' } },
+                { desc: { $regex: sval, $options: 'i' } },
+                { publisher: { $regex: sval, $options: 'i' } },
+            ],
+        })
+            .exec();
+        if (bookList) {
+            this.logger.info('success get book list based on search input');
+            return bookList;
+        }
+        else {
+            this.logger.warn('Failed to get book list based on search input');
+        }
+    }
     async updateBookInfo(bookDto) {
         const book = await this.bookModel.findOne({
             bookTitle: bookDto.bookTitle,
@@ -160,29 +187,35 @@ let BookService = class BookService {
                 case 'bookTitle':
                     break;
                 case 'publishDate':
-                    if (bookDto[item] !== '')
-                        book[item] = new Date(bookDto[item]);
-                    break;
                 case 'purchaseDate':
-                    if (bookDto[item] !== '')
-                        book[item] = new Date(bookDto[item]);
+                    if (bookDto[item] !== this.formatDate(book[item])) {
+                        book[item] = new Date(new Date(bookDto[item]).getTime() +
+                            new Date().getTimezoneOffset() * 60 * 1000);
+                    }
                     break;
                 case 'price':
-                    if (bookDto[item] !== '')
+                    if (bookDto[item] !== book[item].toString())
                         book[item] = Number(bookDto[item]);
                     break;
                 case 'initialScore':
-                    if (bookDto[item] !== '')
+                    if (bookDto[item] !== book[item].toString())
                         book[item] = Number(bookDto[item]);
                     book.popularScore =
                         book.initialScore + book.readTimes * w1 + book.readDuration * w2;
                     break;
                 case 'isActive':
-                    if (bookDto[item] !== '')
-                        book[item] = bookDto[item].toLowerCase() === 'active' ? true : false;
+                    const value = bookDto[item].toLowerCase() === 'active' ? true : false;
+                    if (value !== book[item])
+                        book[item] = value;
+                    break;
+                case 'coverPic':
+                case 'bookFile':
+                    if (bookDto[item] !== '') {
+                        book[item] = bookDto[item];
+                    }
                     break;
                 default:
-                    if (bookDto[item] !== '')
+                    if (bookDto[item] !== book[item])
                         book[item] = bookDto[item];
             }
         }
@@ -200,7 +233,7 @@ let BookService = class BookService {
         try {
             await this.bookModel.findByIdAndDelete(bookID);
             this.logger.info(`Success delete book ${bookID}`);
-            return bookID;
+            return JSON.stringify(bookID);
         }
         catch (err) {
             this.logger.error(`Failed to delete book ${bookID}: ${err}`);
@@ -412,6 +445,19 @@ let BookService = class BookService {
         await this.readRecordModel.findOneAndDelete({ book: bookID });
         this.logger.info(`Success deleted the read history of book ${bookID}`);
         return book.readHistory.length;
+    }
+    formatDate(d) {
+        const year = d.getFullYear();
+        const month = this.fixZero(d.getMonth() + 1);
+        const day = d.getDate();
+        return year + '-' + month + '-' + day;
+    }
+    fixZero(num) {
+        let newNum = String(num);
+        if (num < 10) {
+            newNum = '0' + newNum;
+        }
+        return newNum;
     }
 };
 BookService = __decorate([

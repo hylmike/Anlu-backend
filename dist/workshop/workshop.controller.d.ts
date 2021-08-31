@@ -13,8 +13,10 @@ export declare class WorkshopController {
     getWorkshop(workshopID: string): Promise<import("./workshop.interface").Workshop>;
     getAllWorkshop(): Promise<import("./workshop.interface").Workshop[]>;
     updateWorkshop(workshopID: string, updateWorkshopDto: UpdateWorkshopDto): Promise<import("./workshop.interface").Workshop>;
+    delWorkshop(workshopID: string): Promise<string>;
     getSub(readerID: string): Promise<import("./workshop.interface").Subscriber>;
     getSubList(workshopID: string): Promise<string[]>;
+    getSubName(subID: string): Promise<string>;
     subWorkshop(subWorkshopDto: SubWorkshopDto): Promise<import("./workshop.interface").Subscriber>;
     unsubWorkshop(workshopID: string, unsubWsDto: UnsubWorkshopDto): Promise<any>;
 }

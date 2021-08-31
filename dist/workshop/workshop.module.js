@@ -14,6 +14,7 @@ const multer_1 = require("multer");
 const workshop_controller_1 = require("./workshop.controller");
 const workshop_service_1 = require("./workshop.service");
 const workshop_schema_1 = require("../schemas/workshop.schema");
+const reader_schema_1 = require("../schemas/reader.schema");
 let WorkshopModule = class WorkshopModule {
 };
 WorkshopModule = __decorate([
@@ -30,6 +31,7 @@ WorkshopModule = __decorate([
             mongoose_1.MongooseModule.forFeature([
                 { name: 'Workshop', schema: workshop_schema_1.WorkshopSchema },
                 { name: 'Subscriber', schema: workshop_schema_1.SubscriberSchema },
+                { name: 'Reader', schema: reader_schema_1.ReaderSchema },
             ]),
         ],
         controllers: [workshop_controller_1.WorkshopController],

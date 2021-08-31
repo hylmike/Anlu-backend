@@ -18,10 +18,11 @@ const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const nest_winston_1 = require("nest-winston");
 let WorkshopService = class WorkshopService {
-    constructor(logger, workshopModel, subModel) {
+    constructor(logger, workshopModel, subModel, readerModel) {
         this.logger = logger;
         this.workshopModel = workshopModel;
         this.subModel = subModel;
+        this.readerModel = readerModel;
     }
     async register(regWorkshopDto) {
         let workshop = await this.workshopModel.findOne({
@@ -102,6 +103,17 @@ let WorkshopService = class WorkshopService {
             return null;
         }
     }
+    async delWorkshop(workshopID) {
+        const workshop = await this.workshopModel.findByIdAndDelete(workshopID);
+        if (workshop) {
+            this.logger.info(`Success delete workshop ${workshopID}`);
+            return JSON.stringify(workshop._id);
+        }
+        else {
+            this.logger.warn(`Failed to find and delete workshop ${workshopID}`);
+            return null;
+        }
+    }
     async subWorkshop(subWorkshopDto) {
         let sub = await this.subModel.findOne({
             workshop: subWorkshopDto.workshop,
@@ -163,6 +175,21 @@ let WorkshopService = class WorkshopService {
         this.logger.warn(`Failed to get subscriber from readerID ${readerID}`);
         return null;
     }
+    async getSubName(subID) {
+        const sub = await this.subModel.findById(subID);
+        let readerName = '';
+        if (sub) {
+            const reader = await this.readerModel.findById(sub.readerID);
+            if (reader)
+                readerName = reader.username;
+        }
+        else {
+            this.logger.warn(`Failed to get reader username from subscriber ${subID}`);
+            return null;
+        }
+        this.logger.info(`Success get reader username from subscriber ${subID}`);
+        return JSON.stringify(readerName);
+    }
     async getSubList(workshopID) {
         const workshop = await this.workshopModel
             .findById(workshopID)
@@ -181,7 +208,9 @@ WorkshopService = __decorate([
     __param(0, common_1.Inject(nest_winston_1.WINSTON_MODULE_PROVIDER)),
     __param(1, mongoose_2.InjectModel('Workshop')),
     __param(2, mongoose_2.InjectModel('Subscriber')),
+    __param(3, mongoose_2.InjectModel('Reader')),
     __metadata("design:paramtypes", [Object, mongoose_1.Model,
+        mongoose_1.Model,
         mongoose_1.Model])
 ], WorkshopService);
 exports.WorkshopService = WorkshopService;

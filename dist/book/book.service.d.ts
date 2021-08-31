@@ -17,6 +17,7 @@ export declare class BookService {
     findBook(bookID: string): Promise<Book>;
     findAllBook(bookFormat: string): Promise<Book[]>;
     findBookList(searchBookDto: SearchBookDto): Promise<Book[]>;
+    searchBook(sval: any): Promise<Book[]>;
     updateBookInfo(bookDto: BookDto): Promise<BookDocument>;
     delBook(bookID: string): Promise<string>;
     addReadRecord(readRecordDto: ReadRecordDto): Promise<BookReadRecordDocument>;
@@ -29,4 +30,6 @@ export declare class BookService {
     getBookWish(bookWishID: any): Promise<BookWishList>;
     updateWishStatus(updateWishStatusDto: UpdateWishStatusDto): Promise<any>;
     clearReadHistory(bookID: any): Promise<1>;
+    formatDate(d: Date): string;
+    fixZero(num: any): string;
 }

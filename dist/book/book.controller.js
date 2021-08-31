@@ -39,6 +39,9 @@ let BookController = class BookController {
     async findBookList(searchDto) {
         return this.bookService.findBookList(searchDto);
     }
+    async searchBook(searchValue) {
+        return this.bookService.searchBook(searchValue);
+    }
     async delBook(bookID) {
         return this.bookService.delBook(bookID);
     }
@@ -89,7 +92,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "registerBook", null);
 __decorate([
-    common_1.Get('/:id'),
+    common_1.Get('/info/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -109,6 +112,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "findBookList", null);
+__decorate([
+    common_1.Get('/searchbook'),
+    __param(0, common_1.Query('sval')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BookController.prototype, "searchBook", null);
 __decorate([
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),

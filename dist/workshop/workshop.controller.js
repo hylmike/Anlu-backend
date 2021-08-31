@@ -39,11 +39,17 @@ let WorkshopController = class WorkshopController {
     updateWorkshop(workshopID, updateWorkshopDto) {
         return this.workshopService.updateWorkshop(workshopID, updateWorkshopDto);
     }
+    delWorkshop(workshopID) {
+        return this.workshopService.delWorkshop(workshopID);
+    }
     getSub(readerID) {
         return this.workshopService.getSub(readerID);
     }
     getSubList(workshopID) {
         return this.workshopService.getSubList(workshopID);
+    }
+    getSubName(subID) {
+        return this.workshopService.getSubName(subID);
     }
     subWorkshop(subWorkshopDto) {
         return this.workshopService.subWorkshop(subWorkshopDto);
@@ -89,6 +95,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "updateWorkshop", null);
 __decorate([
+    common_1.Delete('/del/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], WorkshopController.prototype, "delWorkshop", null);
+__decorate([
     common_1.Get('/getsub/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -102,6 +115,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "getSubList", null);
+__decorate([
+    common_1.Get('/getsubname/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], WorkshopController.prototype, "getSubName", null);
 __decorate([
     common_1.Post('/subscribe'),
     __param(0, common_1.Body()),
