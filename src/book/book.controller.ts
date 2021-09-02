@@ -67,6 +67,11 @@ export class BookController {
     return this.bookService.searchBook(searchValue);
   }
 
+  @Get('/findhotbooks/:num')
+  async findHotBooks(@Param('num') num: number) {
+    return this.bookService.findHotBooks(num);
+  }
+
   @Delete('/del/:id')
   async delBook(@Param('id') bookID: string) {
     return this.bookService.delBook(bookID);

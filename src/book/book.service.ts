@@ -220,6 +220,18 @@ export class BookService {
     }
   }
 
+  async findHotBooks(num): Promise<Book[]> {
+    const numBook = Number(num);
+    if (numBook > 0) {
+      const bookList = await this.bookModel
+        .find({})
+        .sort({ popularScore: -1 })
+        .limit(numBook)
+        .exec();
+      return bookList;
+    }
+  }
+
   async updateBookInfo(bookDto: BookDto) {
     const book = await this.bookModel.findOne({
       bookTitle: bookDto.bookTitle,

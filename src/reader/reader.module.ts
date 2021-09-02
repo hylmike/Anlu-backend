@@ -9,6 +9,7 @@ import {
 } from '../schemas/reader.schema';
 import { JwtModule } from '@nestjs/jwt';
 import 'dotenv/config';
+import { BookSchema } from '../schemas/book.schema';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import 'dotenv/config';
       { name: 'Reader', schema: ReaderSchema },
       { name: 'ReaderProfile', schema: ReaderProfileSchema },
       { name: 'ReaderReadHistory', schema: ReaderReadHistorySchema },
+      { name: 'Book', schema: BookSchema },
     ]),
   ],
   providers: [ReaderService],

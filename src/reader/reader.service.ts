@@ -20,6 +20,7 @@ import {
 } from './reader.dto';
 import { JwtService } from '@nestjs/jwt';
 import 'dotenv/config';
+import { Book, BookDocument } from '../book/book.interface';
 
 @Injectable()
 export class ReaderService {
@@ -31,6 +32,7 @@ export class ReaderService {
     private readonly readerProfileModel: Model<ReaderProDocument>,
     @InjectModel('ReaderReadHistory')
     private readonly readerReadHistoryModel: Model<ReaderReadHisDocument>,
+    @InjectModel('Book') private readonly bookModel: Model<BookDocument>,
     private readonly jwtService: JwtService,
   ) { }
 
@@ -354,17 +356,26 @@ export class ReaderService {
     }
   }
 
-  async getFavourBookList(readerID: string) {
+  async getFavourBookList(readerID: string): Promise<Book[]> {
     const reader = await this.readerModel.findById(readerID);
     if (!reader) {
       this.logger.warn(
         `Can not find the reader ${readerID} when getting favourite booklist`,
       );
       return null;
+    } else {
+      //Got book for each favour book ID
+      const favorBookList: Book[] = [];
+      for (const item of reader.favouriteBook) {
+        const book = await this.bookModel.findById(item.bookID);
+        if (book) favorBookList.push(book);
+      }
+      //Create log for this activity
+      this.logger.info(
+        `Success get favourite book list for reader ${readerID}`,
+      );
+      return favorBookList;
     }
-    //Create log for this activity
-    this.logger.info(`Success get favourite book list for reader ${readerID}`);
-    return reader.favouriteBook;
   }
 
   async delFavourBook(readerID: string, favourBookDto: FavourBookDto) {
@@ -393,14 +404,22 @@ export class ReaderService {
     return -1;
   }
 
-  async getReaderReadHistory(readerID): Promise<ReaderReadHistory[]> {
+  async getReaderReadHistory(readerID): Promise<Book[]> {
     const reader = await this.readerModel.findById(readerID);
     if (!reader) {
       this.logger.warn('Can not find the reader when get reader read history');
       return null;
+    } else {
+      //Translate readerHistory into read book list
+      const readBookList: Book[] = [];
+      for (const item of reader.readHistory) {
+        const book = await this.bookModel.findById(item.bookID);
+        if (book) readBookList.push(book);
+      }
+      //Create log for this activity
+      this.logger.info(`Success get read booklist for reader ${reader.username}`);
+      return readBookList;
     }
-    this.logger.info(`Success get read record for reader ${reader.username}`);
-    return reader.readHistory;
   }
 
   async delReadHistory(readerID) {
