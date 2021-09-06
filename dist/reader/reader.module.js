@@ -14,6 +14,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const reader_schema_1 = require("../schemas/reader.schema");
 const jwt_1 = require("@nestjs/jwt");
 require("dotenv/config");
+const book_schema_1 = require("../schemas/book.schema");
 let ReaderModule = class ReaderModule {
 };
 ReaderModule = __decorate([
@@ -27,6 +28,7 @@ ReaderModule = __decorate([
                 { name: 'Reader', schema: reader_schema_1.ReaderSchema },
                 { name: 'ReaderProfile', schema: reader_schema_1.ReaderProfileSchema },
                 { name: 'ReaderReadHistory', schema: reader_schema_1.ReaderReadHistorySchema },
+                { name: 'Book', schema: book_schema_1.BookSchema },
             ]),
         ],
         providers: [reader_service_1.ReaderService],

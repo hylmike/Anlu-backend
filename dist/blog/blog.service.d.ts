@@ -9,6 +9,6 @@ export declare class BlogService {
     createBlog(blogDto: BlogDto): Promise<Blog>;
     getBlog(blogID: string): Promise<Blog>;
     getBlogList(num: any): Promise<Blog[]>;
-    updateBlog(blogID: string, blogDto: BlogDto): Promise<string>;
+    updateBlog(blogID: string, blogDto: BlogDto): Promise<Blog>;
     delBlog(blogID: string): Promise<string>;
 }

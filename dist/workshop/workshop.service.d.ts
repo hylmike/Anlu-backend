@@ -11,7 +11,7 @@ export declare class WorkshopService {
     constructor(logger: Logger, workshopModel: Model<WorkshopDocument>, subModel: Model<SubscriberDocument>, readerModel: Model<ReaderDocument>);
     register(regWorkshopDto: RegisterWorkshopDto): Promise<Workshop>;
     getWorkshop(workshopID: any): Promise<Workshop>;
-    getAllWorkshop(): Promise<Workshop[]>;
+    getWsList(num: any): Promise<Workshop[]>;
     updateWorkshop(workshopID: string, updateWorkshopDto: UpdateWorkshopDto): Promise<Workshop>;
     delWorkshop(workshopID: any): Promise<string>;
     subWorkshop(subWorkshopDto: SubWorkshopDto): Promise<Subscriber>;

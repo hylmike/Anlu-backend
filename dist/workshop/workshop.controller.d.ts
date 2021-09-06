@@ -11,7 +11,7 @@ export declare class WorkshopController {
     }>;
     register(regWorkshopDto: RegisterWorkshopDto): Promise<import("./workshop.interface").Workshop>;
     getWorkshop(workshopID: string): Promise<import("./workshop.interface").Workshop>;
-    getAllWorkshop(): Promise<import("./workshop.interface").Workshop[]>;
+    getWsList(num: number): Promise<import("./workshop.interface").Workshop[]>;
     updateWorkshop(workshopID: string, updateWorkshopDto: UpdateWorkshopDto): Promise<import("./workshop.interface").Workshop>;
     delWorkshop(workshopID: string): Promise<string>;
     getSub(readerID: string): Promise<import("./workshop.interface").Subscriber>;

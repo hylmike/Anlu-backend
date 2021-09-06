@@ -42,6 +42,9 @@ let BookController = class BookController {
     async searchBook(searchValue) {
         return this.bookService.searchBook(searchValue);
     }
+    async findHotBooks(num) {
+        return this.bookService.findHotBooks(num);
+    }
     async delBook(bookID) {
         return this.bookService.delBook(bookID);
     }
@@ -119,6 +122,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "searchBook", null);
+__decorate([
+    common_1.Get('/findhotbooks/:num'),
+    __param(0, common_1.Param('num')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], BookController.prototype, "findHotBooks", null);
 __decorate([
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),

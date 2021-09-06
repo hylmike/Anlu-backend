@@ -33,8 +33,8 @@ let WorkshopController = class WorkshopController {
     getWorkshop(workshopID) {
         return this.workshopService.getWorkshop(workshopID);
     }
-    getAllWorkshop() {
-        return this.workshopService.getAllWorkshop();
+    getWsList(num) {
+        return this.workshopService.getWsList(num);
     }
     updateWorkshop(workshopID, updateWorkshopDto) {
         return this.workshopService.updateWorkshop(workshopID, updateWorkshopDto);
@@ -81,11 +81,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "getWorkshop", null);
 __decorate([
-    common_1.Get('/getall'),
+    common_1.Get('/get/:num'),
+    __param(0, common_1.Param('num')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
-], WorkshopController.prototype, "getAllWorkshop", null);
+], WorkshopController.prototype, "getWsList", null);
 __decorate([
     common_1.Patch('/update/:id'),
     __param(0, common_1.Param('id')),

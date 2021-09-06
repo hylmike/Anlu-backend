@@ -50,8 +50,11 @@ let ReaderController = class ReaderController {
     delFavourBook(readerID, favourBookDto) {
         return this.readerService.delFavourBook(readerID, favourBookDto);
     }
+    getReadBooks(readerID) {
+        return this.readerService.getReadBooks(readerID);
+    }
     getReadHistory(readerID) {
-        return this.readerService.getReaderReadHistory(readerID);
+        return this.readerService.getReadHistory(readerID);
     }
     delReadHistory(readerID) {
         return this.readerService.delReadHistory(readerID);
@@ -126,13 +129,20 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getFavourBookList", null);
 __decorate([
-    common_1.Delete('/:id/delfavourbook'),
+    common_1.Patch('/:id/delfavourbook'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "delFavourBook", null);
+__decorate([
+    common_1.Get('/:id/getreadbooks'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "getReadBooks", null);
 __decorate([
     common_1.Get('/:id/getreadhistory'),
     __param(0, common_1.Param('id')),

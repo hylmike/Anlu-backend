@@ -43,21 +43,21 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogController.prototype, "create", null);
 __decorate([
-    common_1.Get('/:id'),
+    common_1.Get('/get/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BlogController.prototype, "get", null);
 __decorate([
-    common_1.Get('/getlatest/:id'),
-    __param(0, common_1.Param('id')),
+    common_1.Get('/getlatest/:num'),
+    __param(0, common_1.Param('num')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], BlogController.prototype, "getBlogList", null);
 __decorate([
-    common_1.Patch('/:id/update'),
+    common_1.Patch('/update/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
     __metadata("design:type", Function),
@@ -65,7 +65,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogController.prototype, "update", null);
 __decorate([
-    common_1.Delete('/:id/del'),
+    common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

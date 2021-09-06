@@ -63,13 +63,24 @@ let WorkshopService = class WorkshopService {
         this.logger.info(`Success get workshop ${workshop.topic}`);
         return workshop;
     }
-    async getAllWorkshop() {
-        const allWorkshop = await this.workshopModel.find({});
-        if (allWorkshop) {
-            this.logger.info('Success get all workshop');
-            return allWorkshop;
+    async getWsList(num) {
+        let wsList;
+        const wsNum = Number(num);
+        if (num == 0) {
+            wsList = await this.workshopModel.find({}).sort({ startTime: -1 }).exec();
         }
-        this.logger.warn('Failed to get all workshop');
+        else if (num > 0) {
+            wsList = await this.workshopModel
+                .find({})
+                .sort({ startTime: -1 })
+                .limit(wsNum)
+                .exec();
+        }
+        if (wsList) {
+            this.logger.info('Success get workshop list');
+            return wsList;
+        }
+        this.logger.warn('Failed to get workshop list');
         return null;
     }
     async updateWorkshop(workshopID, updateWorkshopDto) {

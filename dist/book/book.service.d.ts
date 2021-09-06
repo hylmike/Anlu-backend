@@ -18,6 +18,7 @@ export declare class BookService {
     findAllBook(bookFormat: string): Promise<Book[]>;
     findBookList(searchBookDto: SearchBookDto): Promise<Book[]>;
     searchBook(sval: any): Promise<Book[]>;
+    findHotBooks(num: any): Promise<Book[]>;
     updateBookInfo(bookDto: BookDto): Promise<BookDocument>;
     delBook(bookID: string): Promise<string>;
     addReadRecord(readRecordDto: ReadRecordDto): Promise<BookReadRecordDocument>;

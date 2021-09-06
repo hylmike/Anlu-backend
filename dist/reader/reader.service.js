@@ -21,11 +21,12 @@ const nest_winston_1 = require("nest-winston");
 const jwt_1 = require("@nestjs/jwt");
 require("dotenv/config");
 let ReaderService = class ReaderService {
-    constructor(logger, readerModel, readerProfileModel, readerReadHistoryModel, jwtService) {
+    constructor(logger, readerModel, readerProfileModel, readerReadHistoryModel, bookModel, jwtService) {
         this.logger = logger;
         this.readerModel = readerModel;
         this.readerProfileModel = readerProfileModel;
         this.readerReadHistoryModel = readerReadHistoryModel;
+        this.bookModel = bookModel;
         this.jwtService = jwtService;
     }
     async register(registerReaderDto) {
@@ -285,8 +286,16 @@ let ReaderService = class ReaderService {
             this.logger.warn(`Can not find the reader ${readerID} when getting favourite booklist`);
             return null;
         }
-        this.logger.info(`Success get favourite book list for reader ${readerID}`);
-        return reader.favouriteBook;
+        else {
+            const favorBookList = [];
+            for (const item of reader.favouriteBook) {
+                const book = await this.bookModel.findById(item.bookID);
+                if (book)
+                    favorBookList.push(book);
+            }
+            this.logger.info(`Success get favourite book list for reader ${readerID}`);
+            return favorBookList;
+        }
     }
     async delFavourBook(readerID, favourBookDto) {
         const reader = await this.readerModel.findById(readerID);
@@ -306,13 +315,30 @@ let ReaderService = class ReaderService {
         this.logger.warn(`The book ${favourBookDto.bookID} is not in the favourite list`);
         return -1;
     }
-    async getReaderReadHistory(readerID) {
+    async getReadBooks(readerID) {
         const reader = await this.readerModel.findById(readerID);
         if (!reader) {
             this.logger.warn('Can not find the reader when get reader read history');
             return null;
         }
-        this.logger.info(`Success get read record for reader ${reader.username}`);
+        else {
+            const readBookList = [];
+            for (const item of reader.readHistory) {
+                const book = await this.bookModel.findById(item.bookID);
+                if (book)
+                    readBookList.push(book);
+            }
+            this.logger.info(`Success get read booklist for reader ${reader.username}`);
+            return readBookList;
+        }
+    }
+    async getReadHistory(readerID) {
+        const reader = await this.readerModel.findById(readerID);
+        if (!reader) {
+            this.logger.warn('Can not find the reader when get reader read history');
+            return null;
+        }
+        this.logger.info(`Success get reader ${readerID} read history`);
         return reader.readHistory;
     }
     async delReadHistory(readerID) {
@@ -328,7 +354,9 @@ ReaderService = __decorate([
     __param(1, mongoose_2.InjectModel('Reader')),
     __param(2, mongoose_2.InjectModel('ReaderProfile')),
     __param(3, mongoose_2.InjectModel('ReaderReadHistory')),
+    __param(4, mongoose_2.InjectModel('Book')),
     __metadata("design:paramtypes", [Object, mongoose_1.Model,
+        mongoose_1.Model,
         mongoose_1.Model,
         mongoose_1.Model,
         jwt_1.JwtService])

@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 exports.BlogSchema = new mongoose.Schema({
     topic: String,
     category: String,
-    author: String,
+    creator: String,
     content: String,
     createTime: { type: Date, index: true },
-    keyword: String,
+    keywords: String,
 });
 //# sourceMappingURL=blog.schema.js.map

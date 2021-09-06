@@ -6,6 +6,6 @@ export declare class BlogController {
     create(blogDto: BlogDto): Promise<import("./blog.interface").Blog>;
     get(blogID: string): Promise<import("./blog.interface").Blog>;
     getBlogList(num: number): Promise<import("./blog.interface").Blog[]>;
-    update(blogID: string, blogDto: BlogDto): Promise<string>;
+    update(blogID: string, blogDto: BlogDto): Promise<import("./blog.interface").Blog>;
     delBlog(blogID: string): Promise<string>;
 }

@@ -172,6 +172,17 @@ let BookService = class BookService {
             this.logger.warn('Failed to get book list based on search input');
         }
     }
+    async findHotBooks(num) {
+        const numBook = Number(num);
+        if (numBook > 0) {
+            const bookList = await this.bookModel
+                .find({})
+                .sort({ popularScore: -1 })
+                .limit(numBook)
+                .exec();
+            return bookList;
+        }
+    }
     async updateBookInfo(bookDto) {
         const book = await this.bookModel.findOne({
             bookTitle: bookDto.bookTitle,

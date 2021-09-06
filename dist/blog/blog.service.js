@@ -31,10 +31,10 @@ let BlogService = class BlogService {
         const blog = new this.blogModel({
             topic: blogDto.topic,
             category: blogDto.category,
-            author: blogDto.author,
+            creator: blogDto.creator,
             content: blogDto.content,
             createTime: now,
-            keyword: blogDto.keyword,
+            keywords: blogDto.keywords,
         });
         try {
             const newBlog = await blog.save();
@@ -56,13 +56,26 @@ let BlogService = class BlogService {
         return blog;
     }
     async getBlogList(num) {
-        const blogList = await this.blogModel
-            .find({})
-            .sort({ createTime: -1 })
-            .limit(Number(num))
-            .exec();
-        this.logger.info(`Success get latest ${num} blog from database`);
-        return blogList;
+        const blogNum = Number(num);
+        let blogList = [];
+        if (blogNum == 0) {
+            blogList = await this.blogModel.find({}).sort({ createTime: -1 }).exec();
+        }
+        else if (blogNum > 0) {
+            blogList = await this.blogModel
+                .find({})
+                .sort({ createTime: -1 })
+                .limit(blogNum)
+                .exec();
+        }
+        if (blogList) {
+            this.logger.info(`Success get latest ${num} blog from database`);
+            return blogList;
+        }
+        else {
+            this.logger.warn('Failed to get latest blog list from server');
+            return null;
+        }
     }
     async updateBlog(blogID, blogDto) {
         const blog = await this.blogModel.findById(blogID);
@@ -71,22 +84,24 @@ let BlogService = class BlogService {
             return null;
         }
         for (const item in blogDto) {
-            if (blogDto[item].trim() !== '')
+            if (item !== 'creator' && blogDto[item].trim() !== blog[item])
                 blog[item] = blogDto[item];
         }
         try {
             const updatedBlog = await blog.save();
             this.logger.info(`Success updated blog ${updatedBlog.topic}`);
-            return updatedBlog._id;
+            return updatedBlog;
         }
         catch (err) {
             this.logger.error(`Save blog ${blog.id} failed during updating: ${err}`);
         }
     }
     async delBlog(blogID) {
-        await this.blogModel.findByIdAndDelete(blogID);
-        this.logger.info(`Success deleted blog ${blogID}`);
-        return blogID;
+        const blog = await this.blogModel.findByIdAndDelete(blogID);
+        if (blog) {
+            this.logger.info(`Success deleted blog ${blogID}`);
+            return JSON.stringify(blogID);
+        }
     }
 };
 BlogService = __decorate([

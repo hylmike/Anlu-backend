@@ -4,13 +4,15 @@ import { Reader, ReaderDocument, ReaderProDocument, ReaderReadHistory, ReaderRea
 import { ChangeReaderPwdDto, RegisterReaderDto, UpdateReaderDto, FavourBookDto } from './reader.dto';
 import { JwtService } from '@nestjs/jwt';
 import 'dotenv/config';
+import { Book, BookDocument } from '../book/book.interface';
 export declare class ReaderService {
     private readonly logger;
     private readonly readerModel;
     private readonly readerProfileModel;
     private readonly readerReadHistoryModel;
+    private readonly bookModel;
     private readonly jwtService;
-    constructor(logger: Logger, readerModel: Model<ReaderDocument>, readerProfileModel: Model<ReaderProDocument>, readerReadHistoryModel: Model<ReaderReadHisDocument>, jwtService: JwtService);
+    constructor(logger: Logger, readerModel: Model<ReaderDocument>, readerProfileModel: Model<ReaderProDocument>, readerReadHistoryModel: Model<ReaderReadHisDocument>, bookModel: Model<BookDocument>, jwtService: JwtService);
     register(registerReaderDto: RegisterReaderDto): Promise<ReaderDocument>;
     getProfile(readerID: any): Promise<Reader | undefined>;
     updateProfile(updateReaderDto: UpdateReaderDto): Promise<any>;
@@ -31,11 +33,9 @@ export declare class ReaderService {
     };
     logout(request: any): Promise<any>;
     addFavourBook(readerID: string, favourBookDto: FavourBookDto): Promise<1 | 0 | -1>;
-    getFavourBookList(readerID: string): Promise<[{
-        bookID: string;
-        createDate: Date;
-    }]>;
+    getFavourBookList(readerID: string): Promise<Book[]>;
     delFavourBook(readerID: string, favourBookDto: FavourBookDto): Promise<number>;
-    getReaderReadHistory(readerID: any): Promise<ReaderReadHistory[]>;
+    getReadBooks(readerID: any): Promise<Book[]>;
+    getReadHistory(readerID: any): Promise<ReaderReadHistory[]>;
     delReadHistory(readerID: any): Promise<any>;
 }

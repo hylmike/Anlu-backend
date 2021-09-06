@@ -17,11 +17,9 @@ export declare class ReaderController {
     };
     logout(req: any): Promise<any>;
     addFavourBook(readerID: string, favourBookDto: FavourBookDto): Promise<1 | 0 | -1>;
-    getFavourBookList(readerID: string): Promise<[{
-        bookID: string;
-        createDate: Date;
-    }]>;
+    getFavourBookList(readerID: string): Promise<import("../book/book.interface").Book[]>;
     delFavourBook(readerID: string, favourBookDto: FavourBookDto): Promise<number>;
+    getReadBooks(readerID: string): Promise<import("../book/book.interface").Book[]>;
     getReadHistory(readerID: string): Promise<import("./reader.interface").ReaderReadHistory[]>;
     delReadHistory(readerID: string): Promise<any>;
 }
