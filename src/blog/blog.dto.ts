@@ -1,7 +1,7 @@
 export interface BlogDto {
   topic: string;
   category: string;
-  author: string;
+  creator: string;
   content: string;
-  keyword: string;
+  keywords: string;
 }

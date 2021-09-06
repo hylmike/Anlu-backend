@@ -76,7 +76,7 @@ export class ReaderController {
     return this.readerService.getFavourBookList(readerID);
   }
 
-  @Delete('/:id/delfavourbook')
+  @Patch('/:id/delfavourbook')
   delFavourBook(
     @Param('id') readerID: string,
     @Body() favourBookDto: FavourBookDto,
@@ -84,9 +84,14 @@ export class ReaderController {
     return this.readerService.delFavourBook(readerID, favourBookDto);
   }
 
+  @Get('/:id/getreadbooks')
+  getReadBooks(@Param('id') readerID: string) {
+    return this.readerService.getReadBooks(readerID);
+  }
+
   @Get('/:id/getreadhistory')
   getReadHistory(@Param('id') readerID: string) {
-    return this.readerService.getReaderReadHistory(readerID);
+    return this.readerService.getReadHistory(readerID);
   }
 
   @Patch('/:id/delreadhistory')

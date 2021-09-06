@@ -20,22 +20,22 @@ export class BlogController {
     return this.blogService.createBlog(blogDto);
   }
 
-  @Get('/:id')
+  @Get('/get/:id')
   async get(@Param('id') blogID: string) {
     return this.blogService.getBlog(blogID);
   }
 
-  @Get('/getlatest/:id')
-  async getBlogList(@Param('id') num: number) {
+  @Get('/getlatest/:num')
+  async getBlogList(@Param('num') num: number) {
     return this.blogService.getBlogList(num);
   }
 
-  @Patch('/:id/update')
+  @Patch('/update/:id')
   async update(@Param('id') blogID: string, @Body() blogDto: BlogDto) {
     return this.blogService.updateBlog(blogID, blogDto);
   }
 
-  @Delete('/:id/del')
+  @Delete('/del/:id')
   async delBlog(@Param('id') blogID: string) {
     return this.blogService.delBlog(blogID);
   }

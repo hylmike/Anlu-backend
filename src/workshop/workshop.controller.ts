@@ -49,9 +49,9 @@ export class WorkshopController {
     return this.workshopService.getWorkshop(workshopID);
   }
 
-  @Get('/getall')
-  getAllWorkshop() {
-    return this.workshopService.getAllWorkshop();
+  @Get('/get/:num')
+  getWsList(@Param('num') num: number) {
+    return this.workshopService.getWsList(num);
   }
 
   @Patch('/update/:id')

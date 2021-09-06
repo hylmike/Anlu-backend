@@ -4,10 +4,10 @@ export interface Blog {
   _id: string;
   topic: string;
   category: string;
-  author: string;
+  creator: string;
   content: string;
   createTime: Date;
-  keyword: string;
+  keywords: string;
 }
 
 export type BlogDocument = Blog & Document;

@@ -404,7 +404,7 @@ export class ReaderService {
     return -1;
   }
 
-  async getReaderReadHistory(readerID): Promise<Book[]> {
+  async getReadBooks(readerID): Promise<Book[]> {
     const reader = await this.readerModel.findById(readerID);
     if (!reader) {
       this.logger.warn('Can not find the reader when get reader read history');
@@ -420,6 +420,16 @@ export class ReaderService {
       this.logger.info(`Success get read booklist for reader ${reader.username}`);
       return readBookList;
     }
+  }
+
+  async getReadHistory(readerID): Promise<ReaderReadHistory[]> {
+    const reader = await this.readerModel.findById(readerID);
+    if (!reader) {
+      this.logger.warn('Can not find the reader when get reader read history');
+      return null;
+    }
+    this.logger.info(`Success get reader ${readerID} read history`);
+    return reader.readHistory;
   }
 
   async delReadHistory(readerID) {

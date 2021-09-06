@@ -75,13 +75,23 @@ export class WorkshopService {
     return workshop;
   }
 
-  async getAllWorkshop(): Promise<Workshop[]> {
-    const allWorkshop = await this.workshopModel.find({});
-    if (allWorkshop) {
-      this.logger.info('Success get all workshop');
-      return allWorkshop;
+  async getWsList(num): Promise<Workshop[]> {
+    let wsList: Workshop[];
+    const wsNum = Number(num);
+    if (num == 0) {
+      wsList = await this.workshopModel.find({}).sort({ startTime: -1 }).exec();
+    } else if (num > 0) {
+      wsList = await this.workshopModel
+        .find({})
+        .sort({ startTime: -1 })
+        .limit(wsNum)
+        .exec();
     }
-    this.logger.warn('Failed to get all workshop');
+    if (wsList) {
+      this.logger.info('Success get workshop list');
+      return wsList;
+    }
+    this.logger.warn('Failed to get workshop list');
     return null;
   }
 
