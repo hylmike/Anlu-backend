@@ -105,6 +105,17 @@ export class ReaderService {
     return null;
   }
 
+  //Get all the readers' info, sorted by the username
+  async getAllReader(): Promise<Reader[]> {
+    const readerList = await this.readerModel
+      .find({})
+      .sort({ username: 1 })
+      .exec();
+    if (readerList) {
+      return readerList;
+    }
+  }
+
   //Update reader profile based on inputs and save into database
   async updateProfile(updateReaderDto: UpdateReaderDto) {
     const reader = await this.readerModel
@@ -191,6 +202,54 @@ export class ReaderService {
       );
       return null;
     }
+  }
+
+  //Change the reader status from active to inactive
+  async deaReader(readerID: string) {
+    let reader = await this.readerModel.findById(readerID);
+    if (!reader) {
+      this.logger.warn(`Failed to get reader ${readerID} from database`);
+      return null;
+    }
+    if (reader.isActive === false) {
+      this.logger.info(`The reader ${readerID} status is already inactive`);
+    } else {
+      reader.isActive = false;
+      reader = await reader.save();
+      if (reader && reader.username) {
+        this.logger.info(`Success deactivated reader {readerID}`);
+      } else {
+        this.logger.warn(
+          `Failed to save reader ${readerID} during active status update`,
+        );
+        return null;
+      }
+    }
+    return reader.isActive;
+  }
+
+  //Change the reader status from inactive to active
+  async actReader(readerID: string) {
+    let reader = await this.readerModel.findById(readerID);
+    if (!reader) {
+      this.logger.warn(`Failed to get reader ${readerID} from database`);
+      return null;
+    }
+    if (reader.isActive === true) {
+      this.logger.info(`The reader ${readerID} status is already active`);
+    } else {
+      reader.isActive = true;
+      reader = await reader.save();
+      if (reader && reader.username) {
+        this.logger.info(`Success activated reader {readerID}`);
+      } else {
+        this.logger.warn(
+          `Failed to save reader ${readerID} during active status update`,
+        );
+        return null;
+      }
+    }
+    return reader.isActive;
   }
 
   //Reader sign in account and get tokens, return accessToken in body and refreshToken in header RequestWithReader
@@ -324,6 +383,27 @@ export class ReaderService {
     //create log for this activity
     this.logger.info(`Success logout for reader ${readerID}`);
     return readerID;
+  }
+
+  async delReader(readerID) {
+    //First delete readerProfile and readHistory associated with the reader
+    const reader = await this.readerModel.findById(readerID);
+    if (!reader) {
+      this.logger.warn(`Failed to find reader ${readerID}`);
+      return null;
+    }
+    await this.readerProfileModel.findByIdAndDelete(reader.readerProfile._id);
+    for (const item of reader.readHistory) {
+      await this.readerReadHistoryModel.findByIdAndDelete(item._id);
+    }
+    //Then delete the reader
+    const delReader = await this.readerModel.findByIdAndDelete(readerID);
+    if (delReader) {
+      this.logger.info(`Success delete reader ${readerID}`);
+      return JSON.stringify(delReader._id);
+    } else {
+      this.logger.warn(`Failed to delete reader ${readerID}`);
+    }
   }
 
   async addFavourBook(readerID: string, favourBookDto: FavourBookDto) {

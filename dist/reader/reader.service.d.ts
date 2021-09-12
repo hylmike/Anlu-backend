@@ -15,8 +15,11 @@ export declare class ReaderService {
     constructor(logger: Logger, readerModel: Model<ReaderDocument>, readerProfileModel: Model<ReaderProDocument>, readerReadHistoryModel: Model<ReaderReadHisDocument>, bookModel: Model<BookDocument>, jwtService: JwtService);
     register(registerReaderDto: RegisterReaderDto): Promise<ReaderDocument>;
     getProfile(readerID: any): Promise<Reader | undefined>;
+    getAllReader(): Promise<Reader[]>;
     updateProfile(updateReaderDto: UpdateReaderDto): Promise<any>;
     changePwd(changeReaderPwdDto: ChangeReaderPwdDto): Promise<string>;
+    deaReader(readerID: string): Promise<boolean>;
+    actReader(readerID: string): Promise<boolean>;
     login(request: any): Promise<{
         token_info: string;
         expireIn: string;
@@ -32,6 +35,7 @@ export declare class ReaderService {
         expireIn: string;
     };
     logout(request: any): Promise<any>;
+    delReader(readerID: any): Promise<string>;
     addFavourBook(readerID: string, favourBookDto: FavourBookDto): Promise<1 | 0 | -1>;
     getFavourBookList(readerID: string): Promise<Book[]>;
     delFavourBook(readerID: string, favourBookDto: FavourBookDto): Promise<number>;

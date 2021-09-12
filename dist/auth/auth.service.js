@@ -28,14 +28,23 @@ let AuthService = class AuthService {
     async validateReader(username, password) {
         const reader = await this.readerService.findOne(username);
         if (!reader) {
-            console.log('Incorrect username in reader login, please check');
+            this.logger.info('Incorrect username in reader login, please check');
             return null;
         }
         const match = await bcrypt.compare(password, reader.password);
         if (match) {
             reader.password = null;
-            this.logger.info(`Reader ${reader.username} username & password validation passed`);
-            return reader;
+            if (reader.isActive) {
+                this.logger.info(`Reader ${reader.username} username & password validation passed`);
+                return reader;
+            }
+            else {
+                this.logger.error('The reader is inactive, login rejected');
+                throw new common_1.HttpException({
+                    status: common_1.HttpStatus.UNAUTHORIZED,
+                    message: 'Inactive reader, login rejected',
+                }, 401);
+            }
         }
         this.logger.warn(`Incorrect password in reader ${reader.username} login`);
         return null;

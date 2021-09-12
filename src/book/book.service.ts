@@ -126,12 +126,20 @@ export class BookService {
       );
       return null;
     }
-    this.logger.info(`Success get book ${book.bookTitle} from database`);
-    return book;
+    if (book.isActive === true) {
+      this.logger.info(`Success get book ${book.bookTitle} from database`);
+      return book;
+    } else {
+      this.logger.warn(`The book is in inactive status`);
+      return null;
+    }
   }
 
   async findAllBook(bookFormat: string): Promise<Book[]> {
-    const bookList = await this.bookModel.find({ format: bookFormat });
+    const bookList = await this.bookModel.find({
+      format: bookFormat,
+      isActive: true,
+    });
     if (bookList) {
       this.logger.info(`Success find all ${bookFormat}`);
       return bookList;
@@ -145,6 +153,7 @@ export class BookService {
     //Create the seach condition object
     const conditions = {};
     const andClause = [];
+    andClause.push({ isActive: true });
     for (const item in searchBookDto) {
       switch (item) {
         case 'format':
@@ -202,6 +211,7 @@ export class BookService {
   async searchBook(sval): Promise<Book[]> {
     const bookList = await this.bookModel
       .find({
+        isActive: true,
         $or: [
           { bookTitle: { $regex: sval, $options: 'i' } },
           { category: { $regex: sval, $options: 'i' } },
@@ -224,7 +234,7 @@ export class BookService {
     const numBook = Number(num);
     if (numBook > 0) {
       const bookList = await this.bookModel
-        .find({})
+        .find({ isActive: true })
         .sort({ popularScore: -1 })
         .limit(numBook)
         .exec();

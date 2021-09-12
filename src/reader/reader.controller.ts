@@ -29,9 +29,14 @@ export class ReaderController {
     return this.readerService.register(regReaderDto);
   }
 
-  @Get('/:id')
+  @Get('/get/:id')
   getProfile(@Param('id') readerID: string) {
     return this.readerService.getProfile(readerID);
+  }
+
+  @Get('/getall')
+  getAllReader() {
+    return this.readerService.getAllReader();
   }
 
   @Patch('/update')
@@ -43,6 +48,16 @@ export class ReaderController {
   @Header('content-type', 'application/json')
   changePwd(@Body() changeReaderPwdDto: ChangeReaderPwdDto) {
     return this.readerService.changePwd(changeReaderPwdDto);
+  }
+
+  @Patch('/dea/:id')
+  deaReader(@Param('id') readerID: string) {
+    return this.readerService.deaReader(readerID);
+  }
+
+  @Patch('/act/:id')
+  actReader(@Param('id') readerID: string) {
+    return this.readerService.actReader(readerID);
   }
 
   @UseGuards(AuthGuard('reader-local'))
@@ -61,6 +76,11 @@ export class ReaderController {
   @Delete('/logout')
   logout(@Request() req) {
     return this.readerService.logout(req);
+  }
+
+  @Delete('/del/:id')
+  delReader(@Param('id') readerID: string) {
+    return this.readerService.delReader(readerID);
   }
 
   @Post('/:id/addfavourbook')

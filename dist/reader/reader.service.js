@@ -88,6 +88,15 @@ let ReaderService = class ReaderService {
         this.logger.warn(`Reader ${readerID} does not exist, get profile failed`);
         return null;
     }
+    async getAllReader() {
+        const readerList = await this.readerModel
+            .find({})
+            .sort({ username: 1 })
+            .exec();
+        if (readerList) {
+            return readerList;
+        }
+    }
     async updateProfile(updateReaderDto) {
         const reader = await this.readerModel
             .findOne({ username: updateReaderDto.username })
@@ -155,6 +164,50 @@ let ReaderService = class ReaderService {
             this.logger.error(`Saving reader ${reader.username} failed when updating password: ${err}`);
             return null;
         }
+    }
+    async deaReader(readerID) {
+        let reader = await this.readerModel.findById(readerID);
+        if (!reader) {
+            this.logger.warn(`Failed to get reader ${readerID} from database`);
+            return null;
+        }
+        if (reader.isActive === false) {
+            this.logger.info(`The reader ${readerID} status is already inactive`);
+        }
+        else {
+            reader.isActive = false;
+            reader = await reader.save();
+            if (reader && reader.username) {
+                this.logger.info(`Success deactivated reader {readerID}`);
+            }
+            else {
+                this.logger.warn(`Failed to save reader ${readerID} during active status update`);
+                return null;
+            }
+        }
+        return reader.isActive;
+    }
+    async actReader(readerID) {
+        let reader = await this.readerModel.findById(readerID);
+        if (!reader) {
+            this.logger.warn(`Failed to get reader ${readerID} from database`);
+            return null;
+        }
+        if (reader.isActive === true) {
+            this.logger.info(`The reader ${readerID} status is already active`);
+        }
+        else {
+            reader.isActive = true;
+            reader = await reader.save();
+            if (reader && reader.username) {
+                this.logger.info(`Success activated reader {readerID}`);
+            }
+            else {
+                this.logger.warn(`Failed to save reader ${readerID} during active status update`);
+                return null;
+            }
+        }
+        return reader.isActive;
     }
     async login(request) {
         const readerID = request.user._id;
@@ -253,6 +306,25 @@ let ReaderService = class ReaderService {
         request.res.setHeader('Set-Cookie', deleteCookie);
         this.logger.info(`Success logout for reader ${readerID}`);
         return readerID;
+    }
+    async delReader(readerID) {
+        const reader = await this.readerModel.findById(readerID);
+        if (!reader) {
+            this.logger.warn(`Failed to find reader ${readerID}`);
+            return null;
+        }
+        await this.readerProfileModel.findByIdAndDelete(reader.readerProfile._id);
+        for (const item of reader.readHistory) {
+            await this.readerReadHistoryModel.findByIdAndDelete(item._id);
+        }
+        const delReader = await this.readerModel.findByIdAndDelete(readerID);
+        if (delReader) {
+            this.logger.info(`Success delete reader ${readerID}`);
+            return JSON.stringify(delReader._id);
+        }
+        else {
+            this.logger.warn(`Failed to delete reader ${readerID}`);
+        }
     }
     async addFavourBook(readerID, favourBookDto) {
         const reader = await this.readerModel.findById(readerID);

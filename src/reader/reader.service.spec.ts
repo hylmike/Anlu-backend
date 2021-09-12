@@ -30,13 +30,11 @@ import {
 } from '../schemas/reader.schema';
 import { Reader, ReaderReadHistory } from './reader.interface';
 import { TAccessToken, TFavourBook } from './test/stubs/test.interface';
-import { ConflictException } from '@nestjs/common/exceptions';
 
 jest.mock('winston');
 
 describe('ReaderService', () => {
   let readerService: ReaderService;
-  let readerObject: any;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({

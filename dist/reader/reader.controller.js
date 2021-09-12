@@ -26,11 +26,20 @@ let ReaderController = class ReaderController {
     getProfile(readerID) {
         return this.readerService.getProfile(readerID);
     }
+    getAllReader() {
+        return this.readerService.getAllReader();
+    }
     updateReaderProfile(updateReaderDto) {
         return this.readerService.updateProfile(updateReaderDto);
     }
     changePwd(changeReaderPwdDto) {
         return this.readerService.changePwd(changeReaderPwdDto);
+    }
+    deaReader(readerID) {
+        return this.readerService.deaReader(readerID);
+    }
+    actReader(readerID) {
+        return this.readerService.actReader(readerID);
     }
     login(req) {
         return this.readerService.login(req);
@@ -40,6 +49,9 @@ let ReaderController = class ReaderController {
     }
     logout(req) {
         return this.readerService.logout(req);
+    }
+    delReader(readerID) {
+        return this.readerService.delReader(readerID);
     }
     addFavourBook(readerID, favourBookDto) {
         return this.readerService.addFavourBook(readerID, favourBookDto);
@@ -68,12 +80,18 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "register", null);
 __decorate([
-    common_1.Get('/:id'),
+    common_1.Get('/get/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getProfile", null);
+__decorate([
+    common_1.Get('/getall'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "getAllReader", null);
 __decorate([
     common_1.Patch('/update'),
     __param(0, common_1.Body()),
@@ -89,6 +107,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "changePwd", null);
+__decorate([
+    common_1.Patch('/dea/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "deaReader", null);
+__decorate([
+    common_1.Patch('/act/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "actReader", null);
 __decorate([
     common_1.UseGuards(passport_1.AuthGuard('reader-local')),
     common_1.Post('/login'),
@@ -113,6 +145,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "logout", null);
+__decorate([
+    common_1.Delete('/del/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "delReader", null);
 __decorate([
     common_1.Post('/:id/addfavourbook'),
     __param(0, common_1.Param('id')),
