@@ -45,6 +45,9 @@ let BookController = class BookController {
     async findHotBooks(num) {
         return this.bookService.findHotBooks(num);
     }
+    async sumInventory() {
+        return this.bookService.sumInventory();
+    }
     async delBook(bookID) {
         return this.bookService.delBook(bookID);
     }
@@ -129,6 +132,12 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "findHotBooks", null);
+__decorate([
+    common_1.Get('/suminventory'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BookController.prototype, "sumInventory", null);
 __decorate([
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),

@@ -15,6 +15,7 @@ export declare class BookController {
     findBookList(searchDto: SearchBookDto): Promise<import("./book.interface").Book[]>;
     searchBook(searchValue: string): Promise<import("./book.interface").Book[]>;
     findHotBooks(num: number): Promise<import("./book.interface").Book[]>;
+    sumInventory(): Promise<any[]>;
     delBook(bookID: string): Promise<string>;
     updateBookInfo(bookDto: BookDto): Promise<import("./book.interface").BookDocument>;
     addReadRecord(readRecordDto: ReadRecordDto): Promise<import("./book.interface").BookReadRecordDocument>;

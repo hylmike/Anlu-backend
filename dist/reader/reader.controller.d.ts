@@ -6,6 +6,7 @@ export declare class ReaderController {
     register(regReaderDto: RegisterReaderDto): Promise<import("./reader.interface").ReaderDocument>;
     getProfile(readerID: string): Promise<import("./reader.interface").Reader>;
     getAllReader(): Promise<import("./reader.interface").Reader[]>;
+    getTopReader(num: any): Promise<import("./reader.interface").Reader[]>;
     updateReaderProfile(updateReaderDto: UpdateReaderDto): Promise<any>;
     changePwd(changeReaderPwdDto: ChangeReaderPwdDto): Promise<string>;
     deaReader(readerID: string): Promise<boolean>;

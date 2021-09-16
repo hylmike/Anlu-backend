@@ -16,6 +16,7 @@ export declare class ReaderService {
     register(registerReaderDto: RegisterReaderDto): Promise<ReaderDocument>;
     getProfile(readerID: any): Promise<Reader | undefined>;
     getAllReader(): Promise<Reader[]>;
+    getTopN(num: string): Promise<Reader[]>;
     updateProfile(updateReaderDto: UpdateReaderDto): Promise<any>;
     changePwd(changeReaderPwdDto: ChangeReaderPwdDto): Promise<string>;
     deaReader(readerID: string): Promise<boolean>;

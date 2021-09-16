@@ -116,6 +116,21 @@ export class ReaderService {
     }
   }
 
+  //Get topN reader based on reader score
+  async getTopN(num: string): Promise<Reader[]> {
+    const topN = await this.readerModel
+      .find({ isActive: true })
+      .sort({ 'readerProfile.score': -1 })
+      .limit(Number(num))
+      .exec();
+    if (topN) {
+      this.logger.info('Success get reader topN result from database');
+      return topN;
+    } else {
+      this.logger.warn('Failed to get reader topN result from database');
+    }
+  }
+
   //Update reader profile based on inputs and save into database
   async updateProfile(updateReaderDto: UpdateReaderDto) {
     const reader = await this.readerModel

@@ -39,6 +39,11 @@ export class ReaderController {
     return this.readerService.getAllReader();
   }
 
+  @Get('/gettopn/:num')
+  getTopReader(@Param('num') num) {
+    return this.readerService.getTopN(num);
+  }
+
   @Patch('/update')
   updateReaderProfile(@Body() updateReaderDto: UpdateReaderDto) {
     return this.readerService.updateProfile(updateReaderDto);

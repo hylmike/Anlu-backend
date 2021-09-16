@@ -175,7 +175,7 @@ export class LibrarianService {
       this.logger.info(
         `Success changed the password for ${newLib.role} ${newLib.username}`,
       );
-      return newLib.username;
+      return JSON.stringify(newLib.username);
     } catch (err) {
       this.logger.error(
         `Saving ${lib.role} ${lib.username} failed when updating password: ${err}`,

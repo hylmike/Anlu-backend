@@ -29,6 +29,9 @@ let ReaderController = class ReaderController {
     getAllReader() {
         return this.readerService.getAllReader();
     }
+    getTopReader(num) {
+        return this.readerService.getTopN(num);
+    }
     updateReaderProfile(updateReaderDto) {
         return this.readerService.updateProfile(updateReaderDto);
     }
@@ -92,6 +95,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getAllReader", null);
+__decorate([
+    common_1.Get('/gettopn/:num'),
+    __param(0, common_1.Param('num')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "getTopReader", null);
 __decorate([
     common_1.Patch('/update'),
     __param(0, common_1.Body()),

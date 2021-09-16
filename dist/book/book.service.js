@@ -194,6 +194,37 @@ let BookService = class BookService {
             return bookList;
         }
     }
+    async sumInventory() {
+        const bookSumList = [];
+        const bookCatList = [
+            'Romance',
+            'Politics',
+            'Press',
+            'Essay',
+            'Information Technology',
+            'Comic',
+            'History',
+            'Geography',
+            'Dissertation',
+            'Art',
+            'Sport',
+        ];
+        for (const item of bookCatList) {
+            const count = await this.bookModel
+                .find({ category: { $regex: item, $options: 'i' } })
+                .count()
+                .exec();
+            bookSumList.push({ category: item, count: count });
+        }
+        if (bookSumList.length === bookCatList.length) {
+            this.logger.info('Success get book inventory summary from database');
+            return bookSumList;
+        }
+        else {
+            this.logger.warn('Failed to get book inventory summary from database');
+            return null;
+        }
+    }
     async updateBookInfo(bookDto) {
         const book = await this.bookModel.findOne({
             bookTitle: bookDto.bookTitle,

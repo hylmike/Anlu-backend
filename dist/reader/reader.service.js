@@ -97,6 +97,20 @@ let ReaderService = class ReaderService {
             return readerList;
         }
     }
+    async getTopN(num) {
+        const topN = await this.readerModel
+            .find({ isActive: true })
+            .sort({ 'readerProfile.score': -1 })
+            .limit(Number(num))
+            .exec();
+        if (topN) {
+            this.logger.info('Success get reader topN result from database');
+            return topN;
+        }
+        else {
+            this.logger.warn('Failed to get reader topN result from database');
+        }
+    }
     async updateProfile(updateReaderDto) {
         const reader = await this.readerModel
             .findOne({ username: updateReaderDto.username })

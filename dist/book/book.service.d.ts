@@ -19,6 +19,7 @@ export declare class BookService {
     findBookList(searchBookDto: SearchBookDto): Promise<Book[]>;
     searchBook(sval: any): Promise<Book[]>;
     findHotBooks(num: any): Promise<Book[]>;
+    sumInventory(): Promise<any[]>;
     updateBookInfo(bookDto: BookDto): Promise<BookDocument>;
     delBook(bookID: string): Promise<string>;
     addReadRecord(readRecordDto: ReadRecordDto): Promise<BookReadRecordDocument>;

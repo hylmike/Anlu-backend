@@ -72,6 +72,11 @@ export class BookController {
     return this.bookService.findHotBooks(num);
   }
 
+  @Get('/suminventory')
+  async sumInventory() {
+    return this.bookService.sumInventory();
+  }
+
   @Delete('/del/:id')
   async delBook(@Param('id') bookID: string) {
     return this.bookService.delBook(bookID);
