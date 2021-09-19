@@ -29,12 +29,23 @@ import {
   ReaderReadHistorySchema,
 } from '../schemas/reader.schema';
 import { Reader, ReaderReadHistory } from './reader.interface';
-import { TAccessToken, TFavourBook } from './test/stubs/test.interface';
+import { TAccessToken } from './test/stubs/test.interface';
+import { Book } from '../book/book.interface';
+import {
+  BookCommentSchema,
+  BookReadRecordSchema,
+  BookSchema,
+  BookWishListSchema,
+} from '../schemas/book.schema';
+import { bookData, bookStub } from '../book/test/stubs/book.stub';
+import { BookDto } from '../book/book.dto';
+import { BookService } from '../book/book.service';
 
 jest.mock('winston');
 
 describe('ReaderService', () => {
   let readerService: ReaderService;
+  let bookService: BookService;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -44,10 +55,15 @@ describe('ReaderService', () => {
           { name: 'Reader', schema: ReaderSchema },
           { name: 'ReaderProfile', schema: ReaderProfileSchema },
           { name: 'ReaderReadHistory', schema: ReaderReadHistorySchema },
+          { name: 'Book', schema: BookSchema },
+          { name: 'BookReadRecord', schema: BookReadRecordSchema },
+          { name: 'BookComment', schema: BookCommentSchema },
+          { name: 'BookWishList', schema: BookWishListSchema },
         ]),
       ],
       providers: [
         ReaderService,
+        BookService,
         {
           provide: WINSTON_MODULE_PROVIDER,
           useValue: logger,
@@ -60,7 +76,31 @@ describe('ReaderService', () => {
     }).compile();
 
     readerService = module.get<ReaderService>(ReaderService);
+    bookService = module.get<BookService>(BookService);
     jest.clearAllMocks();
+
+    //Add book database for later test requirements
+    const bookRegisterDto: BookDto = {
+      bookTitle: bookStub().bookTitle,
+      isbnCode: bookStub().isbnCode,
+      category: bookStub().category,
+      format: bookStub().format,
+      author: bookStub().author,
+      language: bookStub().language,
+      publisher: bookStub().publisher,
+      publishDate: bookStub().purchaseDate.toString(),
+      purchaseDate: bookStub().purchaseDate.toString(),
+      coverPic: bookStub().coverPic,
+      bookFile: bookStub().bookFile,
+      price: bookStub().price.toString(),
+      desc: bookStub().desc,
+      keywords: bookStub().keywords,
+      initialScore: bookStub().initialScore.toString(),
+      creator: bookStub().creator,
+      isActive: 'true',
+    };
+    const book = await bookService.register(bookRegisterDto);
+    bookData._id = book._id;
   });
 
   describe('register', () => {
@@ -431,7 +471,7 @@ describe('ReaderService', () => {
 
       beforeEach(async () => {
         favourBookDto = {
-          bookID: '60e914e5yhgjfaf6b7b0d8b7',
+          bookID: bookStub()._id,
         };
         length = await readerService.addFavourBook(
           readerStub()._id,
@@ -451,7 +491,7 @@ describe('ReaderService', () => {
 
   describe('getFavourBookList', () => {
     describe('when getFavourBookList is called', () => {
-      let favourBookList: TFavourBook[];
+      let favourBookList: Book[];
 
       beforeEach(async () => {
         favourBookList = await readerService.getFavourBookList(
@@ -460,9 +500,7 @@ describe('ReaderService', () => {
       });
 
       test('then it should return favourbook list', async () => {
-        expect(favourBookList[0].bookID).toEqual(
-          readerStub().favouriteBook[0].bookID,
-        );
+        expect(favourBookList[0]._id).toEqual(bookStub()._id);
       });
     });
   });
@@ -473,7 +511,7 @@ describe('ReaderService', () => {
 
       beforeEach(async () => {
         const favourBookDto = {
-          bookID: '60e914e5yhgjfaf6b7b0d8b7',
+          bookID: bookStub()._id,
         };
         index = await readerService.delFavourBook(
           readerStub()._id,
@@ -496,9 +534,7 @@ describe('ReaderService', () => {
       let readHistory: ReaderReadHistory[];
 
       beforeEach(async () => {
-        readHistory = await readerService.getReaderReadHistory(
-          readerStub()._id,
-        );
+        readHistory = await readerService.getReadHistory(readerStub()._id);
       });
 
       test('then it should return readHistory', async () => {

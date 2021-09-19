@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReaderService = void 0;
+const book_stub_1 = require("../../book/test/stubs/book.stub");
 const reader_stub_1 = require("../test/stubs/reader.stub");
 exports.ReaderService = jest.fn().mockReturnValue({
     register: jest.fn().mockResolvedValue(reader_stub_1.readerStub()),
@@ -14,6 +15,7 @@ exports.ReaderService = jest.fn().mockReturnValue({
     addFavourBook: jest.fn().mockResolvedValue(2),
     getFavourBookList: jest.fn().mockResolvedValue(reader_stub_1.readerStub().favouriteBook),
     delFavourBook: jest.fn().mockResolvedValue(2),
-    getReaderReadHistory: jest.fn().mockResolvedValue(reader_stub_1.readerStub().readHistory),
+    getReadBooks: jest.fn().mockResolvedValue([book_stub_1.bookStub()]),
+    getReadHistory: jest.fn().mockResolvedValue(reader_stub_1.readerStub().readHistory),
 });
 //# sourceMappingURL=reader.service.js.map

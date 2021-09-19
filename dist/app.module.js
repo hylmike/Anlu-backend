@@ -22,7 +22,6 @@ const http_excetption_filter_1 = require("./common/http-excetption.filter");
 const librarian_module_1 = require("./librarian/librarian.module");
 const book_module_1 = require("./book/book.module");
 const workshop_module_1 = require("./workshop/workshop.module");
-const database_module_1 = require("./database/database.module");
 const blog_module_1 = require("./blog/blog.module");
 const path_1 = require("path");
 const front_log_module_1 = require("./front-log/front-log.module");
@@ -65,7 +64,6 @@ AppModule = __decorate([
             librarian_module_1.LibrarianModule,
             book_module_1.BookModule,
             workshop_module_1.WorkshopModule,
-            database_module_1.DatabaseModule,
             blog_module_1.BlogModule,
             front_log_module_1.FrontLogModule,
         ],

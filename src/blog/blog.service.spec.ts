@@ -48,16 +48,16 @@ describe('BlogService', () => {
         blogDto1 = {
           topic: blogStub().topic,
           category: blogStub().category,
-          author: blogStub().author,
+          creator: blogStub().creator,
           content: blogStub().content,
-          keyword: blogStub().keyword,
+          keywords: blogStub().keywords,
         };
         blogDto2 = {
           topic: '',
           category: blogStub().category,
-          author: blogStub().author,
+          creator: blogStub().creator,
           content: blogStub().content,
-          keyword: blogStub().keyword,
+          keywords: blogStub().keywords,
         };
       });
 
@@ -99,9 +99,9 @@ describe('BlogService', () => {
       const blogDto: BlogDto = {
         topic: newTopic,
         category: blogStub().category,
-        author: 'Adam',
+        creator: 'Adam',
         content: 'The another latest news is ...',
-        keyword: 'latest news',
+        keywords: 'latest news',
       };
 
       test('it should return latest blogs', async () => {
@@ -119,30 +119,30 @@ describe('BlogService', () => {
 
   describe('updateBlog', () => {
     describe('when updateBlog is called', () => {
-      let blogID: string;
+      let blog: Blog;
       let blogDto: BlogDto;
       const newContent = 'The new content is ...';
       const newKeyword = 'New Key Word';
 
       beforeEach(async () => {
         blogDto = {
-          topic: '',
-          category: '',
-          author: '',
+          topic: blogStub().topic,
+          category: blogStub().category,
+          creator: blogStub().creator,
           content: newContent,
-          keyword: newKeyword,
+          keywords: newKeyword,
         };
-        blogID = await blogService.updateBlog(blogStub()._id, blogDto);
+        blog = await blogService.updateBlog(blogStub()._id, blogDto);
       });
 
       test('it should updated fields based on inputs', async () => {
         const blog = await blogService.getBlog(blogStub()._id);
         expect(blog.content).toEqual(newContent);
-        expect(blog.keyword).toEqual(newKeyword);
+        expect(blog.keywords).toEqual(newKeyword);
       });
 
       test('it should return updated blog id', async () => {
-        expect(blogID).toEqual(blogStub()._id);
+        expect(blog.topic).toEqual(blogStub().topic);
       });
     });
   });
@@ -153,7 +153,7 @@ describe('BlogService', () => {
 
       test('it should return deleted blog id', async () => {
         blogID = await blogService.delBlog(blogStub()._id);
-        expect(blogID).toEqual(blogStub()._id);
+        expect(blogID).toEqual(JSON.stringify(blogStub()._id));
       });
     });
   });

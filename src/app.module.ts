@@ -14,7 +14,6 @@ import { HttpExceptionFilter } from './common/http-excetption.filter';
 import { LibrarianModule } from './librarian/librarian.module';
 import { BookModule } from './book/book.module';
 import { WorkshopModule } from './workshop/workshop.module';
-import { DatabaseModule } from './database/database.module';
 import { BlogModule } from './blog/blog.module';
 import { join } from 'path';
 import { FrontLogModule } from './front-log/front-log.module';
@@ -60,7 +59,6 @@ import { FrontLogModule } from './front-log/front-log.module';
     LibrarianModule,
     BookModule,
     WorkshopModule,
-    DatabaseModule,
     BlogModule,
     FrontLogModule,
   ],

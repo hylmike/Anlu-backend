@@ -23,6 +23,7 @@ import { logger } from '../../test/util/winston';
 import {
   Book,
   BookComment,
+  BookDocument,
   BookReadRecord,
   BookWishList,
 } from './book.interface';
@@ -43,6 +44,7 @@ import {
   BookDto,
   CreateBookWishDto,
   ReadRecordDto,
+  SearchBookDto,
   UpdateWishStatusDto,
 } from './book.dto';
 import { readerData, readerStub } from '../reader/test/stubs/reader.stub';
@@ -50,12 +52,14 @@ import { ReaderService } from '../reader/reader.service';
 import { JwtService } from '@nestjs/jwt';
 import { mockedJwtService } from '../reader/__mocks__/mock.service';
 import { Reader } from 'src/reader/reader.interface';
+import { Model } from 'mongoose';
 
 jest.mock('winston');
 
 describe('BookService', () => {
   let bookService: BookService;
   let readerService: ReaderService;
+  let bookModel: Model<BookDocument>;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -87,6 +91,8 @@ describe('BookService', () => {
 
     bookService = module.get<BookService>(BookService);
     readerService = module.get<ReaderService>(ReaderService);
+    //Create bookModel for in-memory Book database
+    bookModel = module.get<Model<BookDocument>>('BookModel');
     jest.clearAllMocks();
 
     //create an reader in database for later book read rcord testing
@@ -125,7 +131,7 @@ describe('BookService', () => {
           author: bookStub().author,
           language: bookStub().language,
           publisher: bookStub().publisher,
-          publishDate: bookStub().purchaseDate.toString(),
+          publishDate: bookStub().publishDate.toString(),
           purchaseDate: bookStub().purchaseDate.toString(),
           coverPic: bookStub().coverPic,
           bookFile: bookStub().bookFile,
@@ -173,6 +179,120 @@ describe('BookService', () => {
     });
   });
 
+  describe('findAllBook', () => {
+    describe('when findAllBook is called', () => {
+      let bookList: Book[];
+
+      test('it should return a book list with active books', async () => {
+        bookList = await bookService.findAllBook(bookStub().format);
+        expect(bookList.length).toEqual(1);
+        const book = await bookModel.findById(bookStub()._id);
+        book.isActive = false;
+        await book.save();
+        bookList = await bookService.findAllBook(bookStub().format);
+        expect(bookList.length).toEqual(0);
+        book.isActive = true;
+        await book.save();
+      });
+    });
+  });
+
+  describe('findBookList', () => {
+    describe('when findBookList is called', () => {
+      let bookList: Book[];
+      let searchDto: SearchBookDto;
+
+      beforeEach(async () => {
+        searchDto = {
+          format: bookStub().format,
+          category: bookStub().category,
+          bookTitle: bookStub().bookTitle,
+          author: bookStub().author,
+          publishYear: bookStub().publishDate.getFullYear().toString(),
+        };
+      });
+
+      test('it should return a book list with search conditions', async () => {
+        const book = await bookModel.findById(bookStub()._id);
+        bookList = await bookService.findBookList(searchDto);
+        expect(bookList.length).toEqual(1);
+        book.isActive = false;
+        await book.save();
+        bookList = await bookService.findBookList(searchDto);
+        expect(bookList.length).toEqual(0);
+        book.isActive = true;
+        await book.save();
+      });
+    });
+  });
+
+  describe('searchBook', () => {
+    describe('when searchBook is called', () => {
+      let bookList: Book[];
+
+      test('it should return a book list containing search value', async () => {
+        bookList = await bookService.searchBook(bookStub().bookTitle);
+        const book = await bookModel.findById(bookStub()._id);
+        expect(bookList.length).toEqual(1);
+        book.isActive = false;
+        await book.save();
+        bookList = await bookService.searchBook(bookStub().bookTitle);
+        expect(bookList.length).toEqual(0);
+        book.isActive = true;
+        await book.save();
+      });
+    });
+  });
+
+  describe('findHotBooks', () => {
+    describe('when findHotBooks is called', () => {
+      let bookList: Book[];
+
+      test('it should return a book list with highest score', async () => {
+        bookList = await bookService.findHotBooks(5);
+        const book = await bookModel.findById(bookStub()._id);
+        expect(bookList.length).toEqual(1);
+        book.isActive = false;
+        await book.save();
+        bookList = await bookService.findHotBooks(5);
+        expect(bookList.length).toEqual(0);
+        book.isActive = true;
+        await book.save();
+      });
+    });
+  });
+
+  describe('sumInventory', () => {
+    describe('when sumInventory is called', () => {
+      interface BookSum {
+        category: string;
+        count: number;
+      }
+
+      let result: BookSum[];
+
+      beforeEach(async () => {
+        result = await bookService.sumInventory();
+      });
+
+      test('it should return a book list with highest score', async () => {
+        expect(result).toEqual([
+          { category: 'Romance', count: 0 },
+          { category: 'Politics', count: 0 },
+          { category: 'Press', count: 0 },
+          { category: 'Essay', count: 0 },
+          { category: 'Information Technology', count: 1 },
+          { category: 'Comic', count: 0 },
+          { category: 'History', count: 0 },
+          { category: 'Geography', count: 0 },
+          { category: 'Dissertation', count: 0 },
+          { category: 'Art', count: 0 },
+          { category: 'Sport', count: 0 },
+        ]);
+      });
+    });
+  });
+
   describe('updateBookInfo', () => {
     describe('when updateBookInfo is called', () => {
       let book: Book;
@@ -185,22 +305,22 @@ describe('BookService', () => {
       beforeEach(async () => {
         const updateBookDto: BookDto = {
           bookTitle: bookStub().bookTitle,
-          isbnCode: '',
-          category: '',
-          format: '',
+          isbnCode: bookStub().isbnCode,
+          category: bookStub().category,
+          format: bookStub().format,
           author: newAuthor,
-          language: '',
-          publisher: '',
-          publishDate: '',
-          purchaseDate: '',
+          language: bookStub().language,
+          publisher: bookStub().publisher,
+          publishDate: bookStub().publishDate.toString(),
+          purchaseDate: bookStub().purchaseDate.toString(),
           coverPic: '',
           bookFile: '',
           price: newPrice,
-          desc: '',
-          keywords: '',
+          desc: bookStub().desc,
+          keywords: bookStub().keywords,
           initialScore: newInitialScore,
-          creator: '',
-          isActive: '',
+          creator: bookStub().creator,
+          isActive: 'active',
         };
         book = await bookService.updateBookInfo(updateBookDto);
       });
@@ -412,7 +532,7 @@ describe('BookService', () => {
       });
 
       test('it should return deleted book id', async () => {
-        expect(bookID).toEqual(bookStub()._id);
+        expect(bookID).toEqual(JSON.stringify(bookStub()._id));
       });
 
       test('it should return null for non-existing book', async () => {

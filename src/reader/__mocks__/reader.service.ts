@@ -1,3 +1,4 @@
+import { bookStub } from '../../book/test/stubs/book.stub';
 import { readerStub, accessTokenStub } from '../test/stubs/reader.stub';
 
 export const ReaderService = jest.fn().mockReturnValue({
@@ -12,5 +13,6 @@ export const ReaderService = jest.fn().mockReturnValue({
   addFavourBook: jest.fn().mockResolvedValue(2),
   getFavourBookList: jest.fn().mockResolvedValue(readerStub().favouriteBook),
   delFavourBook: jest.fn().mockResolvedValue(2),
-  getReaderReadHistory: jest.fn().mockResolvedValue(readerStub().readHistory),
+  getReadBooks: jest.fn().mockResolvedValue([bookStub()]),
+  getReadHistory: jest.fn().mockResolvedValue(readerStub().readHistory),
 });

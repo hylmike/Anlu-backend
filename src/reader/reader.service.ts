@@ -482,7 +482,7 @@ export class ReaderService {
       return -1;
     }
     for (const record of reader.favouriteBook) {
-      if (record.bookID === favourBookDto.bookID) {
+      if (record.bookID == favourBookDto.bookID) {
         const index = reader.favouriteBook.indexOf(record);
         reader.favouriteBook.splice(index, 1);
         await reader.save();

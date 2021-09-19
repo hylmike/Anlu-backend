@@ -23,6 +23,7 @@ import {
   BookDto,
   CreateBookWishDto,
   ReadRecordDto,
+  SearchBookDto,
   UpdateWishStatusDto,
 } from './book.dto';
 
@@ -75,9 +76,7 @@ describe('BookController', () => {
       });
 
       test('then it should return uploaded file url', async () => {
-        expect(returnValue.fileUrl).toEqual(
-          uploadFile.path + '/' + uploadFile.filename,
-        );
+        expect(returnValue.fileUrl).toEqual(uploadFile.path);
       });
     });
   });
@@ -92,7 +91,7 @@ describe('BookController', () => {
           bookTitle: bookStub().bookTitle,
           isbnCode: bookStub().isbnCode,
           category: bookStub().category,
-          bookType: bookStub().bookType,
+          format: bookStub().format,
           author: bookStub().author,
           language: bookStub().language,
           publisher: bookStub().publisher,
@@ -102,7 +101,7 @@ describe('BookController', () => {
           bookFile: bookStub().bookFile,
           price: bookStub().price.toString(),
           desc: bookStub().desc,
-          keyword: bookStub().keyword,
+          keywords: bookStub().keywords,
           initialScore: bookStub().initialScore.toString(),
           creator: bookStub().creator,
           isActive: 'true',
@@ -138,6 +137,86 @@ describe('BookController', () => {
     });
   });
 
+  describe('findAllBook', () => {
+    describe('when findAllBook is called', () => {
+      let bookList: Book[];
+
+      beforeEach(async () => {
+        bookList = await bookController.findAllBook('ebook');
+      });
+
+      test('then is should call bookService', async () => {
+        expect(bookService.findAllBook).toHaveBeenCalledWith('ebook');
+      });
+
+      test('then it should return a book list', async () => {
+        expect(bookList).toEqual([bookStub()]);
+      });
+    });
+  });
+
+  describe('findBookList', () => {
+    describe('when findBookList is called', () => {
+      let bookList: Book[];
+      let searchDto: SearchBookDto;
+
+      beforeEach(async () => {
+        searchDto = {
+          format: bookStub().format,
+          category: bookStub().category,
+          bookTitle: bookStub().bookTitle,
+          author: bookStub().author,
+          publishYear: '2019',
+        };
+        bookList = await bookController.findBookList(searchDto);
+      });
+
+      test('then is should call bookService', async () => {
+        expect(bookService.findBookList).toHaveBeenCalledWith(searchDto);
+      });
+
+      test('then it should return a book list', async () => {
+        expect(bookList).toEqual([bookStub()]);
+      });
+    });
+  });
+
+  describe('findHotBooks', () => {
+    describe('when findHotBooks is called', () => {
+      let bookList: Book[];
+
+      beforeEach(async () => {
+        bookList = await bookController.findHotBooks(6);
+      });
+
+      test('then is should call bookService', async () => {
+        expect(bookService.findHotBooks).toHaveBeenCalledWith(6);
+      });
+
+      test('then it should return a book list', async () => {
+        expect(bookList).toEqual([bookStub()]);
+      });
+    });
+  });
+
+  describe('sumInventory', () => {
+    describe('when sumInventory is called', () => {
+      let result;
+
+      beforeEach(async () => {
+        result = await bookController.sumInventory();
+      });
+
+      test('then is should call bookService', async () => {
+        expect(bookService.sumInventory).toHaveBeenCalled;
+      });
+
+      test('then it should return a book summary list', async () => {
+        expect(result).toEqual([{ category: 'Romance', count: 5 }]);
+      });
+    });
+  });
+
   describe('delBook', () => {
     describe('when delBook is called', () => {
       let bookID: string;
@@ -158,7 +237,7 @@ describe('BookController', () => {
 
   describe('updateBookInfo', () => {
     describe('when updateBookInfo is called', () => {
-      let bookID: string;
+      let book: Book;
       let bookInfo: BookDto;
 
       beforeEach(async () => {
@@ -166,7 +245,7 @@ describe('BookController', () => {
           bookTitle: bookStub().bookTitle,
           isbnCode: '',
           category: bookStub().category,
-          bookType: '',
+          format: '',
           author: '',
           language: '',
           publisher: bookStub().publisher,
@@ -176,20 +255,20 @@ describe('BookController', () => {
           bookFile: '',
           price: '',
           desc: '',
-          keyword: bookStub().keyword,
+          keywords: bookStub().keywords,
           initialScore: '',
           creator: '',
           isActive: '',
         };
-        bookID = await bookController.updateBookInfo(bookInfo);
+        book = await bookController.updateBookInfo(bookInfo);
       });
 
       test('then is should call bookService', async () => {
         expect(bookService.updateBookInfo).toHaveBeenCalledWith(bookInfo);
       });
 
-      test('then it should return upadted book id', async () => {
-        expect(bookID).toEqual(bookStub()._id);
+      test('then it should return upadted book', async () => {
+        expect(book).toEqual(bookStub());
       });
     });
   });

@@ -252,14 +252,14 @@ describe('ReaderController', () => {
 
   describe('getReadHistory', () => {
     describe('when getReadHistory is called', () => {
-      let readHistory: [TReadRecord];
+      let readHistory: TReadRecord[];
 
       beforeEach(async () => {
         readHistory = await readerController.getReadHistory(readerStub()._id);
       });
 
       test('then it should call readerService', () => {
-        expect(readerService.getReaderReadHistory).toHaveBeenCalledWith(
+        expect(readerService.getReadHistory).toHaveBeenCalledWith(
           readerStub()._id,
         );
       });

@@ -169,11 +169,11 @@ describe('LibrarianService', () => {
         const updatelibDto: UpdateLibProfileDto = {
           username: libStub().username,
           email: 'email@email',
-          role: '',
-          firstName: '',
-          lastName: '',
+          role: libStub().role,
+          firstName: libStub().firstName,
+          lastName: libStub().lastName,
           phoneNumber: '1111111111',
-          isActive: '',
+          isActive: 'Active',
         };
         libID = await libService.updateProfile(updatelibDto);
         lib = await libService.findOne(libStub().username);
@@ -222,7 +222,7 @@ describe('LibrarianService', () => {
       });
 
       test('then it should return lib name', () => {
-        expect(libName).toEqual(libStub().username);
+        expect(libName).toEqual(JSON.stringify(libStub().username));
       });
     });
   });

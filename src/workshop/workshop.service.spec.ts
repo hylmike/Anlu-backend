@@ -23,6 +23,7 @@ import {
   subscriberData1,
   subscriberData2,
 } from './test/stubs/workshop.stub';
+import { ReaderSchema } from '../schemas/reader.schema';
 
 jest.mock('winston');
 
@@ -36,6 +37,7 @@ describe('WorkshopService', () => {
         MongooseModule.forFeature([
           { name: 'Workshop', schema: WorkshopSchema },
           { name: 'Subscriber', schema: SubscriberSchema },
+          { name: 'Reader', schema: ReaderSchema },
         ]),
       ],
       providers: [
@@ -62,8 +64,8 @@ describe('WorkshopService', () => {
           place: workshopStub().place,
           organizer: workshopStub().organizer,
           startTime: workshopStub().startTime.toString(),
-          duration: workshopStub().duration,
-          flyerContent: workshopStub().flyerContent,
+          duration: workshopStub().duration.toString(),
+          poster: workshopStub().poster,
           creator: workshopStub().creator,
           remark: workshopStub().remark,
         };
@@ -104,6 +106,21 @@ describe('WorkshopService', () => {
     });
   });
 
+  describe('getWsList', () => {
+    describe('when getWsList is called', () => {
+      let wsList: Workshop[];
+
+      beforeEach(async () => {
+        wsList = await workshopService.getWsList(3);
+      });
+
+      test('it should return an workshop list', async () => {
+        expect(wsList.length).toEqual(1);
+        expect(wsList[0].topic).toEqual(workshopStub().topic);
+      });
+    });
+  });
+
   describe('updateWorkshop', () => {
     describe('when updateWorkshop is called', () => {
       let workshop: Workshop;
@@ -113,12 +130,13 @@ describe('WorkshopService', () => {
 
       beforeEach(async () => {
         updateWsDto = {
+          topic: workshopStub().topic,
           place: newPlace,
-          organizer: '',
+          organizer: workshopStub().organizer,
           startTime: newTime,
-          duration: '',
-          flyerContent: '',
-          remark: '',
+          duration: workshopStub().duration.toString(),
+          poster: workshopStub().poster,
+          remark: workshopStub().remark,
         };
         workshop = await workshopService.updateWorkshop(
           workshopStub()._id,
@@ -141,10 +159,7 @@ describe('WorkshopService', () => {
       beforeEach(async () => {
         subWsDto = {
           workshop: subscriberStub().workshop,
-          firstName: subscriberStub().firstName,
-          lastName: subscriberStub().lastName,
-          age: subscriberStub().age,
-          neighborhood: subscriberStub().neighborhood,
+          readerID: subscriberStub().readerID,
         };
         sub = await workshopService.subWorkshop(subWsDto);
       });
@@ -152,15 +167,25 @@ describe('WorkshopService', () => {
       test('it should return new subscriber object', async () => {
         subscriberData1._id = sub._id;
         expect(sub.workshop).toEqual(subscriberStub().workshop);
-        expect(sub.firstName + sub.lastName + sub.age).toEqual(
-          subscriberStub().firstName +
-            subscriberStub().lastName +
-            subscriberStub().age,
-        );
+        expect(sub.readerID).toEqual(subscriberStub().readerID);
       });
 
       test('it should return null for existing subscriber', async () => {
         expect(sub).toBeNull;
+      });
+    });
+  });
+
+  describe('getSub', () => {
+    describe('when getSub is called', () => {
+      let sub: Subscriber;
+
+      beforeEach(async () => {
+        sub = await workshopService.getSub(subscriberStub().readerID);
+      });
+
+      test('it should return an workshop list', async () => {
+        expect(sub.workshop).toEqual(workshopStub()._id);
       });
     });
   });
@@ -172,10 +197,7 @@ describe('WorkshopService', () => {
       beforeEach(async () => {
         const subWsDto = {
           workshop: subscriberData2.workshop,
-          firstName: subscriberData2.firstName,
-          lastName: subscriberData2.lastName,
-          age: subscriberData2.age,
-          neighborhood: subscriberData2.neighborhood,
+          readerID: subscriberData2.readerID,
         };
         await workshopService.subWorkshop(subWsDto);
         subList = await workshopService.getSubList(workshopStub()._id);
@@ -183,20 +205,7 @@ describe('WorkshopService', () => {
 
       test('it should return an subscriber list with right data', async () => {
         expect(subList.length).toEqual(2);
-        expect(
-          subList[0].firstName + subList[0].lastName + subList[0].age,
-        ).toEqual(
-          subscriberData1.firstName +
-            subscriberData1.lastName +
-            subscriberData1.age,
-        );
-        expect(
-          subList[1].firstName + subList[1].lastName + subList[1].age,
-        ).toEqual(
-          subscriberData2.firstName +
-            subscriberData2.lastName +
-            subscriberData2.age,
-        );
+        expect(subList[1].readerID).toEqual(subscriberData2.readerID);
       });
     });
   });
@@ -225,6 +234,20 @@ describe('WorkshopService', () => {
 
       test('it should return null for non-exist subscriber', async () => {
         expect(subscriberID).toBeNull;
+      });
+    });
+  });
+
+  describe('delWorkshop', () => {
+    describe('when delWorkshop is called', () => {
+      let result: string;
+
+      beforeEach(async () => {
+        result = await workshopService.delWorkshop(workshopStub()._id);
+      });
+
+      test('it should return an workshop id', async () => {
+        expect(result).toEqual(JSON.stringify(workshopStub()._id));
       });
     });
   });
