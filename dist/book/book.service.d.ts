@@ -1,18 +1,18 @@
 import { Model } from 'mongoose';
 import { Logger } from 'winston';
 import 'dotenv/config';
-import { BookDto, ReadRecordDto, BookCommentDto, CreateBookWishDto, UpdateWishStatusDto, SearchBookDto } from './book.dto';
-import { Book, BookDocument, BookReadRecordDocument, BookComment, BookCommentDocument, BookWishList, BookWishDocument } from './book.interface';
+import { BookDto, ReadRecordDto, BookCommentDto, CreateBookWishDto, UpdateWishStatusDto, SearchBookDto, GetWishListDto } from './book.dto';
+import { Book, BookDocument, BookReadRecordDocument, BookComment, BookCommentDocument, BookWish, BookWishDocument } from './book.interface';
 import { ReaderDocument, ReaderReadHisDocument, ReaderReadHistory } from 'src/reader/reader.interface';
 export declare class BookService {
     private readonly logger;
     private readonly bookModel;
     private readonly readRecordModel;
     private readonly bookCommentModel;
-    private readonly bookWishListModel;
+    private readonly bookWishModel;
     private readonly readerModel;
     private readonly readerReadHistoryModel;
-    constructor(logger: Logger, bookModel: Model<BookDocument>, readRecordModel: Model<BookReadRecordDocument>, bookCommentModel: Model<BookCommentDocument>, bookWishListModel: Model<BookWishDocument>, readerModel: Model<ReaderDocument>, readerReadHistoryModel: Model<ReaderReadHisDocument>);
+    constructor(logger: Logger, bookModel: Model<BookDocument>, readRecordModel: Model<BookReadRecordDocument>, bookCommentModel: Model<BookCommentDocument>, bookWishModel: Model<BookWishDocument>, readerModel: Model<ReaderDocument>, readerReadHistoryModel: Model<ReaderReadHisDocument>);
     register(createBookDto: BookDto): Promise<Book>;
     findBook(bookID: string): Promise<Book>;
     findAllBook(bookFormat: string): Promise<Book[]>;
@@ -27,10 +27,12 @@ export declare class BookService {
     getReadHistory(bookID: string): Promise<[string]>;
     addBookComment(bookCommentDto: BookCommentDto): Promise<BookComment>;
     getBookComments(bookID: any): Promise<[string]>;
-    addBookWish(bookWishDto: CreateBookWishDto): Promise<BookWishList>;
-    getBookWishList(): Promise<BookWishList[]>;
-    getBookWish(bookWishID: any): Promise<BookWishList>;
+    addBookWish(bookWishDto: CreateBookWishDto): Promise<BookWish>;
+    getUnfulfilWishList(): Promise<BookWish[]>;
+    getWishList(getWishListDto: GetWishListDto): Promise<BookWish[]>;
+    getBookWish(bookWishID: any): Promise<BookWish>;
     updateWishStatus(updateWishStatusDto: UpdateWishStatusDto): Promise<any>;
+    delWish(wishID: string): Promise<BookWish>;
     clearReadHistory(bookID: any): Promise<1>;
     formatDate(d: Date): string;
     fixZero(num: any): string;

@@ -45,8 +45,9 @@ exports.bookData = {
 exports.bookWishData = {
     _id: '60ee3b86375cba18bf9dea39',
     bookTitle: 'The Wish Story',
-    readerID: 'michael',
+    creator: 'michael',
     language: 'English',
+    format: 'eBook',
     createTime: new Date('2021-07-19T00:00:00Z'),
     status: 'Under Review',
 };

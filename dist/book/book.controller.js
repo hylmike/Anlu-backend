@@ -72,11 +72,17 @@ let BookController = class BookController {
     async getBookWish(wishID) {
         return this.bookService.getBookWish(wishID);
     }
-    async getWishList() {
-        return this.bookService.getBookWishList();
+    async getUnfulfilWishList() {
+        return this.bookService.getUnfulfilWishList();
+    }
+    async getWishList(getWishListDto) {
+        return this.bookService.getWishList(getWishListDto);
     }
     async updateWishStatus(updateWishStatusDto) {
         return this.bookService.updateWishStatus(updateWishStatusDto);
+    }
+    async delWish(wishID) {
+        return this.bookService.delWish(wishID);
     }
     async clearReadRecord(bookID) {
         return this.bookService.clearReadHistory(bookID);
@@ -195,9 +201,16 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "getBookWish", null);
 __decorate([
-    common_1.Get('/getbookwishlist'),
+    common_1.Get('/getunfulfilwishlist'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BookController.prototype, "getUnfulfilWishList", null);
+__decorate([
+    common_1.Post('/getwishlist/'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "getWishList", null);
 __decorate([
@@ -207,6 +220,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "updateWishStatus", null);
+__decorate([
+    common_1.Delete('/delwish/:id'),
+    __param(0, common_1.Param('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BookController.prototype, "delWish", null);
 __decorate([
     common_1.Patch('/:id/clearreadhistory'),
     __param(0, common_1.Param('id')),

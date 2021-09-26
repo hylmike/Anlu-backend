@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BookWishListSchema = exports.BookCommentSchema = exports.BookReadRecordSchema = exports.BookSchema = void 0;
+exports.BookWishSchema = exports.BookCommentSchema = exports.BookReadRecordSchema = exports.BookSchema = void 0;
 const mongoose = require("mongoose");
 exports.BookSchema = new mongoose.Schema({
     bookTitle: {
@@ -65,10 +65,11 @@ exports.BookCommentSchema = new mongoose.Schema({
     comment: String,
     createTime: Date,
 });
-exports.BookWishListSchema = new mongoose.Schema({
+exports.BookWishSchema = new mongoose.Schema({
     bookTitle: String,
-    readerID: String,
     language: String,
+    format: String,
+    creator: String,
     createTime: Date,
     status: String,
 });

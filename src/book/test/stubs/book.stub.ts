@@ -3,7 +3,7 @@ import {
   Book,
   BookComment,
   BookReadRecord,
-  BookWishList,
+  BookWish,
 } from '../../book.interface';
 
 export const bookComment: BookComment = {
@@ -50,11 +50,12 @@ export const bookData: Book = {
   readHistory: ['60ee3bcdf54b1618e6dcf69b'],
 };
 
-export const bookWishData: BookWishList = {
+export const bookWishData: BookWish = {
   _id: '60ee3b86375cba18bf9dea39',
   bookTitle: 'The Wish Story',
-  readerID: 'michael',
+  creator: 'michael',
   language: 'English',
+  format: 'eBook',
   createTime: new Date('2021-07-19T00:00:00Z'),
   status: 'Under Review',
 };
@@ -81,7 +82,7 @@ export const bookCommentStub = (): BookComment => {
   return bookComment;
 };
 
-export const bookWishStub = (): BookWishList => {
+export const bookWishStub = (): BookWish => {
   return bookWishData;
 };
 

@@ -33,7 +33,7 @@ BookModule = __decorate([
                 { name: 'Book', schema: book_schema_1.BookSchema },
                 { name: 'BookReadRecord', schema: book_schema_1.BookReadRecordSchema },
                 { name: 'BookComment', schema: book_schema_1.BookCommentSchema },
-                { name: 'BookWishList', schema: book_schema_1.BookWishListSchema },
+                { name: 'BookWish', schema: book_schema_1.BookWishSchema },
                 { name: 'Reader', schema: reader_schema_1.ReaderSchema },
                 { name: 'ReaderProfile', schema: reader_schema_1.ReaderProfileSchema },
                 { name: 'ReaderReadHistory', schema: reader_schema_1.ReaderReadHistorySchema },

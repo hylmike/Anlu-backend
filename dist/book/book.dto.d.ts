@@ -39,10 +39,15 @@ export interface BookCommentDto {
 }
 export interface CreateBookWishDto {
     bookTitle: string;
-    readerID: string;
     language: string;
+    format: string;
+    creator: string;
+}
+export interface GetWishListDto {
+    format: string;
+    readerName: string;
 }
 export interface UpdateWishStatusDto {
-    WishID: string;
+    wishID: string;
     status: string;
 }

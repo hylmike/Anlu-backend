@@ -20,12 +20,12 @@ const nest_winston_1 = require("nest-winston");
 require("dotenv/config");
 const reader_interface_1 = require("../reader/reader.interface");
 let BookService = class BookService {
-    constructor(logger, bookModel, readRecordModel, bookCommentModel, bookWishListModel, readerModel, readerReadHistoryModel) {
+    constructor(logger, bookModel, readRecordModel, bookCommentModel, bookWishModel, readerModel, readerReadHistoryModel) {
         this.logger = logger;
         this.bookModel = bookModel;
         this.readRecordModel = readRecordModel;
         this.bookCommentModel = bookCommentModel;
-        this.bookWishListModel = bookWishListModel;
+        this.bookWishModel = bookWishModel;
         this.readerModel = readerModel;
         this.readerReadHistoryModel = readerReadHistoryModel;
     }
@@ -447,17 +447,19 @@ let BookService = class BookService {
     }
     async addBookWish(bookWishDto) {
         if (bookWishDto.bookTitle.trim() !== '') {
-            if (await this.bookWishListModel.findOne({
+            if (await this.bookWishModel.findOne({
                 bookTitle: bookWishDto.bookTitle,
                 language: bookWishDto.language,
             })) {
                 this.logger.warn(`The book wish ${bookWishDto.bookTitle} was already in database.`);
                 return null;
             }
-            const newBookWish = new this.bookWishListModel({
+            const newBookWish = new this.bookWishModel({
                 bookTitle: bookWishDto.bookTitle,
-                readerID: bookWishDto.readerID,
                 language: bookWishDto.language,
+                format: bookWishDto.format,
+                creator: bookWishDto.creator,
+                createTime: new Date(),
                 status: 'Under Review',
             });
             await newBookWish.save();
@@ -465,15 +467,23 @@ let BookService = class BookService {
             return newBookWish;
         }
     }
-    async getBookWishList() {
-        const bookWishList = await this.bookWishListModel.find({
+    async getUnfulfilWishList() {
+        const WishList = await this.bookWishModel.find({
             status: { $in: ['Under Review', 'Approved'] },
         });
         this.logger.info(`Success get unfulfilled book wish list`);
-        return bookWishList;
+        return WishList;
+    }
+    async getWishList(getWishListDto) {
+        const WishList = await this.bookWishModel.find({
+            creator: getWishListDto.readerName,
+            format: getWishListDto.format,
+        });
+        this.logger.info(`Success get wish list for reader ${getWishListDto.readerName}`);
+        return WishList;
     }
     async getBookWish(bookWishID) {
-        const bookWish = await this.bookWishListModel.findById(bookWishID);
+        const bookWish = await this.bookWishModel.findById(bookWishID);
         if (!bookWish) {
             this.logger.warn(`Can not find bookwish ${bookWishID}, getting book wish failed`);
             return null;
@@ -482,11 +492,18 @@ let BookService = class BookService {
         return bookWish;
     }
     async updateWishStatus(updateWishStatusDto) {
-        const bookWish = await this.bookWishListModel.findById(updateWishStatusDto.WishID);
+        const bookWish = await this.bookWishModel.findById(updateWishStatusDto.wishID);
         bookWish.status = updateWishStatusDto.status;
         await bookWish.save();
         this.logger.info(`Success update status of book wish ${bookWish._id}`);
         return bookWish._id;
+    }
+    async delWish(wishID) {
+        const wish = await this.bookWishModel.findByIdAndDelete(wishID);
+        if (wish) {
+            this.logger.info(`Success delete the book wish ${wishID}`);
+            return wish._id;
+        }
     }
     async clearReadHistory(bookID) {
         const book = await this.bookModel.findById(bookID);
@@ -519,7 +536,7 @@ BookService = __decorate([
     __param(1, mongoose_1.InjectModel('Book')),
     __param(2, mongoose_1.InjectModel('BookReadRecord')),
     __param(3, mongoose_1.InjectModel('BookComment')),
-    __param(4, mongoose_1.InjectModel('BookWishList')),
+    __param(4, mongoose_1.InjectModel('BookWish')),
     __param(5, mongoose_1.InjectModel('Reader')),
     __param(6, mongoose_1.InjectModel('ReaderReadHistory')),
     __metadata("design:paramtypes", [Object, mongoose_2.Model,
