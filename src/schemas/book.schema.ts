@@ -13,7 +13,7 @@ export const BookSchema = new mongoose.Schema({
     trim: true,
   },
   category: { type: String, required: true }, //refer to bottom
-  format: { type: String, required: true }, //eBook, AudioBook
+  format: { type: String, required: true }, //eBook, AudioBook, Podcast
   author: { type: String, required: true },
   language: { type: String, required: true },
   publisher: String,
@@ -67,13 +67,14 @@ export const BookCommentSchema = new mongoose.Schema({
   createTime: Date,
 });
 
-export const BookWishListSchema = new mongoose.Schema({
+export const BookWishSchema = new mongoose.Schema({
   bookTitle: String,
-  readerID: String,
   language: String,
+  format: String,
+  creator: String, //reader username
   //Quantity: Number,
   createTime: Date,
-  status: String, //Under Review, Approved, Fullfiled
+  status: String, //Under Review, Approved, Fullfiled, Rejected
 });
 
 /*

@@ -19,7 +19,6 @@ import {
 } from './lib.dto';
 import { JwtService } from '@nestjs/jwt';
 import 'dotenv/config';
-import e from 'express';
 
 @Injectable()
 export class LibrarianService {

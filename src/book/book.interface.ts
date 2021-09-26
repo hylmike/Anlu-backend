@@ -50,13 +50,14 @@ export interface BookComment {
 
 export type BookCommentDocument = BookComment & Document;
 
-export interface BookWishList {
+export interface BookWish {
   _id: string;
   bookTitle: string;
-  readerID: string;
   language: string;
+  format: string;
+  creator: string;
   createTime: Date;
   status: string;
 }
 
-export type BookWishDocument = BookWishList & Document;
+export type BookWishDocument = BookWish & Document;

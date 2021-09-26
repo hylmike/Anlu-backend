@@ -12,6 +12,7 @@ import {
   CreateBookWishDto,
   UpdateWishStatusDto,
   SearchBookDto,
+  GetWishListDto,
 } from './book.dto';
 import {
   Book,
@@ -19,7 +20,7 @@ import {
   BookReadRecordDocument,
   BookComment,
   BookCommentDocument,
-  BookWishList,
+  BookWish,
   BookWishDocument,
 } from './book.interface';
 import {
@@ -37,26 +38,12 @@ export class BookService {
     private readonly readRecordModel: Model<BookReadRecordDocument>,
     @InjectModel('BookComment')
     private readonly bookCommentModel: Model<BookCommentDocument>,
-    @InjectModel('BookWishList')
-    private readonly bookWishListModel: Model<BookWishDocument>,
+    @InjectModel('BookWish')
+    private readonly bookWishModel: Model<BookWishDocument>,
     @InjectModel('Reader') private readonly readerModel: Model<ReaderDocument>,
     @InjectModel('ReaderReadHistory')
     private readonly readerReadHistoryModel: Model<ReaderReadHisDocument>,
   ) { }
-
-  /*Fileupload function, not use anymore
-  import { createWriteStream } from 'fs';
-  import { join } from 'path';
-  async fileUpload(file) {
-    const file_url = join(
-      __dirname + '../../' + 'fileUpload' + `${file[0]['originalname']}`,
-    );
-    const fileBuffer = file[0]['buffer'];
-    const writeFile = createWriteStream(file_url);
-    writeFile.write(fileBuffer);
-    this.logger.info(`Start uploading ${file[0]['originalname']} into folder ${file_url}`);
-  }
-  */
 
   async register(createBookDto: BookDto): Promise<Book> {
     //First check if register book already existed in database
@@ -543,11 +530,11 @@ export class BookService {
     return book.comments;
   }
 
-  async addBookWish(bookWishDto: CreateBookWishDto): Promise<BookWishList> {
+  async addBookWish(bookWishDto: CreateBookWishDto): Promise<BookWish> {
     if (bookWishDto.bookTitle.trim() !== '') {
       //Check if this book wish already raised before
       if (
-        await this.bookWishListModel.findOne({
+        await this.bookWishModel.findOne({
           bookTitle: bookWishDto.bookTitle,
           language: bookWishDto.language,
         })
@@ -557,10 +544,12 @@ export class BookService {
         );
         return null;
       }
-      const newBookWish = new this.bookWishListModel({
+      const newBookWish = new this.bookWishModel({
         bookTitle: bookWishDto.bookTitle,
-        readerID: bookWishDto.readerID,
         language: bookWishDto.language,
+        format: bookWishDto.format,
+        creator: bookWishDto.creator,
+        createTime: new Date(),
         status: 'Under Review',
       });
       await newBookWish.save();
@@ -570,17 +559,29 @@ export class BookService {
     }
   }
 
-  async getBookWishList(): Promise<BookWishList[]> {
-    const bookWishList = await this.bookWishListModel.find({
+  async getUnfulfilWishList(): Promise<BookWish[]> {
+    const WishList = await this.bookWishModel.find({
       status: { $in: ['Under Review', 'Approved'] },
     });
     //Create log for this activity
     this.logger.info(`Success get unfulfilled book wish list`);
-    return bookWishList;
+    return WishList;
   }
 
-  async getBookWish(bookWishID): Promise<BookWishList> {
-    const bookWish = await this.bookWishListModel.findById(bookWishID);
+  async getWishList(getWishListDto: GetWishListDto): Promise<BookWish[]> {
+    const WishList = await this.bookWishModel.find({
+      creator: getWishListDto.readerName,
+      format: getWishListDto.format,
+    });
+    //Create log for this activity
+    this.logger.info(
+      `Success get wish list for reader ${getWishListDto.readerName}`,
+    );
+    return WishList;
+  }
+
+  async getBookWish(bookWishID): Promise<BookWish> {
+    const bookWish = await this.bookWishModel.findById(bookWishID);
     if (!bookWish) {
       this.logger.warn(
         `Can not find bookwish ${bookWishID}, getting book wish failed`,
@@ -593,14 +594,22 @@ export class BookService {
   }
 
   async updateWishStatus(updateWishStatusDto: UpdateWishStatusDto) {
-    const bookWish = await this.bookWishListModel.findById(
-      updateWishStatusDto.WishID,
+    const bookWish = await this.bookWishModel.findById(
+      updateWishStatusDto.wishID,
     );
     bookWish.status = updateWishStatusDto.status;
     await bookWish.save();
     //Create log for this activity
     this.logger.info(`Success update status of book wish ${bookWish._id}`);
     return bookWish._id;
+  }
+
+  async delWish(wishID: string): Promise<BookWish> {
+    const wish = await this.bookWishModel.findByIdAndDelete(wishID);
+    if (wish) {
+      this.logger.info(`Success delete the book wish ${wishID}`);
+      return wish._id;
+    }
   }
 
   async clearReadHistory(bookID) {

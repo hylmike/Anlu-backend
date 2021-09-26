@@ -10,7 +10,7 @@ import {
   BookSchema,
   BookReadRecordSchema,
   BookCommentSchema,
-  BookWishListSchema,
+  BookWishSchema,
 } from '../schemas/book.schema';
 import {
   ReaderProfileSchema,
@@ -32,7 +32,7 @@ import {
       { name: 'Book', schema: BookSchema },
       { name: 'BookReadRecord', schema: BookReadRecordSchema },
       { name: 'BookComment', schema: BookCommentSchema },
-      { name: 'BookWishList', schema: BookWishListSchema },
+      { name: 'BookWish', schema: BookWishSchema },
       { name: 'Reader', schema: ReaderSchema },
       { name: 'ReaderProfile', schema: ReaderProfileSchema },
       { name: 'ReaderReadHistory', schema: ReaderReadHistorySchema },

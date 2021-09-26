@@ -23,6 +23,7 @@ import {
   CreateBookWishDto,
   UpdateWishStatusDto,
   SearchBookDto,
+  GetWishListDto,
 } from './book.dto';
 
 @Controller('api/book')
@@ -117,14 +118,24 @@ export class BookController {
     return this.bookService.getBookWish(wishID);
   }
 
-  @Get('/getbookwishlist')
-  async getWishList() {
-    return this.bookService.getBookWishList();
+  @Get('/getunfulfilwishlist')
+  async getUnfulfilWishList() {
+    return this.bookService.getUnfulfilWishList();
+  }
+
+  @Post('/getwishlist/')
+  async getWishList(@Body() getWishListDto: GetWishListDto) {
+    return this.bookService.getWishList(getWishListDto);
   }
 
   @Patch('/updatewishstatus')
   async updateWishStatus(@Body() updateWishStatusDto: UpdateWishStatusDto) {
     return this.bookService.updateWishStatus(updateWishStatusDto);
+  }
+
+  @Delete('/delwish/:id')
+  async delWish(@Param('id') wishID: string) {
+    return this.bookService.delWish(wishID);
   }
 
   @Patch('/:id/clearreadhistory')
