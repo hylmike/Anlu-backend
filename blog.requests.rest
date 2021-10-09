@@ -29,3 +29,12 @@ Content-Type: application/json
   "content": "New app version will be launch Aug 5th",
   "keyword": "App, version, notice"
 }
+
+###
+
+POST http://localhost:3000/api/emailer/sendresetmail
+Content-Type: application/json
+
+{
+  "email": "michael.huayl@yahoo.com"
+}

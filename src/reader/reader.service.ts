@@ -182,19 +182,20 @@ export class ReaderService {
   }
 
   //Change password of reader account
-  async changePwd(changeReaderPwdDto: ChangeReaderPwdDto) {
+  async changePwd(changePwdDto: ChangeReaderPwdDto) {
     const reader = await this.readerModel
-      .findOne({ username: changeReaderPwdDto.username })
+      .findOne({ username: changePwdDto.username })
       .select('+password')
       .exec();
     if (!reader) {
       this.logger.warn(
-        `Can not find reader ${changeReaderPwdDto.username} in change password module`,
+        `Can not find reader ${changePwdDto.username} in change password module`,
       );
       return null;
     }
+    //Need check current password input if reader change password
     const match = await bcrypt.compare(
-      changeReaderPwdDto.currentPassword,
+      changePwdDto.currentPassword,
       reader.password,
     );
     if (!match) {
@@ -204,7 +205,7 @@ export class ReaderService {
       return null;
     }
     //Encrypt new password and save it into database
-    reader.password = await bcrypt.hash(changeReaderPwdDto.newPassword, 10);
+    reader.password = await bcrypt.hash(changePwdDto.newPassword, 10);
     try {
       const newReader = await reader.save();
       this.logger.info(

@@ -4,6 +4,8 @@ import { APP_FILTER } from '@nestjs/core';
 import * as winston from 'winston';
 import { WinstonModule } from 'nest-winston';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import 'dotenv/config';
 
 import { AppController } from './app.controller';
@@ -17,6 +19,7 @@ import { WorkshopModule } from './workshop/workshop.module';
 import { BlogModule } from './blog/blog.module';
 import { join } from 'path';
 import { FrontLogModule } from './front-log/front-log.module';
+import { EmailerModule } from './emailer/emailer.module';
 
 @Module({
   imports: [
@@ -26,8 +29,8 @@ import { FrontLogModule } from './front-log/front-log.module';
           process.env.NODE_ENV === 'production'
             ? process.env.MONGO_PROD_URI
             : process.env.NODE_ENV === 'development'
-            ? process.env.MONGO_DEV_URI
-            : process.env.MONGO_TEST_URI,
+              ? process.env.MONGO_DEV_URI
+              : process.env.MONGO_TEST_URI,
         useNewUrlParser: true,
         useFindAndModify: false,
         useCreateIndex: true,
@@ -61,6 +64,30 @@ import { FrontLogModule } from './front-log/front-log.module';
     WorkshopModule,
     BlogModule,
     FrontLogModule,
+    EmailerModule,
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: {
+          host: process.env.MAIL_HOST,
+          port: Number(process.env.MAIL_PORT),
+          secure: false,
+          auth: {
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS,
+          },
+        },
+        defaults: {
+          from: '"No Reply" <noreply@anlubiblio.com>',
+        },
+        template: {
+          dir: __dirname + '/templates',
+          adapter: new PugAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [

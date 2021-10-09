@@ -52,3 +52,13 @@ export interface ReaderReadHistory {
 }
 
 export type ReaderReadHisDocument = ReaderReadHistory & Document;
+
+export interface Token {
+  _id: string;
+  readerName: string;
+  email: string;
+  token: string;
+  createTime: Date;
+}
+
+export type TokenDocument = Token & Document;

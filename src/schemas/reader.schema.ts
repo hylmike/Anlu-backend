@@ -44,3 +44,10 @@ export const ReaderSchema = new mongoose.Schema({
   readerProfile: ReaderProfileSchema,
   readHistory: [ReaderReadHistorySchema],
 });
+
+export const TokenSchema = new mongoose.Schema({
+  readerName: String,
+  email: String,
+  token: String,
+  createTime: Date,
+});

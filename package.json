@@ -21,6 +21,7 @@
     "test:e2e": "jest --watch --runInBand --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.6.0",
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/graphql": "^7.10.6",
@@ -39,6 +40,7 @@
     "graphql-tools": "^7.0.5",
     "mongoose": "^5.12.8",
     "nest-winston": "^1.5.0",
+    "nodemailer": "^6.6.5",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

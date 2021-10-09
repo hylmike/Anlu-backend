@@ -6,10 +6,12 @@ import {
   ReaderSchema,
   ReaderProfileSchema,
   ReaderReadHistorySchema,
+  TokenSchema,
 } from '../schemas/reader.schema';
 import { JwtModule } from '@nestjs/jwt';
 import 'dotenv/config';
 import { BookSchema } from '../schemas/book.schema';
+import { TokenService } from './token.service';
 
 @Module({
   imports: [
@@ -22,10 +24,11 @@ import { BookSchema } from '../schemas/book.schema';
       { name: 'ReaderProfile', schema: ReaderProfileSchema },
       { name: 'ReaderReadHistory', schema: ReaderReadHistorySchema },
       { name: 'Book', schema: BookSchema },
+      { name: 'Token', schema: TokenSchema },
     ]),
   ],
-  providers: [ReaderService],
+  providers: [ReaderService, TokenService],
   controllers: [ReaderController],
-  exports: [ReaderService],
+  exports: [ReaderService, TokenService],
 })
 export class ReaderModule { }

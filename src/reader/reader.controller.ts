@@ -18,11 +18,17 @@ import {
   RegisterReaderDto,
   UpdateReaderDto,
   FavourBookDto,
+  ResetPwdDto,
+  emailDto,
 } from './reader.dto';
+import { TokenService } from './token.service';
 
 @Controller('api/reader')
 export class ReaderController {
-  constructor(private readonly readerService: ReaderService) {}
+  constructor(
+    private readonly readerService: ReaderService,
+    private readonly tokenService: TokenService,
+  ) { }
 
   @Post('/register')
   register(@Body() regReaderDto: RegisterReaderDto) {
@@ -53,6 +59,16 @@ export class ReaderController {
   @Header('content-type', 'application/json')
   changePwd(@Body() changeReaderPwdDto: ChangeReaderPwdDto) {
     return this.readerService.changePwd(changeReaderPwdDto);
+  }
+
+  @Patch('/resetpwd')
+  resetPwd(@Body() resetPwdDto: ResetPwdDto) {
+    return this.tokenService.resetPwd(resetPwdDto);
+  }
+
+  @Post('/verifyemail')
+  verifyEmail(@Body() input: emailDto) {
+    return this.tokenService.verifyEmail(input.email);
   }
 
   @Patch('/dea/:id')
