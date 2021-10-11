@@ -48,3 +48,11 @@ export interface ReaderReadHistory {
     readDuration: number;
 }
 export declare type ReaderReadHisDocument = ReaderReadHistory & Document;
+export interface Token {
+    _id: string;
+    readerName: string;
+    email: string;
+    token: string;
+    createTime: Date;
+}
+export declare type TokenDocument = Token & Document;

@@ -18,7 +18,7 @@ export declare class ReaderService {
     getAllReader(): Promise<Reader[]>;
     getTopN(num: string): Promise<Reader[]>;
     updateProfile(updateReaderDto: UpdateReaderDto): Promise<any>;
-    changePwd(changeReaderPwdDto: ChangeReaderPwdDto): Promise<string>;
+    changePwd(changePwdDto: ChangeReaderPwdDto): Promise<string>;
     deaReader(readerID: string): Promise<boolean>;
     actReader(readerID: string): Promise<boolean>;
     login(request: any): Promise<{

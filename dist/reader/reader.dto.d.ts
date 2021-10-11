@@ -32,8 +32,15 @@ export interface ChangeReaderPwdDto {
     username: string;
     currentPassword: string;
     newPassword: string;
-    confirmPassword: string;
 }
 export interface FavourBookDto {
     bookID: string;
+}
+export interface ResetPwdDto {
+    username: string;
+    token: string;
+    newPassword: string;
+}
+export interface emailDto {
+    email: string;
 }

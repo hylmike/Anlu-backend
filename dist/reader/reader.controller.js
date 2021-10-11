@@ -16,9 +16,11 @@ exports.ReaderController = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const reader_service_1 = require("./reader.service");
+const token_service_1 = require("./token.service");
 let ReaderController = class ReaderController {
-    constructor(readerService) {
+    constructor(readerService, tokenService) {
         this.readerService = readerService;
+        this.tokenService = tokenService;
     }
     register(regReaderDto) {
         return this.readerService.register(regReaderDto);
@@ -37,6 +39,12 @@ let ReaderController = class ReaderController {
     }
     changePwd(changeReaderPwdDto) {
         return this.readerService.changePwd(changeReaderPwdDto);
+    }
+    resetPwd(resetPwdDto) {
+        return this.tokenService.resetPwd(resetPwdDto);
+    }
+    verifyEmail(input) {
+        return this.tokenService.verifyEmail(input.email);
     }
     deaReader(readerID) {
         return this.readerService.deaReader(readerID);
@@ -117,6 +125,20 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "changePwd", null);
+__decorate([
+    common_1.Patch('/resetpwd'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "resetPwd", null);
+__decorate([
+    common_1.Post('/verifyemail'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ReaderController.prototype, "verifyEmail", null);
 __decorate([
     common_1.Patch('/dea/:id'),
     __param(0, common_1.Param('id')),
@@ -208,7 +230,8 @@ __decorate([
 ], ReaderController.prototype, "delReadHistory", null);
 ReaderController = __decorate([
     common_1.Controller('api/reader'),
-    __metadata("design:paramtypes", [reader_service_1.ReaderService])
+    __metadata("design:paramtypes", [reader_service_1.ReaderService,
+        token_service_1.TokenService])
 ], ReaderController);
 exports.ReaderController = ReaderController;
 //# sourceMappingURL=reader.controller.js.map

@@ -1,14 +1,18 @@
 import { ReaderService } from './reader.service';
-import { ChangeReaderPwdDto, RegisterReaderDto, UpdateReaderDto, FavourBookDto } from './reader.dto';
+import { ChangeReaderPwdDto, RegisterReaderDto, UpdateReaderDto, FavourBookDto, ResetPwdDto, emailDto } from './reader.dto';
+import { TokenService } from './token.service';
 export declare class ReaderController {
     private readonly readerService;
-    constructor(readerService: ReaderService);
+    private readonly tokenService;
+    constructor(readerService: ReaderService, tokenService: TokenService);
     register(regReaderDto: RegisterReaderDto): Promise<import("./reader.interface").ReaderDocument>;
     getProfile(readerID: string): Promise<import("./reader.interface").Reader>;
     getAllReader(): Promise<import("./reader.interface").Reader[]>;
     getTopReader(num: any): Promise<import("./reader.interface").Reader[]>;
     updateReaderProfile(updateReaderDto: UpdateReaderDto): Promise<any>;
     changePwd(changeReaderPwdDto: ChangeReaderPwdDto): Promise<string>;
+    resetPwd(resetPwdDto: ResetPwdDto): Promise<string>;
+    verifyEmail(input: emailDto): Promise<string>;
     deaReader(readerID: string): Promise<boolean>;
     actReader(readerID: string): Promise<boolean>;
     login(req: any): Promise<{

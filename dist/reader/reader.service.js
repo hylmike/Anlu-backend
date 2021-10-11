@@ -154,21 +154,21 @@ let ReaderService = class ReaderService {
             return null;
         }
     }
-    async changePwd(changeReaderPwdDto) {
+    async changePwd(changePwdDto) {
         const reader = await this.readerModel
-            .findOne({ username: changeReaderPwdDto.username })
+            .findOne({ username: changePwdDto.username })
             .select('+password')
             .exec();
         if (!reader) {
-            this.logger.warn(`Can not find reader ${changeReaderPwdDto.username} in change password module`);
+            this.logger.warn(`Can not find reader ${changePwdDto.username} in change password module`);
             return null;
         }
-        const match = await bcrypt.compare(changeReaderPwdDto.currentPassword, reader.password);
+        const match = await bcrypt.compare(changePwdDto.currentPassword, reader.password);
         if (!match) {
             this.logger.warn(`Wrong current password when changing it for reader ${reader.username}`);
             return null;
         }
-        reader.password = await bcrypt.hash(changeReaderPwdDto.newPassword, 10);
+        reader.password = await bcrypt.hash(changePwdDto.newPassword, 10);
         try {
             const newReader = await reader.save();
             this.logger.info(`Success changed the password for reader ${newReader.username}`);

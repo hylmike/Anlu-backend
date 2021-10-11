@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReaderSchema = exports.ReaderReadHistorySchema = exports.ReaderProfileSchema = void 0;
+exports.TokenSchema = exports.ReaderSchema = exports.ReaderReadHistorySchema = exports.ReaderProfileSchema = void 0;
 const mongoose = require("mongoose");
 exports.ReaderProfileSchema = new mongoose.Schema({
     firstName: String,
@@ -43,5 +43,11 @@ exports.ReaderSchema = new mongoose.Schema({
     favouriteBook: [{ bookID: String, createDate: Date }],
     readerProfile: exports.ReaderProfileSchema,
     readHistory: [exports.ReaderReadHistorySchema],
+});
+exports.TokenSchema = new mongoose.Schema({
+    readerName: String,
+    email: String,
+    token: String,
+    createTime: Date,
 });
 //# sourceMappingURL=reader.schema.js.map

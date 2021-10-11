@@ -13,6 +13,8 @@ const core_1 = require("@nestjs/core");
 const winston = require("winston");
 const nest_winston_1 = require("nest-winston");
 const serve_static_1 = require("@nestjs/serve-static");
+const mailer_1 = require("@nestjs-modules/mailer");
+const pug_adapter_1 = require("@nestjs-modules/mailer/dist/adapters/pug.adapter");
 require("dotenv/config");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
@@ -25,6 +27,7 @@ const workshop_module_1 = require("./workshop/workshop.module");
 const blog_module_1 = require("./blog/blog.module");
 const path_1 = require("path");
 const front_log_module_1 = require("./front-log/front-log.module");
+const emailer_module_1 = require("./emailer/emailer.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -66,6 +69,30 @@ AppModule = __decorate([
             workshop_module_1.WorkshopModule,
             blog_module_1.BlogModule,
             front_log_module_1.FrontLogModule,
+            emailer_module_1.EmailerModule,
+            mailer_1.MailerModule.forRootAsync({
+                useFactory: () => ({
+                    transport: {
+                        host: process.env.MAIL_HOST,
+                        port: Number(process.env.MAIL_PORT),
+                        secure: false,
+                        auth: {
+                            user: process.env.MAIL_USER,
+                            pass: process.env.MAIL_PASS,
+                        },
+                    },
+                    defaults: {
+                        from: '"No Reply" <noreply@anlubiblio.com>',
+                    },
+                    template: {
+                        dir: __dirname + '/templates',
+                        adapter: new pug_adapter_1.PugAdapter(),
+                        options: {
+                            strict: true,
+                        },
+                    },
+                }),
+            }),
         ],
         controllers: [app_controller_1.AppController],
         providers: [
