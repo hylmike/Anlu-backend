@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { TokenService } from 'src/reader/token.service';
+import { TokenService } from '../reader/token.service';
 import { EmailerService } from './emailer.service';
 
 @Controller('api/emailer')
 export class EmailerController {
   constructor(
-    private readonly emailService: EmailerService,
+    private readonly emailerService: EmailerService,
     private readonly tokenService: TokenService,
   ) { }
 
@@ -13,7 +13,7 @@ export class EmailerController {
   async sendResetEmail(@Body() input: { email: string }) {
     const tokenDoc = await this.tokenService.createToken(input.email);
     if (tokenDoc) {
-      return this.emailService.sendResetEmail(input.email, tokenDoc);
+      return this.emailerService.sendResetEmail(input.email, tokenDoc);
     }
   }
 }

@@ -35,7 +35,7 @@ import {
   BookCommentSchema,
   BookReadRecordSchema,
   BookSchema,
-  BookWishListSchema,
+  BookWishSchema,
 } from '../schemas/book.schema';
 import { bookData, bookStub } from '../book/test/stubs/book.stub';
 import { BookDto } from '../book/book.dto';
@@ -58,7 +58,7 @@ describe('ReaderService', () => {
           { name: 'Book', schema: BookSchema },
           { name: 'BookReadRecord', schema: BookReadRecordSchema },
           { name: 'BookComment', schema: BookCommentSchema },
-          { name: 'BookWishList', schema: BookWishListSchema },
+          { name: 'BookWish', schema: BookWishSchema },
         ]),
       ],
       providers: [
@@ -231,14 +231,12 @@ describe('ReaderService', () => {
           username: readerStub().username,
           currentPassword: readerStub().password,
           newPassword: newPass,
-          confirmPassword: newPass,
         };
 
         const changePwdDto1: ChangeReaderPwdDto = {
           username: readerStub().username,
           currentPassword: newPass,
           newPassword: readerStub().password,
-          confirmPassword: readerStub().password,
         };
 
         reader = await readerService.findOne(readerStub().username);

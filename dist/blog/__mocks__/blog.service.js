@@ -6,7 +6,7 @@ exports.BlogService = jest.fn().mockReturnValue({
     createBlog: jest.fn().mockResolvedValue(blog_stub_1.blogStub()),
     getBlog: jest.fn().mockResolvedValue(blog_stub_1.blogStub()),
     getBlogList: jest.fn().mockResolvedValue([blog_stub_1.blogStub()]),
-    updateBlog: jest.fn().mockResolvedValue(blog_stub_1.blogStub()._id),
+    updateBlog: jest.fn().mockResolvedValue(blog_stub_1.blogStub()),
     delBlog: jest.fn().mockResolvedValue(blog_stub_1.blogStub()._id),
 });
 //# sourceMappingURL=blog.service.js.map

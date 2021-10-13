@@ -23,6 +23,6 @@ export const BookService = jest.fn().mockReturnValue({
   getBookComments: jest.fn().mockResolvedValue([bookCommentStub()]),
   addBookWish: jest.fn().mockResolvedValue(bookWishStub()),
   getBookWish: jest.fn().mockResolvedValue(bookWishStub()),
-  getBookWishList: jest.fn().mockResolvedValue([bookWishStub()]),
+  getWishList: jest.fn().mockResolvedValue([bookWishStub()]),
   updateWishStatus: jest.fn().mockResolvedValue(bookWishStub()._id),
 });

@@ -34,9 +34,9 @@ describe('BlogController', () => {
         blogDto = {
           topic: blogStub().topic,
           category: blogStub().category,
-          author: blogStub().author,
+          creator: blogStub().creator,
           content: blogStub().content,
-          keyword: blogStub().keyword,
+          keywords: blogStub().keywords,
         };
         blog = await blogController.create(blogDto);
       });
@@ -90,18 +90,18 @@ describe('BlogController', () => {
 
   describe('update', () => {
     describe('when update is called', () => {
-      let blogID: string;
+      let blog: Blog;
       let blogDto: BlogDto;
 
       beforeEach(async () => {
         blogDto = {
           topic: blogStub().topic,
           category: blogStub().category,
-          author: blogStub().author,
-          content: blogStub().content,
-          keyword: blogStub().keyword,
+          creator: blogStub().creator,
+          content: 'newContent',
+          keywords: 'new keywords',
         };
-        blogID = await blogController.update(blogStub()._id, blogDto);
+        blog = await blogController.update(blogStub()._id, blogDto);
       });
 
       test('it should call blogService', async () => {
@@ -111,8 +111,8 @@ describe('BlogController', () => {
         );
       });
 
-      test('it should return updated blog id', async () => {
-        expect(blogID).toEqual(blogStub()._id);
+      test('it should return updated blog', async () => {
+        expect(blog._id).toEqual(blogStub()._id);
       });
     });
   });

@@ -17,14 +17,14 @@ const common_1 = require("@nestjs/common");
 const token_service_1 = require("../reader/token.service");
 const emailer_service_1 = require("./emailer.service");
 let EmailerController = class EmailerController {
-    constructor(emailService, tokenService) {
-        this.emailService = emailService;
+    constructor(emailerService, tokenService) {
+        this.emailerService = emailerService;
         this.tokenService = tokenService;
     }
     async sendResetEmail(input) {
         const tokenDoc = await this.tokenService.createToken(input.email);
         if (tokenDoc) {
-            return this.emailService.sendResetEmail(input.email, tokenDoc);
+            return this.emailerService.sendResetEmail(input.email, tokenDoc);
         }
     }
 };

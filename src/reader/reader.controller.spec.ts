@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ReaderController } from './reader.controller';
-import { ReaderService } from './reader.service';
+
 import {
   TAccessToken,
   TFavourBook,
@@ -11,25 +10,41 @@ import {
   UpdateReaderDto,
   ChangeReaderPwdDto,
   FavourBookDto,
+  ResetPwdDto,
 } from './reader.dto';
 import { readerStub, accessTokenStub } from './test/stubs/reader.stub';
 import { Reader } from './reader.interface';
+import { ReaderController } from './reader.controller';
+import { ReaderService } from './reader.service';
+import { TokenService } from './token.service';
+import { MockTokenService } from './__mocks__/mock.service';
+import { tokenStub } from './test/stubs/token.stub';
 
 jest.mock('./reader.service');
 
 describe('ReaderController', () => {
   let readerController: ReaderController;
   let readerService: ReaderService;
+  let verifyEmailSpy: jest.SpyInstance;
+  let resetPwdSpy: jest.SpyInstance;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [],
       controllers: [ReaderController],
-      providers: [ReaderService],
+      providers: [
+        ReaderService,
+        {
+          provide: TokenService,
+          useValue: MockTokenService,
+        },
+      ],
     }).compile();
 
     readerController = module.get<ReaderController>(ReaderController);
     readerService = module.get<ReaderService>(ReaderService);
+    verifyEmailSpy = jest.spyOn(MockTokenService, 'verifyEmail');
+    resetPwdSpy = jest.spyOn(MockTokenService, 'resetPwd');
     jest.clearAllMocks();
   });
 
@@ -131,7 +146,6 @@ describe('ReaderController', () => {
           username: readerStub().username,
           currentPassword: readerStub().password,
           newPassword: 'asdfgh54321',
-          confirmPassword: 'asdfgh54321',
         };
         username = await readerController.changePwd(changePwdDto);
       });
@@ -142,6 +156,48 @@ describe('ReaderController', () => {
 
       test("then it should return chenged reader's username", () => {
         expect(username).toEqual(readerStub().username);
+      });
+    });
+  });
+
+  describe('verifyEmail', () => {
+    describe('when verifyEmail is called', () => {
+      let result: string;
+      const dummyEmail = 'dummy@email.com';
+
+      beforeEach(async () => {
+        result = await readerController.verifyEmail({ email: dummyEmail });
+      });
+
+      test('it should call tokenService', () => {
+        expect(verifyEmailSpy).toHaveBeenCalledWith(dummyEmail);
+      });
+
+      test('it should return readerName', () => {
+        expect(result).toEqual(tokenStub().readerName);
+      });
+    });
+  });
+
+  describe('resetPwd', () => {
+    describe('when resetPwd is called', () => {
+      let result: string;
+      const resetPwdDto: ResetPwdDto = {
+        username: tokenStub().readerName,
+        token: tokenStub().token,
+        newPassword: 'newPassword',
+      };
+
+      beforeEach(async () => {
+        result = await readerController.resetPwd(resetPwdDto);
+      });
+
+      test('it should call tokenService', () => {
+        expect(resetPwdSpy).toHaveBeenCalledWith(resetPwdDto);
+      });
+
+      test('it should return readerName', () => {
+        expect(result).toEqual(tokenStub().readerName);
       });
     });
   });

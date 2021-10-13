@@ -8,3 +8,7 @@ export declare const mockRequest: {
         setHeader: jest.Mock<any, any>;
     };
 };
+export declare const MockTokenService: {
+    resetPwd: jest.Mock<any, any>;
+    verifyEmail: jest.Mock<any, any>;
+};

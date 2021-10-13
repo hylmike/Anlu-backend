@@ -20,7 +20,7 @@ exports.BookService = jest.fn().mockReturnValue({
     getBookComments: jest.fn().mockResolvedValue([book_stub_1.bookCommentStub()]),
     addBookWish: jest.fn().mockResolvedValue(book_stub_1.bookWishStub()),
     getBookWish: jest.fn().mockResolvedValue(book_stub_1.bookWishStub()),
-    getBookWishList: jest.fn().mockResolvedValue([book_stub_1.bookWishStub()]),
+    getWishList: jest.fn().mockResolvedValue([book_stub_1.bookWishStub()]),
     updateWishStatus: jest.fn().mockResolvedValue(book_stub_1.bookWishStub()._id),
 });
 //# sourceMappingURL=book.service.js.map

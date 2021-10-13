@@ -16,7 +16,6 @@ exports.EmailerService = void 0;
 const common_1 = require("@nestjs/common");
 const nest_winston_1 = require("nest-winston");
 const mailer_1 = require("@nestjs-modules/mailer");
-const reader_interface_1 = require("../reader/reader.interface");
 let EmailerService = class EmailerService {
     constructor(mailerService, logger) {
         this.mailerService = mailerService;

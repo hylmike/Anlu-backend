@@ -6,12 +6,7 @@ import { BookController } from './book.controller';
 import { BookService } from './book.service';
 import { logger } from '../../test/util/winston';
 import { fileToBuffer } from './__mocks__/mockFile';
-import {
-  Book,
-  BookComment,
-  BookReadRecord,
-  BookWishList,
-} from './book.interface';
+import { Book, BookComment, BookReadRecord, BookWish } from './book.interface';
 import {
   bookCommentStub,
   bookStub,
@@ -22,6 +17,7 @@ import {
   BookCommentDto,
   BookDto,
   CreateBookWishDto,
+  GetWishListDto,
   ReadRecordDto,
   SearchBookDto,
   UpdateWishStatusDto,
@@ -364,13 +360,14 @@ describe('BookController', () => {
 
   describe('addBookWish', () => {
     describe('when addBookWish is called', () => {
-      let bookWish: BookWishList;
+      let bookWish: BookWish;
       let creatWishDto: CreateBookWishDto;
 
       beforeEach(async () => {
         creatWishDto = {
           bookTitle: bookWishStub().bookTitle,
-          readerID: bookWishStub().readerID,
+          creator: bookWishStub().creator,
+          format: bookWishStub().format,
           language: bookWishStub().language,
         };
         bookWish = await bookController.addBookWish(creatWishDto);
@@ -388,7 +385,7 @@ describe('BookController', () => {
 
   describe('getBookWish', () => {
     describe('when getBookWish is called', () => {
-      let bookWish: BookWishList;
+      let bookWish: BookWish;
 
       beforeEach(async () => {
         bookWish = await bookController.getBookWish(bookWishStub()._id);
@@ -406,14 +403,18 @@ describe('BookController', () => {
 
   describe('getBookWishList', () => {
     describe('when getBookWishList is called', () => {
-      let bookWishList: BookWishList[];
+      let bookWishList: BookWish[];
+      const getWishListDto: GetWishListDto = {
+        readerName: bookWishStub().creator,
+        format: bookWishStub().format,
+      };
 
       beforeEach(async () => {
-        bookWishList = await bookController.getWishList();
+        bookWishList = await bookController.getWishList(getWishListDto);
       });
 
       test('then is should call bookService', async () => {
-        expect(bookService.getBookWishList).toHaveBeenCalled();
+        expect(bookService.getWishList).toHaveBeenCalled();
       });
 
       test('then it should return unfulfilled book Wish list', async () => {
@@ -429,7 +430,7 @@ describe('BookController', () => {
 
       beforeEach(async () => {
         updateWishDto = {
-          WishID: bookWishStub()._id,
+          wishID: bookWishStub()._id,
           status: bookWishStub().status,
         };
         wishID = await bookController.updateWishStatus(updateWishDto);

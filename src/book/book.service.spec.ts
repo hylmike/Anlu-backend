@@ -12,7 +12,7 @@ import {
   BookCommentSchema,
   BookReadRecordSchema,
   BookSchema,
-  BookWishListSchema,
+  BookWishSchema,
 } from '../schemas/book.schema';
 import {
   ReaderProfileSchema,
@@ -25,7 +25,7 @@ import {
   BookComment,
   BookDocument,
   BookReadRecord,
-  BookWishList,
+  BookWish,
 } from './book.interface';
 import {
   bookComment,
@@ -43,6 +43,7 @@ import {
   BookCommentDto,
   BookDto,
   CreateBookWishDto,
+  GetWishListDto,
   ReadRecordDto,
   SearchBookDto,
   UpdateWishStatusDto,
@@ -69,7 +70,7 @@ describe('BookService', () => {
           { name: 'Book', schema: BookSchema },
           { name: 'BookReadRecord', schema: BookReadRecordSchema },
           { name: 'BookComment', schema: BookCommentSchema },
-          { name: 'BookWishList', schema: BookWishListSchema },
+          { name: 'BookWish', schema: BookWishSchema },
           { name: 'Reader', schema: ReaderSchema },
           { name: 'ReaderProfile', schema: ReaderProfileSchema },
           { name: 'ReaderReadHistory', schema: ReaderReadHistorySchema },
@@ -439,12 +440,13 @@ describe('BookService', () => {
 
   describe('addBookWish', () => {
     describe('when addBookWish is called', () => {
-      let bookWish: BookWishList;
+      let bookWish: BookWish;
 
       beforeEach(async () => {
         const bookWishDto: CreateBookWishDto = {
           bookTitle: bookWishStub().bookTitle,
-          readerID: bookWishStub().readerID,
+          format: bookWishStub().format,
+          creator: bookWishStub().creator,
           language: bookWishStub().language,
         };
         bookWish = await bookService.addBookWish(bookWishDto);
@@ -453,7 +455,7 @@ describe('BookService', () => {
       test('it should return new book wish object', async () => {
         bookWishData._id = bookWish._id;
         expect(bookWish.bookTitle).toEqual(bookWishStub().bookTitle);
-        expect(bookWish.readerID).toEqual(bookWishStub().readerID);
+        expect(bookWish.creator).toEqual(bookWishStub().creator);
       });
 
       test('it should return null for existing wish', async () => {
@@ -464,7 +466,7 @@ describe('BookService', () => {
 
   describe('getBookWish', () => {
     describe('when getBookWish is called', () => {
-      let bookWish: BookWishList;
+      let bookWish: BookWish;
 
       beforeEach(async () => {
         bookWish = await bookService.getBookWish(bookWishStub()._id);
@@ -484,11 +486,11 @@ describe('BookService', () => {
   describe('updateWishStatus', () => {
     describe('when updateWishStatus is called', () => {
       let wishID: string;
-      let bookWish: BookWishList;
+      let bookWish: BookWish;
 
       beforeEach(async () => {
         const wishStatusDto: UpdateWishStatusDto = {
-          WishID: bookWishStub()._id,
+          wishID: bookWishStub()._id,
           status: 'Fulfilled',
         };
         wishID = await bookService.updateWishStatus(wishStatusDto);
@@ -504,21 +506,26 @@ describe('BookService', () => {
 
   describe('getBookWishList', () => {
     describe('when getBookWishList is called', () => {
-      let wishList: BookWishList[];
+      let wishList: BookWish[];
 
       beforeEach(async () => {
         const bookWishDto: CreateBookWishDto = {
           bookTitle: 'New Book',
-          readerID: bookWishStub().readerID,
+          creator: bookWishStub().creator,
+          format: bookWishStub().format,
           language: bookWishStub().language,
         };
         await bookService.addBookWish(bookWishDto);
-        wishList = await bookService.getBookWishList();
+        const getWishListDto: GetWishListDto = {
+          readerName: bookWishStub().creator,
+          format: bookWishStub().format,
+        };
+        wishList = await bookService.getWishList(getWishListDto);
       });
 
       test('it should only return non-fulfilled book wish', async () => {
-        expect(wishList.length).toEqual(1);
-        expect(wishList[0].bookTitle).toEqual('New Book');
+        expect(wishList.length).toEqual(2);
+        expect(wishList[1].bookTitle).toEqual('New Book');
       });
     });
   });

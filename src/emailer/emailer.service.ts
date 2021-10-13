@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Logger } from 'winston';
-import { Token } from 'src/reader/reader.interface';
 
 @Injectable()
 export class EmailerService {
