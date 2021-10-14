@@ -35,26 +35,31 @@ export class ReaderController {
     return this.readerService.register(regReaderDto);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/get/:id')
   getProfile(@Param('id') readerID: string) {
     return this.readerService.getProfile(readerID);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/getall')
   getAllReader() {
     return this.readerService.getAllReader();
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/gettopn/:num')
   getTopReader(@Param('num') num) {
     return this.readerService.getTopN(num);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Patch('/update')
   updateReaderProfile(@Body() updateReaderDto: UpdateReaderDto) {
     return this.readerService.updateProfile(updateReaderDto);
   }
 
+  @UseGuards(AuthGuard('reader-jwt'))
   @Patch('/changepwd')
   @Header('content-type', 'application/json')
   changePwd(@Body() changeReaderPwdDto: ChangeReaderPwdDto) {
@@ -71,11 +76,13 @@ export class ReaderController {
     return this.tokenService.verifyEmail(input.email);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/dea/:id')
   deaReader(@Param('id') readerID: string) {
     return this.readerService.deaReader(readerID);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/act/:id')
   actReader(@Param('id') readerID: string) {
     return this.readerService.actReader(readerID);
@@ -99,11 +106,13 @@ export class ReaderController {
     return this.readerService.logout(req);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Delete('/del/:id')
   delReader(@Param('id') readerID: string) {
     return this.readerService.delReader(readerID);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Post('/:id/addfavourbook')
   addFavourBook(
     @Param('id') readerID: string,
@@ -112,11 +121,13 @@ export class ReaderController {
     return this.readerService.addFavourBook(readerID, favourBookDto);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/:id/getfavourlist')
   getFavourBookList(@Param('id') readerID: string) {
     return this.readerService.getFavourBookList(readerID);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Patch('/:id/delfavourbook')
   delFavourBook(
     @Param('id') readerID: string,
@@ -125,16 +136,19 @@ export class ReaderController {
     return this.readerService.delFavourBook(readerID, favourBookDto);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/:id/getreadbooks')
   getReadBooks(@Param('id') readerID: string) {
     return this.readerService.getReadBooks(readerID);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/:id/getreadhistory')
   getReadHistory(@Param('id') readerID: string) {
     return this.readerService.getReadHistory(readerID);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Patch('/:id/delreadhistory')
   delReadHistory(@Param('id') readerID: string) {
     return this.readerService.delReadHistory(readerID);

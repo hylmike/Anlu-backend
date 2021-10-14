@@ -91,6 +91,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "register", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/get/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -98,12 +99,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getProfile", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/getall'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getAllReader", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/gettopn/:num'),
     __param(0, common_1.Param('num')),
     __metadata("design:type", Function),
@@ -111,6 +114,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getTopReader", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Patch('/update'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -118,6 +122,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "updateReaderProfile", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('reader-jwt')),
     common_1.Patch('/changepwd'),
     common_1.Header('content-type', 'application/json'),
     __param(0, common_1.Body()),
@@ -140,6 +145,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "verifyEmail", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/dea/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -147,6 +153,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "deaReader", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/act/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -178,6 +185,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "logout", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -185,6 +193,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "delReader", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Post('/:id/addfavourbook'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
@@ -193,6 +202,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "addFavourBook", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/:id/getfavourlist'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -200,6 +210,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getFavourBookList", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Patch('/:id/delfavourbook'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
@@ -208,6 +219,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "delFavourBook", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/:id/getreadbooks'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -215,6 +227,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getReadBooks", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/:id/getreadhistory'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -222,6 +235,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReaderController.prototype, "getReadHistory", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Patch('/:id/delreadhistory'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),

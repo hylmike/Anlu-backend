@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -21,6 +22,7 @@ import {
   UpdateWorkshopDto,
   UnsubWorkshopDto,
 } from './workshop.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/workshop')
 export class WorkshopController {
@@ -29,6 +31,7 @@ export class WorkshopController {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) { }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   async fileUpload(@UploadedFile() file: Express.Multer.File) {
@@ -39,6 +42,7 @@ export class WorkshopController {
     return { fileUrl: fileUrl };
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Post('/register')
   register(@Body() regWorkshopDto: RegisterWorkshopDto) {
     return this.workshopService.register(regWorkshopDto);
@@ -54,6 +58,7 @@ export class WorkshopController {
     return this.workshopService.getWsList(num);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/update/:id')
   updateWorkshop(
     @Param('id') workshopID: string,
@@ -62,6 +67,7 @@ export class WorkshopController {
     return this.workshopService.updateWorkshop(workshopID, updateWorkshopDto);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Delete('/del/:id')
   delWorkshop(@Param('id') workshopID: string) {
     return this.workshopService.delWorkshop(workshopID);
@@ -82,11 +88,13 @@ export class WorkshopController {
     return this.workshopService.getSubName(subID);
   }
 
+  @UseGuards(AuthGuard('reader-jwt'))
   @Post('/subscribe')
   subWorkshop(@Body() subWorkshopDto: SubWorkshopDto) {
     return this.workshopService.subWorkshop(subWorkshopDto);
   }
 
+  @UseGuards(AuthGuard('reader-jwt'))
   @Patch('/unsubscribe/:id')
   unsubWorkshop(
     @Param('id') workshopID: string,
@@ -94,5 +102,4 @@ export class WorkshopController {
   ) {
     return this.workshopService.unsubWorkshop(workshopID, unsubWsDto);
   }
-
 }

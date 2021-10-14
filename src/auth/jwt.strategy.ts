@@ -18,7 +18,7 @@ export class UserJwtStrategy extends PassportStrategy(Strategy, 'reader-jwt') {
   }
 
   async validate(payload: any): Promise<Reader | undefined> {
-    return this.readerService.getRefreshById(payload.readerID);
+    return this.readerService.getProfile(payload.readerID);
   }
 }
 
@@ -33,6 +33,6 @@ export class LibJwtStrategy extends PassportStrategy(Strategy, 'lib-jwt') {
   }
 
   async validate(payload: any): Promise<Librarian | undefined> {
-    return this.libService.getRefreshById(payload.libID);
+    return this.libService.getProfile(payload.libID);
   }
 }

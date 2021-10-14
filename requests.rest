@@ -49,6 +49,11 @@ Content-Type: application/json
 
 ###
 
+get http://localhost:3000/api/reader/get/60e914e8b5dafaf6b7b0d8b7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWJJRCI6IjYxMjJiNGI3YTkxN2FhZGFhMjE0ZTYwNCIsImlhdCI6MTYzNDIyMTgzNiwiZXhwIjoxNjM0MjIxOTU2fQ.oB-FgcvQNnLIG6gqCUtkVkB1K1ZjEHUnW9HCaMLA6yM
+
+###
+
 POST http://localhost:3000/api/reader/refresh
 
 ###
@@ -67,7 +72,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWJJRCI6IjYwZWEwO
 
 ###
 
-get http://localhost:3000/api/lib/60f728d2ead937643ae3cfaf
+get http://localhost:3000/api/lib/get/6122b4b7a917aadaa214e604
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsaWJJRCI6IjYxMjJiNGI3YTkxN2FhZGFhMjE0ZTYwNCIsImlhdCI6MTYzNDIyMDc1NiwiZXhwIjoxNjM0MjIwNzk2fQ.z34jzYTkvfdLL6iN2fzEhfztBSzQqfrml26YdrGY-as
 
 ###
 
@@ -131,12 +137,12 @@ GET http://localhost:3000/api/lib/checkadmin/60e746b7403c6dc7b0f60649
 
 ###
 
-POST http://localhost:3000/api/lib/adminlogin
+POST http://localhost:3000/api/lib/liblogin
 Content-Type: application/json
 
 {
-  "username":"admin",
-  "password":"654321"
+  "username":"lily",
+  "password":"54321"
 }
 
 ###

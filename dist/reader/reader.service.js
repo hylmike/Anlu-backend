@@ -286,7 +286,7 @@ let ReaderService = class ReaderService {
             expiresIn: process.env.REFRESH_TOKEN_TIMER,
         });
         const maxAge = +process.env.REFRESH_TOKEN_TIMER.slice(0, -1);
-        const cookieRefreshToken = `Refresh=${refreshToken}; HttpOnly; Path=/api; Max-Age=${maxAge}`;
+        const cookieRefreshToken = `Refresh=${refreshToken}; HttpOnly; Path=/api/reader/refresh; Max-Age=${maxAge}`;
         this.logger.info(`Success setup refresh token for reader ${readerID}`);
         return [cookieRefreshToken, refreshToken];
     }

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const nest_winston_1 = require("nest-winston");
 const book_service_1 = require("./book.service");
+const passport_1 = require("@nestjs/passport");
 let BookController = class BookController {
     constructor(logger, bookService) {
         this.logger = logger;
@@ -89,6 +90,7 @@ let BookController = class BookController {
     }
 };
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Post('/upload'),
     common_1.UseInterceptors(platform_express_1.FileInterceptor('file')),
     __param(0, common_1.UploadedFile()),
@@ -97,6 +99,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "fileUpload", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Post('/register'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -139,12 +142,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "findHotBooks", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Get('/suminventory'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "sumInventory", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -152,6 +157,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "delBook", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/update'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -159,6 +165,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "updateBookInfo", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('reader-jwt')),
     common_1.Post('/addreadrecord'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -166,6 +173,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "addReadRecord", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/:id/getreadhistory'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -187,6 +195,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "getComments", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Post('/addbookwish'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -194,6 +203,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "addBookWish", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/getbookwish/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -201,12 +211,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "getBookWish", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Get('/getunfulfilwishlist'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "getUnfulfilWishList", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Post('/getwishlist/'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -214,6 +226,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "getWishList", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/updatewishstatus'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -221,6 +234,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "updateWishStatus", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard(['reader-jwt', 'lib-jwt'])),
     common_1.Delete('/delwish/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -228,6 +242,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BookController.prototype, "delWish", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/:id/clearreadhistory'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),

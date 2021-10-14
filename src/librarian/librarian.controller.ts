@@ -24,26 +24,31 @@ import {
 export class LibrarianController {
   constructor(private readonly libService: LibrarianService) { }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Post('/register')
   register(@Body() registerUserDto: RegisterLibDto) {
     return this.libService.register(registerUserDto);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Get('/getalladmin')
   getAllAdmin() {
     return this.libService.getAllAdmin();
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Get('/getalllib')
   getAllLib() {
     return this.libService.getAllLibrarian();
   }
 
-  @Get('/:id')
+  @UseGuards(AuthGuard('lib-jwt'))
+  @Get('/get/:id')
   getProfile(@Param('id') libID: string) {
     return this.libService.getProfile(libID);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/update')
   updateProfile(@Body() updateLibDto: UpdateLibProfileDto) {
     return this.libService.updateProfile(updateLibDto);
@@ -61,6 +66,7 @@ export class LibrarianController {
     return this.libService.login(req, 'librarian');
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/changepwd')
   changePwd(@Body() changePwdDto: ChangeLibPwdDto) {
     return this.libService.changePwd(changePwdDto);
@@ -78,22 +84,26 @@ export class LibrarianController {
     return this.libService.logout(req);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Delete('/delete/:id')
   @Header('content-type', 'application/json')
   deleteLib(@Param('id') libID: string) {
     return this.libService.deleteLib(libID);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Post('/addoptlog')
   addOptLog(@Body() optLogDto: OperationLogDto) {
     return this.libService.addOperationLog(optLogDto);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Get('/:id/optlog')
   getOptLog(@Param('id') libID: string) {
     return this.libService.getOperationLog(libID);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Get('/checkadmin/:id')
   checkAdmin(@Param('id') libID: string) {
     return this.libService.checkAdmin(libID);

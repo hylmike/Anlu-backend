@@ -10,6 +10,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Inject,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Logger } from 'winston';
@@ -25,6 +26,7 @@ import {
   SearchBookDto,
   GetWishListDto,
 } from './book.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/book')
 export class BookController {
@@ -33,6 +35,7 @@ export class BookController {
     private readonly bookService: BookService,
   ) { }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   async fileUpload(@UploadedFile() file: Express.Multer.File) {
@@ -43,6 +46,7 @@ export class BookController {
     return { fileUrl: fileUrl };
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Post('/register')
   async registerBook(@Body() createBookDto: BookDto) {
     return this.bookService.register(createBookDto);
@@ -73,26 +77,31 @@ export class BookController {
     return this.bookService.findHotBooks(num);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Get('/suminventory')
   async sumInventory() {
     return this.bookService.sumInventory();
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Delete('/del/:id')
   async delBook(@Param('id') bookID: string) {
     return this.bookService.delBook(bookID);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/update')
   async updateBookInfo(@Body() bookDto: BookDto) {
     return this.bookService.updateBookInfo(bookDto);
   }
 
+  @UseGuards(AuthGuard('reader-jwt'))
   @Post('/addreadrecord')
   async addReadRecord(@Body() readRecordDto: ReadRecordDto) {
     return this.bookService.addReadRecord(readRecordDto);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/:id/getreadhistory')
   async getReadHistory(@Param('id') bookID: string) {
     return this.bookService.getReadHistory(bookID);
@@ -108,36 +117,43 @@ export class BookController {
     return this.bookService.getBookComments(bookID);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Post('/addbookwish')
   async addBookWish(@Body() createWishDto: CreateBookWishDto) {
     return this.bookService.addBookWish(createWishDto);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/getbookwish/:id')
   async getBookWish(@Param('id') wishID: string) {
     return this.bookService.getBookWish(wishID);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Get('/getunfulfilwishlist')
   async getUnfulfilWishList() {
     return this.bookService.getUnfulfilWishList();
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Post('/getwishlist/')
   async getWishList(@Body() getWishListDto: GetWishListDto) {
     return this.bookService.getWishList(getWishListDto);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/updatewishstatus')
   async updateWishStatus(@Body() updateWishStatusDto: UpdateWishStatusDto) {
     return this.bookService.updateWishStatus(updateWishStatusDto);
   }
 
+  @UseGuards(AuthGuard(['reader-jwt', 'lib-jwt']))
   @Delete('/delwish/:id')
   async delWish(@Param('id') wishID: string) {
     return this.bookService.delWish(wishID);
   }
 
+  @UseGuards(AuthGuard('lib-jwt'))
   @Patch('/:id/clearreadhistory')
   async clearReadRecord(@Param('id') bookID: string) {
     return this.bookService.clearReadHistory(bookID);

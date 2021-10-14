@@ -26,7 +26,7 @@ let UserJwtStrategy = class UserJwtStrategy extends passport_1.PassportStrategy(
         this.readerService = readerService;
     }
     async validate(payload) {
-        return this.readerService.getRefreshById(payload.readerID);
+        return this.readerService.getProfile(payload.readerID);
     }
 };
 UserJwtStrategy = __decorate([
@@ -44,7 +44,7 @@ let LibJwtStrategy = class LibJwtStrategy extends passport_1.PassportStrategy(pa
         this.libService = libService;
     }
     async validate(payload) {
-        return this.libService.getRefreshById(payload.libID);
+        return this.libService.getProfile(payload.libID);
     }
 };
 LibJwtStrategy = __decorate([

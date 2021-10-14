@@ -65,6 +65,7 @@ let LibrarianController = class LibrarianController {
     }
 };
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Post('/register'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -72,25 +73,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "register", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Get('/getalladmin'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "getAllAdmin", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Get('/getalllib'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "getAllLib", null);
 __decorate([
-    common_1.Get('/:id'),
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
+    common_1.Get('/get/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "getProfile", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/update'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -114,6 +119,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "libLogin", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/changepwd'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -137,6 +143,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "logout", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Delete('/delete/:id'),
     common_1.Header('content-type', 'application/json'),
     __param(0, common_1.Param('id')),
@@ -145,6 +152,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "deleteLib", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Post('/addoptlog'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -152,6 +160,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "addOptLog", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Get('/:id/optlog'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -159,6 +168,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], LibrarianController.prototype, "getOptLog", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Get('/checkadmin/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),

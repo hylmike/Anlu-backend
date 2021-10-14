@@ -266,7 +266,7 @@ export class LibrarianService {
       expiresIn: process.env.REFRESH_TOKEN_TIMER,
     });
     const maxAge = +process.env.REFRESH_TOKEN_TIMER.slice(0, -1);
-    const cookieRefreshToken = `Refresh=${refreshToken}; HttpOnly; Path=/api; Max-Age=${maxAge}`;
+    const cookieRefreshToken = `Refresh=${refreshToken}; HttpOnly; Path=/api/lib/refresh; Max-Age=${maxAge}`;
     //Create log for this activity
     this.logger.info(`Success setup refresh token for ${libID}.`);
     return [cookieRefreshToken, refreshToken];

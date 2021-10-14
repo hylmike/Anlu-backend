@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const nest_winston_1 = require("nest-winston");
 const platform_express_1 = require("@nestjs/platform-express");
 const workshop_service_1 = require("./workshop.service");
+const passport_1 = require("@nestjs/passport");
 let WorkshopController = class WorkshopController {
     constructor(workshopService, logger) {
         this.workshopService = workshopService;
@@ -59,6 +60,7 @@ let WorkshopController = class WorkshopController {
     }
 };
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Post('/upload'),
     common_1.UseInterceptors(platform_express_1.FileInterceptor('file')),
     __param(0, common_1.UploadedFile()),
@@ -67,6 +69,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], WorkshopController.prototype, "fileUpload", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Post('/register'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -88,6 +91,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "getWsList", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/update/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
@@ -96,6 +100,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "updateWorkshop", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -124,6 +129,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "getSubName", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('reader-jwt')),
     common_1.Post('/subscribe'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -131,6 +137,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], WorkshopController.prototype, "subWorkshop", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('reader-jwt')),
     common_1.Patch('/unsubscribe/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),

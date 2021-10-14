@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BlogController = void 0;
 const common_1 = require("@nestjs/common");
+const passport_1 = require("@nestjs/passport");
 const blog_service_1 = require("./blog.service");
 let BlogController = class BlogController {
     constructor(blogService) {
@@ -36,6 +37,7 @@ let BlogController = class BlogController {
     }
 };
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Post('/create'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -57,6 +59,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogController.prototype, "getBlogList", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Patch('/update/:id'),
     __param(0, common_1.Param('id')),
     __param(1, common_1.Body()),
@@ -65,6 +68,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BlogController.prototype, "update", null);
 __decorate([
+    common_1.UseGuards(passport_1.AuthGuard('lib-jwt')),
     common_1.Delete('/del/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
