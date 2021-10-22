@@ -222,7 +222,7 @@ let LibrarianService = class LibrarianService {
     async refreshTokenValidate(refreshToken, libID) {
         const lib = await this.getRefreshById(libID);
         if (!lib) {
-            console.log(`Can not find librarian with ${libID} in refreshtoken validation`);
+            this.logger.warn(`Can not find librarian with ${libID} in refreshtoken validation`);
             return null;
         }
         const match = await bcrypt.compare(refreshToken, lib.currentRefreshToken);

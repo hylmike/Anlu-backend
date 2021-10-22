@@ -48,7 +48,7 @@ export class AuthService {
   async validateLibrarian(username: string, password: string): Promise<any> {
     const librarian = await this.libService.findOne(username);
     if (!librarian) {
-      console.log('Incorrect username in librarian login');
+      this.logger.warn('Incorrect username in librarian login');
       return null;
     }
     const match = await bcrypt.compare(password, librarian.password);

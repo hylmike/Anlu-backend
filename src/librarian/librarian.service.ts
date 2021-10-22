@@ -275,7 +275,7 @@ export class LibrarianService {
   async refreshTokenValidate(refreshToken: string, libID: string) {
     const lib = await this.getRefreshById(libID);
     if (!lib) {
-      console.log(
+      this.logger.warn(
         `Can not find librarian with ${libID} in refreshtoken validation`,
       );
       return null;
