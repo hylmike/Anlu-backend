@@ -60,7 +60,7 @@ let BookService = class BookService {
             desc: createBookDto.desc,
             keywords: createBookDto.keywords,
             creator: createBookDto.creator,
-            isActive: createBookDto.isActive.toLowerCase() === 'true' ? true : false,
+            isActive: createBookDto.isActive.toLowerCase() === 'active' ? true : false,
             createDate: new Date(),
             readTimes: 0,
             readDuration: 0,
